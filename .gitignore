@@ -1,1 +1,5 @@
 
+*.class
+
+/JerseyTutorial/build/
+/JerseyTutorial/target/
