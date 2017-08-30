@@ -1,11 +1,5 @@
 let $ = require('jquery')
-let fs = require('fs')
 const {ipcRenderer} = require('electron')
-//var remote = require('remote');
-//var dialog = remote.require('dialog');
-
-
-
 
 $('#open').on('click', () => {
     ipcRenderer.send('openFile', () => { 

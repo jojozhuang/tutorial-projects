@@ -1,8 +1,8 @@
 {
   "name": "electron-tutorial",
   "version": "1.0.0",
-  "description": "A cross-platform tool for software developer, developed based on Electron.",
-  "main": "main_dialog.js",
+  "description": "Develop cross-platform application with Electron",
+  "main": "main.js",
   "author": "Rong Zhuang",
   "license": "GPL-3.0",
   "scripts": {
