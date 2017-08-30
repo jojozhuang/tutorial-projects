@@ -1,0 +1,6 @@
+node_modules/
+saved_recordings/
+bower_components/
+dist/
+developer-assistant-darwin-x64/
+developer-assistant-linux-ia32/

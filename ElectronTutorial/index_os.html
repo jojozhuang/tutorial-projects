@@ -1,0 +1,15 @@
+<html>
+   <head>
+      <title>OS Module</title>
+   </head>
+
+   <body>
+      <script>
+         let os = require('os')
+         document.write('User Info: ' + JSON.stringify(os.userInfo()) + '<br>' +
+            'Platform: ' + os.platform() + '<br>' +
+            'User home directory: ' +  os.homedir() + '<br>' +
+            'OS Architecture: ' + os.arch() + '<br>')
+      </script>
+   </body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset = "UTF-8">
+      <title>Menus</title>
+   </head>
+   
+   <body>
+      <div>
+         <div>
+            <h2>We have the website embedded below!</h2>
+         </div>
+         <webview id = "foo" src = "https://jojozhuang.github.io" style = 
+            "width:400px; height:480px;">
+            <div class = "indicator"></div>
+         </webview>
+      </div>
+      
+      <script type = "text/javascript">
+         // Event handlers for loading events.
+         // Use these to handle loading screens, transitions, etc
+         onload = () => {
+            const webview = document.getElementById('foo')
+            const indicator = document.querySelector('.indicator')
+
+            const loadstart = () => {
+               indicator.innerText = 'loading...'
+            }
+
+            const loadstop = () => {
+               indicator.innerText = ''
+            }
+
+            webview.addEventListener('did-start-loading', loadstart)
+            webview.addEventListener('did-stop-loading', loadstop)
+         }
+      </script>
+   </body>
+</html>

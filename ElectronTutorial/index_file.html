@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <title>File System</title>
+      <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" />
+      <style type="text/css">
+         #contact-list{
+            height: 150px;
+            overflow-y: auto;
+         }
+      </style>
+   </head>
+   <body>
+      <div class="container">
+         <h1>Enter Names and Email addresses of your contacts</h1>
+         <div class="form-group">
+            <label for="Name">Name</label><input type="text" name="Name" value="" id="Name" placeholder="Name" class="form-control" required>
+         </div>
+         <div class="form-group">
+            <label for="Email">Email</label><input type="email" name="Email" value="" id="Email" placeholder="Email" class="form-control" required>
+         </div>
+         <div class="form-group">
+            <button class="btn btn-primary" id="add-to-list">Add to list!</button>
+         </div>
+         <div id="contact-list">
+            <table class="table-striped" id="contact-table">
+               <tr>
+                  <th class="col-xs-2">S. No.</th>
+                  <th class="col-xs-4">Name</th>
+                  <th class="col-xs-6">Email</th>
+               </tr>
+            </table>
+         </div>
+         <script src="./view_file.js" ></script>
+      </div>
+   </body>
+</html>

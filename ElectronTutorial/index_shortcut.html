@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset = "UTF-8">
+      <title>File read using system dialogs</title>
+   </head>
+   
+   <body>
+      <p>Press CTRL/CMD + O to open a file. </p>
+      <script type = "text/javascript">
+         const {ipcRenderer, remote} = require('electron')
+         const {globalShortcut} = remote
+         globalShortcut.register('CommandOrControl+O', () => {
+            ipcRenderer.send('openFile', () => {
+               console.log("Event sent.");
+            })
+            
+            ipcRenderer.on('fileData', (event, data) => {
+               document.write(data)
+            })
+         })
+      </script>
+   </body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset = "UTF-8">
+      <title>Audio and Video</title>
+   </head>
+   
+   <body>
+      <video autoplay></video>
+      <script type = "text/javascript">
+         function errorCallback(e) {
+            console.log('Error', e)
+         }
+
+         navigator.getUserMedia({video: true, audio: true}, (localMediaStream) => {
+            var video = document.querySelector('video')
+            video.src = window.URL.createObjectURL(localMediaStream)
+            video.onloadedmetadata = (e) => {
+               // Ready to go. Do some stuff.
+            };
+         }, errorCallback)
+      </script>
+   </body>
+</html>
