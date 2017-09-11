@@ -1,12 +1,12 @@
-package com.jojostudio.tutorial.SprintBootTutorial;
+package com.jojostudio.tutorial.SpringBootTutorial;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.jojostudio.tutorial.SprintBootTutorial.domain.Product;
-import com.jojostudio.tutorial.SprintBootTutorial.repository.ProductRepository;
+import com.jojostudio.tutorial.SpringBootTutorial.domain.Product;
+import com.jojostudio.tutorial.SpringBootTutorial.repository.ProductRepository;
 
 @SpringBootApplication
 public class RestApplication {

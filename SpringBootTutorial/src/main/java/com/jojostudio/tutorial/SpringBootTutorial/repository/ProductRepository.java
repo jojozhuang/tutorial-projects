@@ -1,8 +1,8 @@
-package com.jojostudio.tutorial.SprintBootTutorial.repository;
+package com.jojostudio.tutorial.SpringBootTutorial.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.jojostudio.tutorial.SprintBootTutorial.domain.Product;
+import com.jojostudio.tutorial.SpringBootTutorial.domain.Product;
 
 public interface ProductRepository extends CrudRepository<Product, Long> {
 

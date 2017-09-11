@@ -1,6 +1,6 @@
-package com.jojostudio.tutorial.SprintBootTutorial.service;
+package com.jojostudio.tutorial.SpringBootTutorial.service;
 
-import com.jojostudio.tutorial.SprintBootTutorial.domain.Product;
+import com.jojostudio.tutorial.SpringBootTutorial.domain.Product;
 
 public interface ProductService {
     Iterable<Product> list();
