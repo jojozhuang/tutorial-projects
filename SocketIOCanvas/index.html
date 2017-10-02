@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.event.drag-2.0.js"></script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="scripts.js"></script>
+	<link rel="stylesheet" href="style.css" />
+
+	<title>HTML5 Canvas + Node.JS Socket.io</title>
+	<script type="text/javascript">
+    var socket = io.connect();
+    socket.on('message', function (time) {
+      document.getElementById('time').innerHTML = time;
+    });
+  </script>
+</head>
+<body>
+	<div>Current server time is: <b><span id="time"></span></b></div>
+	<article><!-- our canvas will be inserted here--></article>
+</body>
+</html>
