@@ -34,24 +34,23 @@ public class RhinoServlet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
-		response.setContentType("text/plain");
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        response.setContentType("text/plain");
         String code = request.getParameter("code");
         Context ctx = Context.enter();
         try {
-                Scriptable scope = ctx.initStandardObjects();
-                Object result = ctx.evaluateString(scope, code, "<code>", 1, null);
-                response.getWriter().print(Context.toString(result));
+            Scriptable scope = ctx.initStandardObjects();
+            Object result = ctx.evaluateString(scope, code, "<code>", 1, null);
+            response.getWriter().print(Context.toString(result));
         } catch(RhinoException ex) {
-        	    response.getWriter().println(ex.getMessage());
+            response.getWriter().println(ex.getMessage());
         } finally {
-                Context.exit();
+            Context.exit();
         }
-	}
+    }
 
 }
