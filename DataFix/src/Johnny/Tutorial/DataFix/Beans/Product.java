@@ -1,4 +1,4 @@
-package Johnny.Tutorials.DataFix;
+package Johnny.Tutorial.DataFix.Beans;
 
 public class Product {
 	private int productid;

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@page import="Johnny.Tutorials.DataFix.ProductDao"%>
+<%@page import="Johnny.Tutorial.DataFix.Dao.ProductDao"%>
 <%
     String id = request.getParameter("id");
     String errmsg = "";
@@ -12,7 +12,7 @@
         int productid = Integer.parseInt(id);
         if (ProductDao.exists(productid)) {
             ProductDao.delete(productid);
-            response.sendRedirect("productlist1.jsp");
+            response.sendRedirect("productlist.jsp");
         } else {
             errmsg = "No Product found!";
         }

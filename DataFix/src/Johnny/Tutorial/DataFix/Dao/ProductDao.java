@@ -1,4 +1,4 @@
-package Johnny.Tutorials.DataFix;
+package Johnny.Tutorial.DataFix.Dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import Johnny.Tutorial.DataFix.Beans.Product;
+import Johnny.Tutorial.DataFix.Database.ConnectionPool;
+import Johnny.Tutorial.DataFix.Database.DBUtil;
 
 public class ProductDao {
 	public static int insert(Product product) {

@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@page import="Johnny.Tutorials.DataFix.Product"%>
-<%@page import="Johnny.Tutorials.DataFix.ProductDao"%>
+<%@page import="Johnny.Tutorial.DataFix.Beans.Product"%>
+<%@page import="Johnny.Tutorial.DataFix.Dao.ProductDao"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -31,7 +31,7 @@
                 product.setPrice(dprice);
                 // create
                 ProductDao.insert(product);
-                response.sendRedirect("productlist1.jsp");
+                response.sendRedirect("productlist.jsp");
             } catch (NumberFormatException nfe) {
                 errmsg = "Price must be number!";
             }
@@ -70,7 +70,7 @@
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">Add</button>
+        <button type="submit" class="btn btn-primary">Save</button>
       </div>
     </div>
   </form>
