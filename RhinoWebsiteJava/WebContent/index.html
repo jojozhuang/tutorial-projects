@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      function sendCode() {
+        var code = $("#code").val();
+        $("#output").load("/RhinoWebsiteJava/RhinoServlet", {"code": code});
+      }
+    </script>
+    <title>Calling Java Class from Javascript Demo</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Calling Java Class from Javascript Demo</h1>
+      <form>
+        <div class="form-group">
+          <label for="code">Javascript:</label>
+          <textarea class="form-control" rows="6" id="code"></textarea>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="sendCode();" >Run</button>
+        <div class="form-group">
+          <label for="output">Output:</label>
+          <div class="well well-sm" id="output">&nbsp;</div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
