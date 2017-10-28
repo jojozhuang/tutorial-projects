@@ -1,0 +1,19 @@
+version: '3.0'
+services:
+  web:
+    image: tomcat
+    environment:
+    - JPDA_ADDRESS=8000
+    ports:
+    - "31020:8080"
+    - "8000:8000"
+    volumes:
+    - ~/Documents/jsptomcat/:/usr/local/tomcat/webapps/jsptutorial
+  database:
+    image: mysql
+    environment:
+    - MYSQL_ROOT_PASSWORD=jsppassword
+    ports:
+    - "6603:3306"
+    volumes:
+    - ~/Documents/jspmysql/:/docker-entrypoint-initdb.d
