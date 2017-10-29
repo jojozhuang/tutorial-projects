@@ -19,7 +19,7 @@ public class RestApplication {
     CommandLineRunner runner(ProductRepository productRepository) {
         return args -> {
             
-            Product product1 = new Product("iPhone 7 plus");
+            Product product1 = new Product("iPhone 7 Plus");
             product1.setPrice(800.00);
             productRepository.save(product1);
             
