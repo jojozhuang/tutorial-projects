@@ -1,12 +1,12 @@
-package com.jojostudio.tutorial.SpringBootTutorial.controller;
+package johnny.tutorial.SpringBootTutorial.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jojostudio.tutorial.SpringBootTutorial.domain.Product;
-import com.jojostudio.tutorial.SpringBootTutorial.repository.ProductRepository;
+import johnny.tutorial.SpringBootTutorial.domain.Product;
+import johnny.tutorial.SpringBootTutorial.repository.ProductRepository;
 
 @RestController
 @RequestMapping("/products")

@@ -1,4 +1,4 @@
-package com.jojostudio.tutorial.SpringBootTutorial.domain;
+package johnny.tutorial.SpringBootTutorial.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

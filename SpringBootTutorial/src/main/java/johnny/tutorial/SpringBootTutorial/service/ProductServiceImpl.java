@@ -1,11 +1,11 @@
-package com.jojostudio.tutorial.SpringBootTutorial.service;
+package johnny.tutorial.SpringBootTutorial.service;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.jojostudio.tutorial.SpringBootTutorial.domain.Product;
-import com.jojostudio.tutorial.SpringBootTutorial.repository.ProductRepository;
+import johnny.tutorial.SpringBootTutorial.domain.Product;
+import johnny.tutorial.SpringBootTutorial.repository.ProductRepository;
 
 public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
