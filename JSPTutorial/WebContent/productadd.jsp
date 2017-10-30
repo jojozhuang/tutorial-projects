@@ -55,7 +55,7 @@
 <div class="container">
   <h2>Add New Product</h2>
   <h3 style='color:red'>${errmsg}</h3>
-  <form class="form-horizontal" action="/JSPTutorial/productadd.jsp" method="Post">
+  <form class="form-horizontal" action="productadd.jsp" method="Post">
     <div class="form-group">
       <label class="control-label col-sm-2" for="email">Product Name:</label>
       <div class="col-sm-10">
