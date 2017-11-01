@@ -66,7 +66,7 @@
 <div class="container">
   <h2>Edit Product</h2>
   <h3 style='color:red'>${errmsg}</h3>
-  <form class="form-horizontal" action="/JSPTutorialContainer/productedit.jsp?id=${id}" method="Post">
+  <form class="form-horizontal" action="productedit.jsp?id=${id}" method="Post">
     <input type="hidden" name="id" value="${id}">
     <div class="form-group">
       <label class="control-label col-sm-2" for="email">Product Name:</label>
