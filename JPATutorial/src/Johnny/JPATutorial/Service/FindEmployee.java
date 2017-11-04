@@ -1,22 +1,21 @@
-package com.jojostudio.jpatutorial.service;
+package Johnny.JPATutorial.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import com.jojostudio.jpatutorial.entity.Employee;
+import Johnny.JPATutorial.Entity.Employee;
 
-public class DeleteEmployee {
+public class FindEmployee {
     public static void main(String[] args) {
 
         EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JPATutorial");
         EntityManager entitymanager = emfactory.createEntityManager();
-        entitymanager.getTransaction().begin();
-
         Employee employee = entitymanager.find(Employee.class, 1001);
-        entitymanager.remove(employee);
-        entitymanager.getTransaction().commit();
-        entitymanager.close();
-        emfactory.close();
+
+        System.out.println("employee ID = " + employee.getEid());
+        System.out.println("employee NAME = " + employee.getEname());
+        System.out.println("employee SALARY = " + employee.getSalary());
+        System.out.println("employee DESIGNATION = " + employee.getDeg());
     }
 }

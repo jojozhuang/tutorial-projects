@@ -1,4 +1,4 @@
-package com.jojostudio.jpatutorial.entity;
+package Johnny.JPATutorial.Entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
