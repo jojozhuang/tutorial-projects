@@ -1,32 +1,29 @@
 package johnny.mongodbtutorial.converter;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
-
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DBObject;
 
 import johnny.mongodbtutorial.model.Product;
 
 public class ProductConverter {
 
-    // convert Product Object to MongoDB DBObject
+    // convert Product Object to MongoDB Document
     // take special note of converting id String to ObjectId
-    public static DBObject toDBObject(Product p) {
-        BasicDBObjectBuilder builder = BasicDBObjectBuilder.start()
-                .append("name", p.getName()).append("price", p.getPrice());
-        if (p.getId() != null)
-            builder = builder.append("_id", new ObjectId(p.getId()));
-        return builder.get();
+    public static Document toDocument(Product p) {
+        Document doc = new Document("name", p.getName()).append("price", p.getPrice());
+        if (p.getId() != null) {
+            doc.append("_id", new ObjectId(p.getId()));
+        }
+        return doc;
     }
 
-    // convert DBObject Object to Product
+    // convert MongoDB Document to Product
     // take special note of converting ObjectId to String
-    public static Product toProduct(DBObject doc) {
+    public static Product toProduct(Document doc) {
         Product p = new Product();
         p.setName((String) doc.get("name"));
         p.setPrice((Double) doc.get("price"));
-        ObjectId id = (ObjectId) doc.get("_id");
-        p.setId(id.toString());
+        p.setId(((ObjectId) doc.get("_id")).toString());
         return p;
     }
 

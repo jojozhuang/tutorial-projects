@@ -3,66 +3,63 @@ package johnny.mongodbtutorial.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Filters;
 
 import johnny.mongodbtutorial.converter.ProductConverter;
 import johnny.mongodbtutorial.model.Product;
 
 public class ProductDao {
-    private DBCollection col;
+    private MongoCollection<Document> coll;
 
     public ProductDao(MongoClient mongo) {
-        this.col = mongo.getDB("store").getCollection("product");
+        this.coll = mongo.getDatabase("mongodbtutorial").getCollection("product");
     }
 
     public Product create(Product p) {
-        DBObject doc = ProductConverter.toDBObject(p);
-        this.col.insert(doc);
+        Document doc = ProductConverter.toDocument(p);
+        this.coll.insertOne(doc);
         ObjectId id = (ObjectId) doc.get("_id");
         p.setId(id.toString());
         return p;
     }
 
     public void update(Product p) {
-        DBObject query = BasicDBObjectBuilder.start()
-                .append("_id", new ObjectId(p.getId())).get();
-        this.col.update(query, ProductConverter.toDBObject(p));
-    }
-
-    public List<Product> getList() {
-        List<Product> data = new ArrayList<Product>();
-        DBCursor cursor = col.find();
-        while (cursor.hasNext()) {
-            DBObject doc = cursor.next();
-            Product p = ProductConverter.toProduct(doc);
-            data.add(p);
-        }
-        return data;
+        this.coll.updateOne(Filters.eq("_id", new ObjectId(p.getId())), new Document("$set", ProductConverter.toDocument(p)));
     }
 
     public void delete(String id) {
-        DBObject query = BasicDBObjectBuilder.start()
-                .append("_id", new ObjectId(id)).get();
-        this.col.remove(query);
+        this.coll.deleteOne(Filters.eq("_id", new ObjectId(id)));
+    }
+
+    public List<Product> getList() {
+        List<Product> list = new ArrayList<Product>();
+        MongoCursor<Document>  cursor = coll.find().iterator();
+        try {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                Product p = ProductConverter.toProduct(doc);
+                list.add(p);
+            }
+        } finally {
+            cursor.close();
+        }
+        return list;
     }
 
     public Product getProduct(String id) {
-        DBObject query = BasicDBObjectBuilder.start()
-                .append("_id", new ObjectId(id)).get();
-        DBObject data = this.col.findOne(query);
-        return ProductConverter.toProduct(data);
+        Document doc = this.coll.find(Filters.eq("_id", new ObjectId(id))).first();
+        return ProductConverter.toProduct(doc);
     }
 
     public boolean exists(String id) {
-        DBObject query = BasicDBObjectBuilder.start()
-                .append("_id", new ObjectId(id)).get();
-        DBObject data = this.col.findOne(query);
-        return data != null;
+        FindIterable<Document>  doc = this.coll.find(Filters.eq("_id", id)).limit(1);
+        return doc != null;
     }
 }
