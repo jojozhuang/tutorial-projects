@@ -38,6 +38,11 @@ public class ProductDao {
         this.coll.deleteOne(Filters.eq("_id", new ObjectId(id)));
     }
 
+    public boolean exists(String id) {
+        FindIterable<Document>  doc = this.coll.find(Filters.eq("_id", id)).limit(1);
+        return doc != null;
+    }
+
     public List<Product> getList() {
         List<Product> list = new ArrayList<Product>();
         MongoCursor<Document>  cursor = coll.find().iterator();
@@ -56,10 +61,5 @@ public class ProductDao {
     public Product getProduct(String id) {
         Document doc = this.coll.find(Filters.eq("_id", new ObjectId(id))).first();
         return ProductConverter.toProduct(doc);
-    }
-
-    public boolean exists(String id) {
-        FindIterable<Document>  doc = this.coll.find(Filters.eq("_id", id)).limit(1);
-        return doc != null;
     }
 }
