@@ -1,3 +1,3 @@
-# Create MySQL container with following commands.
-docker build -t jsptutorial-mysql:0.1 .
-docker run --detach --name=jspmysql --publish 6603:3306 jsptutorial-mysql:0.1
+# Create MongoDB container with following commands.
+docker build -t jspmongo:0.1 .
+docker run --detach --name=jspmongo --publish 37017:27017 jspmongo:0.1
