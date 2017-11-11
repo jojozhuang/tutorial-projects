@@ -1,0 +1,8 @@
+version: '3.0'
+services:
+  web:
+    image: mongo
+    ports:
+    - "27017:27017"
+    volumes:
+    - ~/Documents/jspmongo/:/data/db
