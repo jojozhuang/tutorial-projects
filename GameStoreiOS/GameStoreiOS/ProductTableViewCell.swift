@@ -2,7 +2,7 @@
 //  ProductTableViewCell.swift
 //  GameStoreiOS
 //
-//  Created by Johnny on 11/18/17.
+//  Created by Johnny on 07/10/17.
 //  Copyright © 2017 JoJoStudio. All rights reserved.
 //
 
