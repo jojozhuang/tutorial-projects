@@ -15,10 +15,10 @@ class ProductTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Use the edit button item provided by the table view controller.
+        // Display an Edit button in the navigation bar for this view controller.
         navigationItem.leftBarButtonItem = editButtonItem
         
-        // Load any saved meals, otherwise load sample data.
+        // Load any saved products, otherwise load sample data.
         if let savedProducts = loadProducts() {
             if (savedProducts.count == 0) {
                 loadSampleProducts()
@@ -30,11 +30,6 @@ class ProductTableViewController: UITableViewController {
             // Load the sample data.
             loadSampleProducts()
         }
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,36 +38,12 @@ class ProductTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return products.count
-    }
-    
-    private func loadSampleProducts() {
-        
-        let photo1 = UIImage(named: "xbox360")
-        let photo2 = UIImage(named: "wii")
-        let photo3 = UIImage(named: "ps3controller")
-        
-        guard let product1 = Product(name: "Xbox 360", photo: photo1) else {
-            fatalError("Unable to instantiate product1")
-        }
-        
-        guard let product2 = Product(name: "Wii", photo: photo2) else {
-            fatalError("Unable to instantiate product2")
-        }
-        
-        guard let product3 = Product(name: "PS3 Controller", photo: photo3) else {
-            fatalError("Unable to instantiate product3")
-        }
-        
-        products += [product1, product2, product3]
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -84,34 +55,14 @@ class ProductTableViewController: UITableViewController {
             fatalError("The dequeued cell is not an instance of ProductTableViewCell.")
         }
         
-        // Fetches the appropriate meal for the data source layout.
+        // Fetches the appropriate product for the data source layout.
         let product = products[indexPath.row]
         
         cell.nameLabel.text = product.name
+        cell.priceLabel.text = "$" + String(describing: product.price)
         cell.photoImageView.image = product.photo
         
         return cell
-    }
-
-    @IBAction func unwindToProductList(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? ViewController, let product = sourceViewController.product {
-            
-            if let selectedIndexPath = tableView.indexPathForSelectedRow {
-                // Update an existing meal.
-                products[selectedIndexPath.row] = product
-                tableView.reloadRows(at: [selectedIndexPath], with: .none)
-            }
-            else {
-                // Add a new meal.
-                let newIndexPath = IndexPath(row: products.count, section: 0)
-                
-                products.append(product)
-                tableView.insertRows(at: [newIndexPath], with: .automatic)
-            }
-            
-            // Save the products.
-            saveProducts()
-        }
     }
 
     // Override to support conditional editing of the table view.
@@ -147,6 +98,26 @@ class ProductTableViewController: UITableViewController {
     }
     */
 
+    @IBAction func unwindToProductList(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? ViewController, let product = sourceViewController.product {
+            
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                // Update an existing product.
+                products[selectedIndexPath.row] = product
+                tableView.reloadRows(at: [selectedIndexPath], with: .none)
+            }
+            else {
+                // Add a new product.
+                let newIndexPath = IndexPath(row: products.count, section: 0)
+                
+                products.append(product)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+            
+            // Save the products.
+            saveProducts()
+        }
+    }
     
     // MARK: - Navigation
 
@@ -193,5 +164,26 @@ class ProductTableViewController: UITableViewController {
     
     private func loadProducts() -> [Product]?  {
         return NSKeyedUnarchiver.unarchiveObject(withFile: Product.ArchiveURL.path) as? [Product]
+    }
+    
+    private func loadSampleProducts() {
+        
+        let photo1 = UIImage(named: "xbox360")
+        let photo2 = UIImage(named: "wii")
+        let photo3 = UIImage(named: "ps3controller")
+        
+        guard let product1 = Product(name: "Xbox 360", photo: photo1, price: 299.00) else {
+            fatalError("Unable to instantiate product1")
+        }
+        
+        guard let product2 = Product(name: "Wii", photo: photo2, price: 269.00) else {
+            fatalError("Unable to instantiate product2")
+        }
+        
+        guard let product3 = Product(name: "Wireless Controller", photo: photo3, price: 19.99) else {
+            fatalError("Unable to instantiate product3")
+        }
+        
+        products += [product1, product2, product3]
     }
 }

@@ -11,8 +11,12 @@ import os.log
 
 class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    var product: Product?
+    
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var productNameLabel: UILabel!
+    @IBOutlet weak var priceTextField: UITextField!
+    @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
@@ -21,14 +25,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         // Handle the text field’s user input through delegate callbacks.
         nameTextField.delegate = self
         
-        // Set up views if editing an existing Meal.
+        // Set up views if editing an existing Product.
         if let product = product {
             navigationItem.title = product.name
             nameTextField.text = product.name
+            priceTextField.text = String(describing: product.price)
             photoImageView.image = product.photo
         }
         
-        // Enable the Save button only if the text field has a valid Meal name.
+        // Enable the Save button only if the text field has a valid Product name.
         updateSaveButtonState()
     }
     
@@ -51,6 +56,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
         // Hide the keyboard.
         nameTextField.resignFirstResponder()
+        priceTextField.resignFirstResponder()
         
         // UIImagePickerController is a view controller that lets a user pick media from their photo library.
         let imagePickerController = UIImagePickerController()
@@ -82,15 +88,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func btnDefaultLabelText(_ sender: UIButton) {
-        productNameLabel.text = "Default Text"
-    }
-
-    var product: Product?
     @IBAction func cancel(_ sender: UIBarButtonItem) {
-        let isPresentingInAddMealMode = presentingViewController is UINavigationController
+        let isPresentingInAddProductMode = presentingViewController is UINavigationController
         
-        if isPresentingInAddMealMode {
+        if isPresentingInAddProductMode {
             dismiss(animated: true, completion: nil)
         }
         else if let owningNavigationController = navigationController{
@@ -100,11 +101,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
             fatalError("The ProductViewController is not inside a navigation controller.")
         }
     }
-    // This method lets you configure a view controller before it's presented.
     
-/*    @IBAction func cancel(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
-    }*/
+    // This method lets you configure a view controller before it's presented.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         super.prepare(for: segue, sender: sender)
@@ -117,9 +115,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         
         let name = nameTextField.text ?? ""
         let photo = photoImageView.image
-        
-        // Set the meal to be passed to MealTableViewController after the unwind segue.
-        product = Product(name: name, photo: photo)
+        let price = Double(priceTextField.text ?? "0.0") ?? 0.0
+
+        // Set the product to be passed to ProductTableViewController after the unwind segue.
+        product = Product(name: name, photo: photo, price: price)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -129,8 +128,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
     
     private func updateSaveButtonState() {
         // Disable the Save button if the text field is empty.
-        let text = nameTextField.text ?? ""
-        saveButton.isEnabled = !text.isEmpty
+        let name = nameTextField.text ?? ""
+        let price = priceTextField.text ?? ""
+        saveButton.isEnabled = !name.isEmpty && !price.isEmpty
     }
 }
 

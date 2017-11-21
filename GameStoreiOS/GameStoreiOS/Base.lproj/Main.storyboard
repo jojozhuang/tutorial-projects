@@ -31,22 +31,26 @@
                                             <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-U6-vOO">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Product Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ubr-U6-vOO">
                                             <rect key="frame" x="98" y="0.0" width="268" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fz1-jc-G2r">
-                                            <rect key="frame" x="98" y="29" width="252" height="44"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p1J-Gg-XFz">
+                                            <rect key="frame" x="98" y="43" width="268" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </stackView>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="nameLabel" destination="Ubr-U6-vOO" id="KAM-zv-7zh"/>
                                     <outlet property="photoImageView" destination="wVV-2T-urP" id="2gK-EE-C4T"/>
+                                    <outlet property="priceLabel" destination="p1J-Gg-XFz" id="RmZ-DD-jds"/>
                                     <segue destination="BYZ-38-t0r" kind="show" identifier="ShowDetail" id="DlA-Aj-6mz"/>
                                 </connections>
                             </tableViewCell>
@@ -77,7 +81,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vvO-mo-TYX">
-                                <rect key="frame" x="8" y="84" width="359" height="424.5"/>
+                                <rect key="frame" x="8" y="84" width="359" height="453"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V0d-Iz-F9I">
                                         <rect key="frame" x="0.0" y="0.0" width="115" height="20.5"/>
@@ -91,15 +95,20 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dgm-lS-iOb">
-                                        <rect key="frame" x="0.0" y="66.5" width="151" height="30"/>
-                                        <state key="normal" title="Set Default Label Text"/>
-                                        <connections>
-                                            <action selector="btnDefaultLabelText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0aq-Hm-Zzu"/>
-                                        </connections>
-                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q5u-BX-a9e">
+                                        <rect key="frame" x="0.0" y="66.5" width="43.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter price" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u7y-Qy-HzF">
+                                        <rect key="frame" x="0.0" y="95" width="359" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                    </textField>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="320" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="Qw1-65-1Ip">
-                                        <rect key="frame" x="0.0" y="104.5" width="320" height="320"/>
+                                        <rect key="frame" x="0.0" y="133" width="320" height="320"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Qw1-65-1Ip" secondAttribute="height" multiplier="1:1" id="ik0-b1-F3C"/>
@@ -111,6 +120,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="y2O-8J-TZ1" secondAttribute="trailing" id="E8R-e3-WdY"/>
+                                    <constraint firstAttribute="trailing" secondItem="u7y-Qy-HzF" secondAttribute="trailing" id="bL3-UI-v77"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -137,6 +147,8 @@
                     <connections>
                         <outlet property="nameTextField" destination="y2O-8J-TZ1" id="Dou-JB-I03"/>
                         <outlet property="photoImageView" destination="Qw1-65-1Ip" id="1Fs-Kf-jKn"/>
+                        <outlet property="priceLabel" destination="q5u-BX-a9e" id="Zw5-cM-ChZ"/>
+                        <outlet property="priceTextField" destination="u7y-Qy-HzF" id="wjb-3b-vRi"/>
                         <outlet property="productNameLabel" destination="V0d-Iz-F9I" id="tYs-IZ-a5W"/>
                         <outlet property="saveButton" destination="BeS-1Q-cF5" id="nmV-ri-ms3"/>
                     </connections>
