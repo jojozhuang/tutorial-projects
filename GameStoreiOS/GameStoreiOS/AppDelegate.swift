@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  GameStoreiOS
 //
-//  Created by Zhuang, Rong on 11/17/17.
+//  Created by Johnny on 11/17/17.
 //  Copyright © 2017 JoJoStudio. All rights reserved.
 //
 

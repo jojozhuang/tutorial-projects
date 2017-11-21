@@ -2,7 +2,7 @@
 //  Product.swift
 //  GameStoreiOS
 //
-//  Created by Zhuang, Rong on 11/18/17.
+//  Created by Johnny on 11/18/17.
 //  Copyright © 2017 JoJoStudio. All rights reserved.
 //
 

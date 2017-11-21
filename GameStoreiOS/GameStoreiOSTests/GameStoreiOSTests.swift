@@ -2,7 +2,7 @@
 //  GameStoreiOSTests.swift
 //  GameStoreiOSTests
 //
-//  Created by Zhuang, Rong on 11/17/17.
+//  Created by Johnny on 11/17/17.
 //  Copyright © 2017 JoJoStudio. All rights reserved.
 //
 
@@ -33,8 +33,8 @@ class GameStoreiOSTests: XCTestCase {
         }
     }
     
-    // Confirm that the Meal initialier returns nil when passed a negative rating or an empty name.
-    func testMealInitializationFails() {
+    // Confirm that the Product initialier returns nil when passed a negative rating or an empty name.
+    func testProductInitializationFails() {
         
     }
     
