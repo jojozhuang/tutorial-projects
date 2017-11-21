@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B005D63D1FBFAE670009AB63 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B005D63C1FBFAE670009AB63 /* AppDelegate.swift */; };
-		B005D63F1FBFAE670009AB63 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B005D63E1FBFAE670009AB63 /* ViewController.swift */; };
+		B005D63F1FBFAE670009AB63 /* ProductDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B005D63E1FBFAE670009AB63 /* ProductDetailsViewController.swift */; };
 		B005D6421FBFAE670009AB63 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B005D6401FBFAE670009AB63 /* Main.storyboard */; };
 		B005D6441FBFAE670009AB63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B005D6431FBFAE670009AB63 /* Assets.xcassets */; };
 		B005D6471FBFAE670009AB63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B005D6451FBFAE670009AB63 /* LaunchScreen.storyboard */; };
@@ -31,7 +31,7 @@
 /* Begin PBXFileReference section */
 		B005D6391FBFAE670009AB63 /* GameStoreiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameStoreiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B005D63C1FBFAE670009AB63 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B005D63E1FBFAE670009AB63 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B005D63E1FBFAE670009AB63 /* ProductDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsViewController.swift; sourceTree = "<group>"; };
 		B005D6411FBFAE670009AB63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B005D6431FBFAE670009AB63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B005D6461FBFAE670009AB63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -84,13 +84,13 @@
 			isa = PBXGroup;
 			children = (
 				B005D63C1FBFAE670009AB63 /* AppDelegate.swift */,
-				B06975FF1FC0E3B40058029E /* Product.swift */,
-				B005D63E1FBFAE670009AB63 /* ViewController.swift */,
+				B005D6451FBFAE670009AB63 /* LaunchScreen.storyboard */,
 				B005D6401FBFAE670009AB63 /* Main.storyboard */,
+				B06975FF1FC0E3B40058029E /* Product.swift */,
+				B005D63E1FBFAE670009AB63 /* ProductDetailsViewController.swift */,
 				B06976031FC0E9F80058029E /* ProductTableViewController.swift */,
 				B06976011FC0E6010058029E /* ProductTableViewCell.swift */,
 				B005D6431FBFAE670009AB63 /* Assets.xcassets */,
-				B005D6451FBFAE670009AB63 /* LaunchScreen.storyboard */,
 				B005D6481FBFAE670009AB63 /* Info.plist */,
 			);
 			path = GameStoreiOS;
@@ -208,7 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B005D63F1FBFAE670009AB63 /* ViewController.swift in Sources */,
+				B005D63F1FBFAE670009AB63 /* ProductDetailsViewController.swift in Sources */,
 				B06976021FC0E6010058029E /* ProductTableViewCell.swift in Sources */,
 				B005D63D1FBFAE670009AB63 /* AppDelegate.swift in Sources */,
 				B06976001FC0E3B40058029E /* Product.swift in Sources */,

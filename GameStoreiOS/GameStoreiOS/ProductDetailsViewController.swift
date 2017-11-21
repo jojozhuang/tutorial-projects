@@ -9,7 +9,7 @@
 import UIKit
 import os.log
 
-class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ProductDetailsViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var product: Product?
     

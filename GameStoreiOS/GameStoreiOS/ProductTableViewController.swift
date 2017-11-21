@@ -99,7 +99,7 @@ class ProductTableViewController: UITableViewController {
     */
 
     @IBAction func unwindToProductList(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? ViewController, let product = sourceViewController.product {
+        if let sourceViewController = sender.source as? ProductDetailsViewController, let product = sourceViewController.product {
             
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
                 // Update an existing product.
@@ -133,7 +133,7 @@ class ProductTableViewController: UITableViewController {
             os_log("Adding a new product.", log: OSLog.default, type: .debug)
             
         case "ShowDetail":
-            guard let productDetailViewController = segue.destination as? ViewController else {
+            guard let productDetailViewController = segue.destination as? ProductDetailsViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             
@@ -170,7 +170,7 @@ class ProductTableViewController: UITableViewController {
         
         let photo1 = UIImage(named: "xbox360")
         let photo2 = UIImage(named: "wii")
-        let photo3 = UIImage(named: "ps3controller")
+        let photo3 = UIImage(named: "controller")
         
         guard let product1 = Product(name: "Xbox 360", photo: photo1, price: 299.00) else {
             fatalError("Unable to instantiate product1")
