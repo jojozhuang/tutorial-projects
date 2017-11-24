@@ -18,14 +18,8 @@
         </activity>
         <activity
             android:name=".ProductDetailActivity"
-            android:label="@string/title_product_detail"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".ProductListActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ProductListActivity" />
+            android:label="@string/title_product_detail">
         </activity>
-
     </application>
 
 </manifest>

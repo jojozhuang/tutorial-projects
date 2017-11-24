@@ -28,9 +28,6 @@ import johnny.tutorial.gamestoreandroid.model.Product;
 public class ProductDetailActivity extends AppCompatActivity {
     private static final String TAG = "ProductDetailActivity";
     private ProductDbHelper mHelper;
-    private ListView mTaskListView;
-    private ListAdapter mAdapter;
-
     private Product product;
 
     @Override
