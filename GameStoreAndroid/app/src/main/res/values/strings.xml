@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GameStoreAndroid</string>
+    <string name="title_product_detail">Product Detail</string>
 </resources>
