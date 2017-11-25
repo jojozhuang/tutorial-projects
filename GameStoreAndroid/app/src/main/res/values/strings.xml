@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">GameStoreAndroid</string>
+    <string name="app_name">Game Store Android</string>
     <string name="title_product_detail">Product Detail</string>
+    <string name="button_save">Save</string>
+    <string name="button_load_image">Tap to choose image</string>
+    <string name="hint_product_name">Product Name</string>
+    <string name="hint_product_price">Product Price</string>
 </resources>

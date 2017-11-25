@@ -1,13 +1,17 @@
 package johnny.tutorial.gamestoreandroid;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,6 +43,26 @@ public class ProductListActivity extends AppCompatActivity {
         updateUI();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_addproduct:
+                Log.d(TAG, "Add a new product");
+                Intent intent = new Intent(this, ProductDetailActivity.class);
+                intent.putExtra("action", "add");
+                this.startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     private void updateUI() {
         ArrayList<Product> productList = mHelper.getAllProducts();
@@ -51,6 +75,22 @@ public class ProductListActivity extends AppCompatActivity {
                     R.layout.product_list_item,
                     productList);
             mListView.setAdapter(mAdapter);
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+                    AlertDialog.Builder adb=new AlertDialog.Builder(ProductListActivity.this);
+                    adb.setTitle("Delete?");
+                    adb.setMessage("Are you sure you want to delete " + position);
+                    final ProductAdapter.ViewHolder holder = (ProductAdapter.ViewHolder) v.getTag();
+                    final int positionToRemove = position;
+                    adb.setNegativeButton("Cancel", null);
+                    adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            mHelper.deleteProduct(holder.id);
+                            mAdapter.notify();
+                        }});
+                    adb.show();
+                }
+            });
         }
     }
 
@@ -100,6 +140,7 @@ public class ProductListActivity extends AppCompatActivity {
             }
 
             Product product = productList.get(position);
+            holder.id = product.getProductId();
             holder.productname.setText(product.getProductName());
             holder.price.setText("$" + String.valueOf(product.getPrice()));
             holder.image.setImageBitmap(product.getImage());
@@ -108,6 +149,7 @@ public class ProductListActivity extends AppCompatActivity {
         }
 
         class ViewHolder {
+            int id;
             TextView productname;
             TextView price;
             ImageView image;
@@ -127,6 +169,7 @@ public class ProductListActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(this.context, ProductDetailActivity.class);
+            intent.putExtra("action", "edit");
             intent.putExtra("id", id);
             this.context.startActivity(intent);
         }

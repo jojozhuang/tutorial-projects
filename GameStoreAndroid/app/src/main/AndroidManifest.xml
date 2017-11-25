@@ -21,5 +21,6 @@
             android:label="@string/title_product_detail">
         </activity>
     </application>
-
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 </manifest>

@@ -69,6 +69,7 @@ public class ProductDbHelper extends SQLiteOpenHelper {
         rs.moveToFirst();
 
         Product product = new Product();
+        product.setProductId(rs.getInt(rs.getColumnIndex(ProductContract.ProductEntry._ID)));
         product.setProductName(rs.getString(rs.getColumnIndex(ProductContract.ProductEntry.COL_PRODUCT_NAME)));
         product.setPrice(rs.getDouble(rs.getColumnIndex(ProductContract.ProductEntry.COL_PRICE)));
         byte[] imgByte = rs.getBlob(rs.getColumnIndex(ProductContract.ProductEntry.COL_IMAGE));
@@ -97,10 +98,10 @@ public class ProductDbHelper extends SQLiteOpenHelper {
                 ProductContract.ProductEntry.COL_IMAGE + "=? WHERE _id=?";
         SQLiteStatement updateStmt = db.compileStatement(sql);
         updateStmt.clearBindings();
-        updateStmt.bindLong(1, id);
-        updateStmt.bindString(2, name);
-        updateStmt.bindDouble(3,price);
-        updateStmt.bindBlob(4, getBitmapAsByteArray(image));
+        updateStmt.bindString(1, name);
+        updateStmt.bindDouble(2,price);
+        updateStmt.bindBlob(3, getBitmapAsByteArray(image));
+        updateStmt.bindLong(4, id);
         updateStmt.executeUpdateDelete();
         db.close();
         return true;
