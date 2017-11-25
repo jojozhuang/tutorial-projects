@@ -37,7 +37,6 @@
             android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:visibility="invisible" />
-
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
 

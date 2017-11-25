@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Game Store Android</string>
     <string name="title_product_detail">Product Detail</string>
-    <string name="button_save">Save</string>
+    <string name="menu_add">Add</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_back">Back</string>
+    <string name="menu_save">Save</string>
     <string name="button_load_image">Tap to choose image</string>
     <string name="hint_product_name">Product Name</string>
     <string name="hint_product_price">Product Price</string>

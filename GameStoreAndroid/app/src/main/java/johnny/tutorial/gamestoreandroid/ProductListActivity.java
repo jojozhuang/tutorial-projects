@@ -1,8 +1,6 @@
 package johnny.tutorial.gamestoreandroid;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,29 +12,36 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import johnny.tutorial.gamestoreandroid.constant.GameStoreConstants.ViewMode;
 import johnny.tutorial.gamestoreandroid.db.ProductDbHelper;
 import johnny.tutorial.gamestoreandroid.model.Product;
 
 import java.util.ArrayList;
 
+import johnny.tutorial.gamestoreandroid.constant.GameStoreConstants;
+
 public class ProductListActivity extends AppCompatActivity {
+
     private static final String TAG = "ProductListActivity";
     private ProductDbHelper mHelper;
     private ListView mListView;
     private ListAdapter mAdapter;
+    private ViewMode mMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
 
+        mMode = ViewMode.Display;
         mHelper = new ProductDbHelper(this);
         mListView = (ListView) findViewById(R.id.list_product);
 
@@ -45,8 +50,13 @@ public class ProductListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        if (mMode == ViewMode.Display) {
+            getMenuInflater().inflate(R.menu.list_menu, menu);
+            return super.onCreateOptionsMenu(menu);
+        } else {
+            getMenuInflater().inflate(R.menu.edit_menu, menu);
+            return super.onCreateOptionsMenu(menu);
+        }
     }
 
     @Override
@@ -55,8 +65,27 @@ public class ProductListActivity extends AppCompatActivity {
             case R.id.action_addproduct:
                 Log.d(TAG, "Add a new product");
                 Intent intent = new Intent(this, ProductDetailActivity.class);
-                intent.putExtra("action", "add");
+                intent.putExtra(GameStoreConstants.ParamAction, GameStoreConstants.ParamActionAdd);
                 this.startActivity(intent);
+                return true;
+            case R.id.action_editproduct:
+                Log.d(TAG, "Switch to Edit mode");
+                mMode = ViewMode.Edit;
+                updateUI();
+                return true;
+            case R.id.action_delete:
+                Log.d(TAG, "Delete selected products");
+                if (DeleteSelectedItems() == false) {
+                    Toast.makeText(this, "Select at least one item to delete", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+                mMode = ViewMode.Display;
+                updateUI();
+                return true;
+            case R.id.action_cancel:
+                Log.d(TAG, "Cancel edit");
+                mMode = ViewMode.Display;
+                updateUI();
                 return true;
 
             default:
@@ -64,48 +93,19 @@ public class ProductListActivity extends AppCompatActivity {
         }
     }
 
-    private void updateUI() {
-        ArrayList<Product> productList = mHelper.getAllProducts();
-        if (productList.size() == 0) {
-            productList = createDummyData();
-        }
-
-        if (mAdapter == null) {
-            mAdapter = new ProductAdapter(this,
-                    R.layout.product_list_item,
-                    productList);
-            mListView.setAdapter(mAdapter);
-            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                    AlertDialog.Builder adb=new AlertDialog.Builder(ProductListActivity.this);
-                    adb.setTitle("Delete?");
-                    adb.setMessage("Are you sure you want to delete " + position);
-                    final ProductAdapter.ViewHolder holder = (ProductAdapter.ViewHolder) v.getTag();
-                    final int positionToRemove = position;
-                    adb.setNegativeButton("Cancel", null);
-                    adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            mHelper.deleteProduct(holder.id);
-                            mAdapter.notify();
-                        }});
-                    adb.show();
-                }
-            });
-        }
-    }
-
     // Product Adapter
-    class ProductAdapter extends BaseAdapter {
-
-        private ArrayList<Product> productList;
-        private LayoutInflater inflater;
-        private int resource;
+    private class ProductAdapter extends BaseAdapter {
         private Context context;
+        private int resource;
+        private ArrayList<Product> productList;
+        private ViewMode mode;
+        private LayoutInflater inflater;
 
-        ProductAdapter(Context context, int resource, ArrayList<Product> productList) {
+        ProductAdapter(Context context, int resource, ArrayList<Product> productList, ViewMode mode) {
             this.context = context;
-            this.productList = productList;
             this.resource = resource;
+            this.productList = productList;
+            this.mode = mode;
             this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
@@ -134,6 +134,7 @@ public class ProductListActivity extends AppCompatActivity {
                 holder.productname = (TextView) row.findViewById(R.id.productname);
                 holder.price = (TextView) row.findViewById(R.id.price);
                 holder.image = (ImageView) row.findViewById(R.id.image);
+                holder.checkbox = (CheckBox) row.findViewById(R.id.checkbox);
                 row.setTag(holder);
             } else {
                 holder = (ViewHolder) row.getTag();
@@ -144,6 +145,11 @@ public class ProductListActivity extends AppCompatActivity {
             holder.productname.setText(product.getProductName());
             holder.price.setText("$" + String.valueOf(product.getPrice()));
             holder.image.setImageBitmap(product.getImage());
+            if (mode == ViewMode.Display) {
+                holder.checkbox.setVisibility(View.GONE);
+            } else {
+                holder.checkbox.setVisibility(View.VISIBLE);
+            }
             row.setOnClickListener(new ProductItemOnClickListener(context, product.getProductId()));
             return row;
         }
@@ -153,6 +159,7 @@ public class ProductListActivity extends AppCompatActivity {
             TextView productname;
             TextView price;
             ImageView image;
+            CheckBox checkbox;
         }
 
     }
@@ -169,13 +176,38 @@ public class ProductListActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(this.context, ProductDetailActivity.class);
-            intent.putExtra("action", "edit");
-            intent.putExtra("id", id);
+            intent.putExtra(GameStoreConstants.ParamAction, GameStoreConstants.ParamActionEdit);
+            intent.putExtra(GameStoreConstants.ParamId, id);
             this.context.startActivity(intent);
         }
     }
 
-    public ArrayList<Product> createDummyData() {
+    private void updateUI() {
+        ArrayList<Product> productList = mHelper.getAllProducts();
+        if (productList.size() == 0) {
+            productList = createDummyData();
+        }
+
+        mAdapter = new ProductAdapter(this, R.layout.product_list_item, productList, mMode);
+        mListView.setAdapter(mAdapter);
+        invalidateOptionsMenu();
+    }
+
+    private Boolean DeleteSelectedItems() {
+        boolean isSelected = false;
+        for (int i = 0; i < mListView.getCount(); i++) {
+            View rowView = mListView.getChildAt(i);
+            CheckBox cb = (CheckBox) rowView.findViewById(R.id.checkbox);
+            if (cb.isChecked()) {
+                isSelected = true;
+                ProductAdapter.ViewHolder holder = (ProductAdapter.ViewHolder) rowView.getTag();
+                mHelper.deleteProduct(holder.id);
+            }
+        }
+        return isSelected;
+    }
+
+    private ArrayList<Product> createDummyData() {
         Bitmap image1 = BitmapFactory.decodeResource(getResources(), R.drawable.xbox360);
         mHelper.insertProduct("xbox360", 299.00, image1);
         Bitmap image2 = BitmapFactory.decodeResource(getResources(), R.drawable.wii);

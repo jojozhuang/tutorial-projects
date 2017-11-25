@@ -2,10 +2,6 @@ package johnny.tutorial.gamestoreandroid.model;
 
 import android.graphics.Bitmap;
 
-/**
- * Created by i857285 on 11/23/17.
- */
-
 public class Product {
     private int productid;
     private String productname;

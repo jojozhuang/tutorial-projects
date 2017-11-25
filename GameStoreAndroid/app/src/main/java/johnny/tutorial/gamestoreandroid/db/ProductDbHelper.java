@@ -26,7 +26,7 @@ public class ProductDbHelper extends SQLiteOpenHelper {
                 ProductContract.ProductEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 ProductContract.ProductEntry.COL_PRODUCT_NAME + " TEXT NOT NULL, " +
                 ProductContract.ProductEntry.COL_PRICE + " REAL," +
-                ProductContract.ProductEntry.COL_IMAGE + " TEXT);";
+                ProductContract.ProductEntry.COL_IMAGE + " BLOB);";
 
         db.execSQL(createTable);
     }
@@ -57,35 +57,6 @@ public class ProductDbHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public Cursor getData(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor rs =  db.rawQuery( "select * from " + ProductContract.ProductEntry.TABLE + " where _id="+id+"", null );
-        return rs;
-    }
-
-    public Product getProduct(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor rs =  db.rawQuery( "select * from " + ProductContract.ProductEntry.TABLE + " where _id="+id+"", null );
-        rs.moveToFirst();
-
-        Product product = new Product();
-        product.setProductId(rs.getInt(rs.getColumnIndex(ProductContract.ProductEntry._ID)));
-        product.setProductName(rs.getString(rs.getColumnIndex(ProductContract.ProductEntry.COL_PRODUCT_NAME)));
-        product.setPrice(rs.getDouble(rs.getColumnIndex(ProductContract.ProductEntry.COL_PRICE)));
-        byte[] imgByte = rs.getBlob(rs.getColumnIndex(ProductContract.ProductEntry.COL_IMAGE));
-        product.setImage(BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length));
-        if (!rs.isClosed()) {
-            rs.close();
-        }
-        return product;
-    }
-
-    public int numberOfRows(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        int numRows = (int) DatabaseUtils.queryNumEntries(db, ProductContract.ProductEntry.TABLE);
-        return numRows;
-    }
-
     public boolean updateProduct (Integer id, String name, Double price, Bitmap image) {
         SQLiteDatabase db = this.getWritableDatabase();
         /*ContentValues contentValues = new ContentValues();
@@ -110,15 +81,34 @@ public class ProductDbHelper extends SQLiteOpenHelper {
     public Integer deleteProduct (Integer id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(ProductContract.ProductEntry.TABLE,
-                "id = ? ",
+                "_id = ? ",
                 new String[] { Integer.toString(id) });
+    }
+
+    public Product getProduct(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor rs =  db.rawQuery( "SELECT * FROM " + ProductContract.ProductEntry.TABLE + " WHERE _id="+id+"", null );
+        rs.moveToFirst();
+        if (rs.isAfterLast()) {
+            return null;
+        }
+        Product product = new Product();
+        product.setProductId(rs.getInt(rs.getColumnIndex(ProductContract.ProductEntry._ID)));
+        product.setProductName(rs.getString(rs.getColumnIndex(ProductContract.ProductEntry.COL_PRODUCT_NAME)));
+        product.setPrice(rs.getDouble(rs.getColumnIndex(ProductContract.ProductEntry.COL_PRICE)));
+        byte[] imgByte = rs.getBlob(rs.getColumnIndex(ProductContract.ProductEntry.COL_IMAGE));
+        product.setImage(BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length));
+        if (!rs.isClosed()) {
+            rs.close();
+        }
+        return product;
     }
 
     public ArrayList<Product> getAllProducts() {
         ArrayList<Product> list = new ArrayList<Product>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor rs =  db.rawQuery( "select * from " + ProductContract.ProductEntry.TABLE, null );
+        Cursor rs =  db.rawQuery( "SELECT * FROM " + ProductContract.ProductEntry.TABLE, null );
         rs.moveToFirst();
 
         while(rs.isAfterLast() == false){
@@ -138,7 +128,13 @@ public class ProductDbHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    private static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+    public int numberOfRows(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, ProductContract.ProductEntry.TABLE);
+        return numRows;
+    }
+
+    private byte[] getBitmapAsByteArray(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
         return outputStream.toByteArray();
