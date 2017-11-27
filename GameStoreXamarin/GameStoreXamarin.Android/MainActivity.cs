@@ -1,10 +1,11 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
+using GameStoreXamarin.Android;
 
-namespace GameStoreXamarin.Droid
+namespace GameStoreXamarin.Anroid
 {
-    [Activity(Label = "GameStoreXamarin", MainLauncher = true, Icon = "@mipmap/icon")]
+    [Activity(Label = "GameStoreXamarin", Icon = "@mipmap/icon")]
     public class MainActivity : Activity
     {
         int count = 1;
