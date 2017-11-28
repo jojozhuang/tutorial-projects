@@ -10,18 +10,18 @@ using System.CodeDom.Compiler;
 
 namespace GameStoreXamarin.iOS
 {
-    [Register ("ViewController")]
-    partial class ViewController
+    [Register ("ProductTableViewCell")]
+    partial class ProductTableViewCell
     {
         [Outlet]
-        UIKit.UIButton Button { get; set; }
+        UIKit.UILabel lblName { get; set; }
+        [Outlet]
+        UIKit.UILabel lblPrice { get; set; }
+        [Outlet]
+        UIKit.UIImageView imgPhoto { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
-            if (Button != null) {
-                Button.Dispose ();
-                Button = null;
-            }
         }
     }
 }

@@ -94,17 +94,43 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.5.0.91635\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>..\packages\SQLitePCLRaw.core.1.1.5\lib\Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.sqlite3">
+      <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.ios_unified.1.1.5\lib\Xamarin.iOS10\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_green">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.5\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.5\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite-net">
+      <HintPath>..\packages\sqlite-net-pcl.1.4.118\lib\netstandard1.1\SQLite-net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ProductImages\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ProductImages\controller.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ProductImages\controller.imageset\ps3_controller.jpg" />
+    <ImageAsset Include="Assets.xcassets\ProductImages\wii.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ProductImages\wii.imageset\wii.jpg" />
+    <ImageAsset Include="Assets.xcassets\ProductImages\xbox360.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ProductImages\xbox360.imageset\xbox360.jpg" />
+    <ImageAsset Include="Assets.xcassets\Image.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Image.imageset\defaultPhoto.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Helper\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Main.storyboard" />
+    <InterfaceDefinition Include="View.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -119,12 +145,33 @@
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="FileHelper.cs" />
+    <Compile Include="ProductTableViewController.cs" />
+    <Compile Include="ProductTableViewController.designer.cs">
+      <DependentUpon>ProductTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductDetailsViewController.cs" />
+    <Compile Include="ProductDetailsViewController.designer.cs">
+      <DependentUpon>ProductDetailsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductTableViewCell.cs" />
+    <Compile Include="ProductTableViewCell.designer.cs">
+      <DependentUpon>ProductTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\DatabaseHelper.cs" />
+    <Compile Include="Helper\FileHelper.cs" />
+    <Compile Include="Helper\ImageHelper.cs" />
+    <Compile Include="CustomProductTableViewCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameStoreXamarin.Core\GameStoreXamarin.Core.csproj">
       <Project>{9275CA38-010D-4B0D-8BBD-B16BB19404CF}</Project>
       <Name>GameStoreXamarin.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\controller.jpg" />
+    <BundleResource Include="Resources\wii.jpg" />
+    <BundleResource Include="Resources\xbox360.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.91635\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.91635\build\netstandard1.0\Xamarin.Forms.targets')" />

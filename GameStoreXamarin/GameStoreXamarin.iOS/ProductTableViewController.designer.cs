@@ -7,21 +7,22 @@
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using UIKit;
 
 namespace GameStoreXamarin.iOS
 {
-    [Register ("ViewController")]
-    partial class ViewController
+    [Register ("ProductTableViewController")]
+    partial class ProductTableViewController
     {
         [Outlet]
-        UIKit.UIButton Button { get; set; }
+        UIKit.UILabel lblName { get; set; }
+        [Outlet]
+        UIKit.UILabel lblPrice { get; set; }
+        [Outlet]
+        UIKit.UIImageView imgPhoto { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
-            if (Button != null) {
-                Button.Dispose ();
-                Button = null;
-            }
         }
     }
 }
