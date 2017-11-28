@@ -161,6 +161,7 @@
     <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Helper\ImageHelper.cs" />
     <Compile Include="CustomProductTableViewCell.cs" />
+    <Compile Include="Helper\ToastHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameStoreXamarin.Core\GameStoreXamarin.Core.csproj">

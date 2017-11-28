@@ -97,7 +97,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1067" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="842" y="595"/>
+            <point key="canvasLocation" x="1052" y="288"/>
         </scene>
         <!--New Product-->
         <scene sceneID="1072">
@@ -131,9 +131,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4022">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4022" image="Image">
                                 <rect key="frame" x="16" y="207" width="343" height="408"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Price" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4020">
                                 <rect key="frame" x="16" y="166" width="343" height="30"/>
@@ -147,11 +148,16 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="New Product" id="5459">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="RgK-Jn-rjs"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="vCx-1k-FJS"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="vCx-1k-FJS">
+                            <connections>
+                                <segue destination="5697" kind="unwind" identifier="UnwindSave" unwindAction="UnwindToProductTableViewController:" id="J6r-aG-e5o"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="btnSave" destination="vCx-1k-FJS" id="eag-LY-kwf"/>
+                        <outlet property="btnCancel" destination="RgK-Jn-rjs" id="NjT-tK-Rl1"/>
+                        <outlet property="btnSave" destination="vCx-1k-FJS" id="L1T-d8-ucD"/>
                         <outlet property="imgPhoto" destination="4022" id="5oD-qf-CUW"/>
                         <outlet property="lblName" destination="4010" id="dFD-bd-H8W"/>
                         <outlet property="lblPrice" destination="4021" id="A8j-Rs-Knb"/>
@@ -160,12 +166,13 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1075" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="5697" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1784.8" y="-63.41829"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="5460"/>
+        <segue reference="1825"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="controller" width="642" height="550"/>

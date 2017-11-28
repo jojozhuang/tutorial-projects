@@ -118,7 +118,30 @@ namespace GameStoreXamarin.iOS
                     break;
                 default:
                     break;
-            }        }
+            }        
+        }
+
+        [Action("UnwindToProductTableViewController:")]
+        public void UnwindToProductTableViewController(UIStoryboardSegue segue)
+        {
+            var sourceViewController = segue.SourceViewController as ProductDetailsViewController;
+            if (sourceViewController != null) {
+                var product = sourceViewController._product;
+                if (product != null) {
+                    var selectedIndexPath = TableView.IndexPathForSelectedRow;
+                    if (selectedIndexPath != null)  {
+                        // Update an existing product.
+                        _productList[selectedIndexPath.Row] = product;
+                    }
+                    else {
+                        // Add a new product.
+                        _productList.Add(product);
+                    }
+                    TableView.ReloadData();
+                    DatabaseHelper.Database.SaveProduct(product);
+                }
+            }
+        }
 
         private void CreateDummyData()
         {
