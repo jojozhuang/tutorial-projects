@@ -31,10 +31,10 @@ namespace GameStoreXamarin.Android
             Bundle extras = Intent.Extras;
             String actionText = extras.GetString(GameStoreConstants.ParamAction);
 
-            EditText name = (EditText)this.FindViewById(Resource.Id.productname);
-            EditText price = (EditText)this.FindViewById(Resource.Id.price);
+            EditText name = (EditText)FindViewById(Resource.Id.productname);
+            EditText price = (EditText)FindViewById(Resource.Id.price);
             Button loadImage = (Button)FindViewById(Resource.Id.loadimage);
-            ImageView image = (ImageView)this.FindViewById(Resource.Id.image);
+            ImageView image = (ImageView)FindViewById(Resource.Id.image);
 
             switch (actionText)
             {
@@ -120,7 +120,7 @@ namespace GameStoreXamarin.Android
                     if (drawable == null)
                     {
                         Toast.MakeText(this, "Choose a image", ToastLength.Long).Show();
-                        loadImage.SetFocusable(ViewFocusability.Focusable);
+                        loadImage.Focusable = true;
                         loadImage.RequestFocus();
                         return false;
                     }

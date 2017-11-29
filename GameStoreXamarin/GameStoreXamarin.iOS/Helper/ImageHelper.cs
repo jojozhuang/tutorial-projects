@@ -25,5 +25,25 @@ namespace GameStoreXamarin.iOS.Helper
 
             return imageBytes;
         }
+
+        public static bool Compare(UIImage image1, UIImage image2) {
+            if (image1 == null && image2 == null) {
+                return true;
+            }
+            if (image1 == null && image2 != null) {
+                return false;
+            }
+            if (image1 != null && image2 == null)
+            {
+                return false;
+            }
+            if (image1 != null && image2 != null)
+            {
+                if (UIImageToBytes(image1) != UIImageToBytes(image2)) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

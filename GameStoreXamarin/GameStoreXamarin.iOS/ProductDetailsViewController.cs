@@ -11,6 +11,7 @@ namespace GameStoreXamarin.iOS
     {
         public Product _product;
         private UIImagePickerController _imagePicker;
+        private bool _imageChanged = false;
 
         public ProductDetailsViewController(IntPtr handle) : base(handle)
         {
@@ -52,17 +53,29 @@ namespace GameStoreXamarin.iOS
 
                 if (String.IsNullOrEmpty(textName))
                 {
-                    ToastHelper.PresentOKAlert("Product Name is Empty", "Product Name is Empty", this);
+                    txtName.BecomeFirstResponder();
+                    ToastHelper.PresentOKAlert("Error", "Product Name is Empty", this);
                     return;
                 }
                 if (String.IsNullOrEmpty(textPrice))
                 {
-                    ToastHelper.PresentOKAlert("Price is Empty", "Price is Empty", this);
+                    txtPrice.BecomeFirstResponder();
+                    ToastHelper.PresentOKAlert("Error", "Price is Empty", this);
                     return;
                 }
-                if (image == null)
+                try
                 {
-                    ToastHelper.PresentOKAlert("Choose a image", "Choose a image", this);
+                    Double dprice = Convert.ToDouble(textPrice);
+                }
+                catch (Exception ex)
+                {
+                    txtPrice.BecomeFirstResponder();
+                    ToastHelper.PresentOKAlert("Error", ex.Message, this);
+                    return;
+                }
+                if (image == null || (_product == null && _imageChanged == false))
+                {
+                    ToastHelper.PresentOKAlert("Error", "Choose a image", this);
                     return;
                 }
                 //Dragging is not working properly, have to manually trigger the segue.
@@ -92,7 +105,7 @@ namespace GameStoreXamarin.iOS
                 NavigationController.PresentModalViewController(_imagePicker, true);
             })
             {
-                NumberOfTapsRequired = 1 // Double tap 
+                NumberOfTapsRequired = 1 // Signle tap 
             });
         }
 
@@ -115,6 +128,7 @@ namespace GameStoreXamarin.iOS
                 if (originalImage != null)
                 {
                     imgPhoto.Image = originalImage;
+                    _imageChanged = true;
                 }
             }
             // dismiss the picker
@@ -143,7 +157,7 @@ namespace GameStoreXamarin.iOS
                     _product = new Product();
                 }
                 _product.ProductName = txtName.Text;
-                _product.Price = Convert.ToDouble(txtPrice.Text == "" ? "0.0" : txtPrice.Text);
+                _product.Price = Convert.ToDouble(txtPrice.Text);
                 _product.Image = ImageHelper.UIImageToBytes(imgPhoto.Image);
             }
         }
