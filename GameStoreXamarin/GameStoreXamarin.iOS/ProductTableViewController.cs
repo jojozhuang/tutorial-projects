@@ -103,8 +103,6 @@ namespace GameStoreXamarin.iOS
             switch (segue.Identifier)
             {
                 case "AddItem":
-                    int a = 1;
-                    a++;
                     break;
                 case "ShowDetail":
                     var pdvc = segue.DestinationViewController as ProductDetailsViewController;
