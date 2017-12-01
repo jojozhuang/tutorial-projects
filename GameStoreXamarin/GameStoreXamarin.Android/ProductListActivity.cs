@@ -29,7 +29,7 @@ namespace GameStoreXamarin.Android
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            SetContentView(Resource.Layout.ActivityProductList);
+            SetContentView(Resource.Layout.ProductList);
 
             mMode = ListViewMode.Display;
             mListView = (ListView)FindViewById(Resource.Id.list_product);

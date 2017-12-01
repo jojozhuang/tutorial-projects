@@ -27,7 +27,7 @@ namespace GameStoreXamarin.Android
         {
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.ActivityProductDetail);
+            SetContentView(Resource.Layout.ProductDetail);
 
             Bundle extras = Intent.Extras;
             String actionText = extras.GetString(GameStoreConstants.ParamAction);

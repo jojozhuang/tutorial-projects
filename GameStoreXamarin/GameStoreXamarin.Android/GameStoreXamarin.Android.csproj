@@ -156,9 +156,9 @@
     <AndroidResource Include="Resources\mipmap-xhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\layout\ActivityProductList.axml" />
+    <AndroidResource Include="Resources\layout\ProductList.axml" />
     <AndroidResource Include="Resources\layout\ProductListItem.axml" />
-    <AndroidResource Include="Resources\layout\ActivityProductDetail.axml" />
+    <AndroidResource Include="Resources\layout\ProductDetail.axml" />
     <AndroidResource Include="Resources\drawable\controller.jpg" />
     <AndroidResource Include="Resources\drawable\wii.jpg" />
     <AndroidResource Include="Resources\drawable\xbox360.jpg" />
