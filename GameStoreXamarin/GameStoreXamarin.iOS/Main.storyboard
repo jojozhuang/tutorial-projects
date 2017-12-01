@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="215">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
@@ -74,7 +74,7 @@
             <objects>
                 <navigationController id="215" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="217">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -90,7 +90,7 @@
             <objects>
                 <navigationController id="1064" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="1066">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -110,36 +110,36 @@
                         <viewControllerLayoutGuide type="bottom" id="1071"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="4007">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Fna-Nu-8WF">
-                                <rect key="frame" x="16" y="84" width="343" height="476"/>
+                                <rect key="frame" x="20" y="84" width="560" height="693"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4010">
-                                        <rect key="frame" x="0.0" y="0.0" width="115" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="115" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Product Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4009">
-                                        <rect key="frame" x="0.0" y="28.5" width="343" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Product Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4009" misplaced="YES">
+                                        <rect key="frame" x="0.0" y="8" width="114" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4021">
-                                        <rect key="frame" x="0.0" y="66.5" width="43.5" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="16" width="43.5" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Price" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4020">
-                                        <rect key="frame" x="0.0" y="95" width="343" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Price" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4020" misplaced="YES">
+                                        <rect key="frame" x="0.0" y="24" width="54" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
                                     </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DefaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="4022">
-                                        <rect key="frame" x="0.0" y="133" width="343" height="343"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DefaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="4022" misplaced="YES">
+                                        <rect key="frame" x="0.0" y="32" width="560" height="661"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="4022" secondAttribute="height" multiplier="1:1" id="8nP-EA-5PB"/>
@@ -182,11 +182,17 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1075" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="5697" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1784.8" y="-63.418289999999999"/>
+            <point key="canvasLocation" x="1784.8" y="-63.41829"/>
         </scene>
     </scenes>
     <resources>
-        <image name="DefaultImage" width="540" height="540"/>
+        <image name="DefaultImage" width="1080" height="1080"/>
+        <image name="controller" width="642" height="550"/>
+        <image name="wii" width="600" height="480"/>
+        <image name="xbox360" width="1000" height="1000"/>
+        <image name="controller.jpg" width="642" height="550"/>
+        <image name="wii.jpg" width="600" height="480"/>
+        <image name="xbox360.jpg" width="1000" height="1000"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="1825"/>
