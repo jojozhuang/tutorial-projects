@@ -12,6 +12,7 @@ using static GameStoreXamarin.Android.GameStoreConstants;
 using static Android.Views.View;
 using Android.Util;
 using GameStoreXamarin.Android.Helper;
+using GameStoreXamarin.Core.Data;
 
 namespace GameStoreXamarin.Android
 {

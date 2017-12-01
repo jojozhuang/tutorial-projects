@@ -153,7 +153,6 @@
     <Compile Include="ProductTableViewCell.designer.cs">
       <DependentUpon>ProductTableViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helper\DatabaseHelper.cs" />
     <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Helper\ImageHelper.cs" />
     <Compile Include="CustomProductTableViewCell.cs" />

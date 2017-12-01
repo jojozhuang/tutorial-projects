@@ -99,7 +99,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1067" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1052" y="288"/>
+            <point key="canvasLocation" x="882" y="287"/>
         </scene>
         <!--New Product-->
         <scene sceneID="1072">
@@ -171,7 +171,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="btnCancel" destination="RgK-Jn-rjs" id="NjT-tK-Rl1"/>
-                        <outlet property="btnSave" destination="vCx-1k-FJS" id="L1T-d8-ucD"/>
+                        <outlet property="btnSave" destination="vCx-1k-FJS" id="RaL-br-RSg"/>
                         <outlet property="imgPhoto" destination="4022" id="5oD-qf-CUW"/>
                         <outlet property="lblName" destination="4010" id="dFD-bd-H8W"/>
                         <outlet property="lblPrice" destination="4021" id="A8j-Rs-Knb"/>

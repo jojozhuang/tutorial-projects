@@ -3,7 +3,7 @@ using GameStoreXamarin.Core;
 using GameStoreXamarin.Core.Data;
 using Xamarin.Forms;
 
-namespace GameStoreXamarin.Android.Helper
+namespace GameStoreXamarin.Core.Data
 {
     public static class DatabaseHelper
     {

@@ -10,6 +10,7 @@ using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
 using GameStoreXamarin.Android.Helper;
+using GameStoreXamarin.Core.Data;
 using GameStoreXamarin.Core.Models;
 using static GameStoreXamarin.Android.GameStoreConstants;
 

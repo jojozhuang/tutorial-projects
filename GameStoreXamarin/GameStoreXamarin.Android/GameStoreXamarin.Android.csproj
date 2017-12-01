@@ -141,7 +141,6 @@
     <Compile Include="ProductListActivity.cs" />
     <Compile Include="GameStoreConstants.cs" />
     <Compile Include="ProductDetailActivity.cs" />
-    <Compile Include="Helper\DatabaseHelper.cs" />
     <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Helper\ImageHelper.cs" />
   </ItemGroup>

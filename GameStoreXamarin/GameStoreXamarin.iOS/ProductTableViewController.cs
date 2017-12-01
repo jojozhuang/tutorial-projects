@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Foundation;
+using GameStoreXamarin.Core.Data;
 using GameStoreXamarin.Core.Models;
 using GameStoreXamarin.iOS.Helper;
 using UIKit;
