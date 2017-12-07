@@ -43,6 +43,13 @@ export class ProductService {
           .catch(this.handleError);
   }	
 
+  upload(id: number, fileToUpload: any) {
+    let input = new FormData();
+    input.append("id", id + '');
+    input.append("file", fileToUpload);
+
+    return this.http.post(this.apiUrl +"/"+"UploadFile", input);
+}
   private extractData(res: Response) {
     return res;
   }

@@ -27,11 +27,13 @@ export class ErrorInterceptor implements HttpInterceptor {
             .do((ev: HttpEvent<any>) => {
                 console.log(customReq);
                 if (ev instanceof HttpResponse) {
+                    //console.error(ev);
                     //console.log('processing response', ev);
                 }
             })
             .catch(response => {
                 let errMsg: string;
+                console.error(response);
                 if (response instanceof HttpErrorResponse) {
                     const err = response.message || JSON.stringify(response.error);
                     errMsg = `${response.status} - ${response.statusText || ''} Details: ${err}`;
@@ -39,8 +41,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                     errMsg = response.message ? response.message : response.toString();
                 }
                 console.error(errMsg);
-                //return _throw(errMsg);
-                return Observable.throw(response);
+                return _throw(errMsg);
+                //return Observable.throw(response);
             });
     }
 }

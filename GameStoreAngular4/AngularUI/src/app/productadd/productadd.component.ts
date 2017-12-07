@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 //import { Http, Response, Headers, RequestOptions } from "@angular/http";
@@ -13,9 +13,10 @@ import { ProductService } from './../product.service';
 })
 export class ProductaddComponent implements OnInit {
   subscription:Subscription;
-  stateCtrl: FormControl;
+  //stateCtrl: FormControl;
   //product;
   statusCode: number;
+  //fileInput;
 
   //Create form
   productForm = new FormGroup({
@@ -42,12 +43,15 @@ export class ProductaddComponent implements OnInit {
   loadProduct(id: number) {
     this.service.getProductById(id).subscribe(product => {
       //this.articleIdToUpdate = article.id;   
-      console.log(product);
-      this.productForm.setValue({ id: product.id, productName: product.productName, price: product.price, image: product.image });
+      this.updateUI(product);
       //this.processValidation = true;
       //this.requestProcessing = false;   
     },
     errorCode =>  this.statusCode = errorCode);    
+  }
+  updateUI(product) {
+    console.log(product);
+    this.productForm.setValue({ id: product.id, productName: product.productName, price: product.price, image: product.image });
   }
 
   //Handle create and update article
@@ -88,4 +92,23 @@ export class ProductaddComponent implements OnInit {
   onClickSubmit(data) {
     this.onArticleFormSubmit();
   }
+
+  @ViewChild("fileInput") fileInput;
+  //@ViewChild("productId") productId;
+  upload(id): void {
+    console.log(id.id);
+    let fi = this.fileInput.nativeElement;
+    if (fi.files && fi.files[0]) {
+        let fileToUpload = fi.files[0];
+        this.service
+            .upload(id.id, fileToUpload)
+            .subscribe(res => {
+              console.log(res);
+              this.updateUI(res);
+              //this.productForm.image = res.message;
+              //console.log(this.productForm.image);
+              //this.loadProduct(+this.productId.nativeElement.value);
+            });
+        }
+    }
 }

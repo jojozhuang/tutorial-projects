@@ -16,6 +16,7 @@ namespace RestfulAspNet.Controllers
 {
     [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class ProductsController : Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -66,6 +67,37 @@ namespace RestfulAspNet.Controllers
             DatabaseHelper.Database.DeleteProduct(id);
         }
 
+        //[ActionName("GetDay")]
+        //[HttpGet]
+        //public string GetDay() {
+        //    return "hello";
+        //}
+        [ActionName("UploadFile")]
+        [HttpPost]
+        public async Task<Product> UploadFile(int id, IFormFile file)
+        {
+            Product product = DatabaseHelper.Database.GetProduct(id);
+            if (file == null || file.Length == 0)
+            {   
+                return product;
+            }
+
+            var filename = $@"{DateTime.Now.Ticks}_" + file.FileName;
+
+            var path = Path.Combine(
+                        Directory.GetCurrentDirectory(), "wwwroot", "images",
+                        filename);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            product.Image = GetImageUrl(filename);
+            DatabaseHelper.Database.SaveProduct(product);
+            return product;
+        }
+
         private string WriteImage(byte[] arr)
         {
             var filename = $@"{DateTime.Now.Ticks}.";
@@ -102,7 +134,8 @@ namespace RestfulAspNet.Controllers
         }
 
         private string GetImageUrl(string imageName) {
-            return $@"http:\\{Url.Content("~/")}/Images/Upload/{imageName}";
+            string baseurl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
+            return Path.Combine(baseurl, "images", imageName);
         }
 
         private void CreateDummyData()
