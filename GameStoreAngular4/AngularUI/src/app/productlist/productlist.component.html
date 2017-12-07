@@ -1,0 +1,24 @@
+<div class="container">
+  <h2>Products</h2>
+  <p>Data from Restful API</p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Product ID</th>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th>Image</th>
+        <th>Operations</th>
+      </tr>
+    </thead>
+    <tbody *ngFor = "let product of products">
+        <tr>
+          <td>{{product.id}}</td>
+          <td>{{product.productName}}</td>
+          <td>${{product.price}}</td>
+          <td>{{product.image}}</td>
+          <td><a class="btn btn-success" [routerLink]="['/productadd', product.id ]">Edit</a>&nbsp;<a class="btn btn-danger" (click)="deleteProduct({ event:$event, id: product.id })">Delete</a></td>
+        </tr>
+     </tbody>
+  </table>
+</div>
