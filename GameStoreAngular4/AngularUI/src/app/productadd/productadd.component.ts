@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { ProductService } from './../product.service';
+import { Product, ResponseResult } from './../product';
 
 @Component({
   selector: 'app-productadd',
@@ -13,10 +14,9 @@ import { ProductService } from './../product.service';
 })
 export class ProductaddComponent implements OnInit {
   subscription:Subscription;
-  //stateCtrl: FormControl;
-  //product;
   statusCode: number;
-  //fileInput;
+  filename: string;
+  id;
 
   //Create form
   productForm = new FormGroup({
@@ -25,17 +25,21 @@ export class ProductaddComponent implements OnInit {
         Validators.required,
         Validators.minLength(3)
     ])),
-    price:new FormControl(""),
-    image:new FormControl("") 
+    price: new FormControl("0", Validators.compose([
+        Validators.required,
+        Validators.min(0),
+        Validators.max(2147483647)
+    ])),
+    image:new FormControl("images/default.png") 
   });
 
   constructor(private service: ProductService, private router: Router, private route: ActivatedRoute) { }
   ngOnInit() {
     console.log(222);
-    let id = this.route.snapshot.paramMap.get('id');
-    console.log(id);
-    if (id != null) {
-      this.loadProduct(+id);
+    this.id = this.route.snapshot.paramMap.get('id');
+    console.log(this.id);
+    if (this.id != null) {
+      this.loadProduct(this.id);
     }
   }
   
@@ -67,48 +71,44 @@ export class ProductaddComponent implements OnInit {
 	  if (product.id == null || product.id == "") {  
       //Create article
       product.id = 0;
-     	this.service.createProduct(product)
-			  .subscribe(successCode => {
-				   this.statusCode = successCode;
-				   //this.getAllArticles();	
-           //this.backToCreateArticle();
-           this.router.navigate(['productlist'])
-				 },
-				 errorCode => this.statusCode = errorCode
-        );
-	   } else {  
-   	     //Handle update article
-//             article.id = this.articleIdToUpdate; 		
-	     this.service.updateProduct(product).subscribe(successCode => {
-         this.statusCode = successCode;
-         this.router.navigate(['productlist'])
-		     //this.getAllArticles();	
-		     //this.backToCreateArticle();
-		},
-		errorCode => this.statusCode = errorCode);	  
-	   }
-   }
+      console.log()
+     	this.service.createProduct(product).subscribe(successCode => {
+          this.statusCode = successCode;
+          this.router.navigate(['productlist'])
+			  },
+		    errorCode => this.statusCode = errorCode);
+	  } else {  
+	    this.service.updateProduct(product).subscribe(successCode => {
+          this.statusCode = successCode;
+          this.router.navigate(['productlist'])
+        },
+        errorCode => this.statusCode = errorCode);	  
+	  }
+  }
 
   onClickSubmit(data) {
     this.onArticleFormSubmit();
   }
 
   @ViewChild("fileInput") fileInput;
-  //@ViewChild("productId") productId;
-  upload(id): void {
-    console.log(id.id);
+  @ViewChild("productImage") productImage;
+  filechanged(event): void {    
+    var name = this.fileInput.nativeElement.files[0].name;
+    console.log(name);
+    this.filename = name;
+  }
+  upload(): void {
     let fi = this.fileInput.nativeElement;
     if (fi.files && fi.files[0]) {
-        let fileToUpload = fi.files[0];
-        this.service
-            .upload(id.id, fileToUpload)
-            .subscribe(res => {
-              console.log(res);
-              this.updateUI(res);
-              //this.productForm.image = res.message;
-              //console.log(this.productForm.image);
-              //this.loadProduct(+this.productId.nativeElement.value);
-            });
-        }
+      let fileToUpload = fi.files[0];
+      this.service.upload(fileToUpload)
+        .subscribe(res => {
+          console.log(res);
+          this.productForm.patchValue({image: res.message});
+          this.productImage.src = res.message;
+          //console.log(this.productForm.image);
+          //this.loadProduct(+this.productId.nativeElement.value);
+        });
     }
+  }
 }

@@ -12,29 +12,29 @@ import { AlertModule } from 'ngx-bootstrap';
 import { ProductService } from './product.service';
 
 import { AppComponent } from './app.component';
+import { MainpageComponent } from './mainpage/mainpage.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { MainpageComponent } from './mainpage/mainpage.component';
-import { UserloginComponent } from './userlogin/userlogin.component';
 import { ProductaddComponent } from './productadd/productadd.component';
 import { ProductlistComponent } from './productlist/productlist.component';
 import { ErrorInterceptorProvider } from './http.interceptor';
 
 const appRoutes: Routes = [
-  { path: '', component: UserloginComponent },
-  { path: 'app-mainpage', component: MainpageComponent },
+  { path: '', component: MainpageComponent },
+  { path: 'mainpage', component: MainpageComponent },
   { path: 'productlist', component: ProductlistComponent },
   { path: 'productadd', component: ProductaddComponent },
-  { path: 'productadd/:id', component: ProductaddComponent }
+  { path: 'productadd/:id', component: ProductaddComponent },
+  // otherwise redirect to home
+  {path: '**', redirectTo: ''}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
+    MainpageComponent,
     HeaderComponent,
     FooterComponent,
-    MainpageComponent,
-    UserloginComponent,
     ProductaddComponent,
     ProductlistComponent
   ],

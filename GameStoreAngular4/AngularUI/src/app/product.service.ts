@@ -3,12 +3,14 @@ import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angul
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-import { Product } from './product';
+import { Product, ResponseResult } from './product';
 
 @Injectable()
 export class ProductService {
   //URL for CRUD operations
   apiUrl = "http://localhost:5000/api/products";
+  imageUrl = "http://localhost:5000/api/images";
+  baseUrl = "http://localhost:5000/";
   //Create constructor to get Http instance
   constructor(private http: HttpClient) { 
   }
@@ -19,20 +21,19 @@ export class ProductService {
   }
   //Create product
   createProduct(product: Product):Observable<number> {
-      return this.http.post(this.apiUrl, product)
+      return this.http.post(this.apiUrl + "/" + product.id, product)
              //.map(success => success.status)
              .catch(this.handleError);
   }
   //Fetch product by id
   getProductById(pid: number): Observable<Product> {
-    console.log(this.apiUrl +"/"+ pid);
     return this.http.get(this.apiUrl + "/" + pid)
            .map(this.extractData)
            .catch(this.handleError);
   }	
   //Update product
   updateProduct(product: Product):Observable<number> {
-    return this.http.put(this.apiUrl +"/"+ product.id, product)
+    return this.http.put(this.apiUrl + "/" + product.id, product)
            //.map(success => success.status)
            .catch(this.handleError);
   }
@@ -43,13 +44,15 @@ export class ProductService {
           .catch(this.handleError);
   }	
 
-  upload(id: number, fileToUpload: any) {
+  upload(fileToUpload: any): Observable<ResponseResult> {
     let input = new FormData();
-    input.append("id", id + '');
     input.append("file", fileToUpload);
 
-    return this.http.post(this.apiUrl +"/"+"UploadFile", input);
-}
+    return this.http.post(this.imageUrl + "/" + "UploadFile", input)
+           .map(this.extractData)
+           .catch(this.handleError);;
+  }
+  
   private extractData(res: Response) {
     return res;
   }

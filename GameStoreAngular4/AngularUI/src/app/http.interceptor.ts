@@ -26,10 +26,10 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(customReq)
             .do((ev: HttpEvent<any>) => {
                 console.log(customReq);
-                if (ev instanceof HttpResponse) {
+                /*if (ev instanceof HttpResponse) {
                     //console.error(ev);
                     //console.log('processing response', ev);
-                }
+                }*/
             })
             .catch(response => {
                 let errMsg: string;
@@ -42,7 +42,6 @@ export class ErrorInterceptor implements HttpInterceptor {
                 }
                 console.error(errMsg);
                 return _throw(errMsg);
-                //return Observable.throw(response);
             });
     }
 }

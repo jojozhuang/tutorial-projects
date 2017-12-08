@@ -21,7 +21,7 @@ export class ProductlistComponent implements OnInit {
   getProducts() {
     this.service.getProducts().subscribe(
               data => this.products = data,
-              errorCode =>  this.statusCode = errorCode);   
+              errorCode => this.statusCode = errorCode);   
     }
 
   deleteProduct(event) { 
