@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using RestfulAspNet.Models;
+using Johnny.Tutorials.RestfulAspNet.Models;
 using SQLite;
 
-namespace RestfulAspNet.Data
+namespace Johnny.Tutorials.RestfulAspNet.Data
 {
     public class SqliteDB
     {
@@ -18,7 +18,7 @@ namespace RestfulAspNet.Data
 
         public List<Product> GetProducts()
         {
-            return database.Query<Product>("SELECT * FROM [" + TABLE_NAME + "]");
+            return database.Query<Product>("SELECT * FROM [" + TABLE_NAME + "] ORDER BY [ID] DESC");
         }
 
         public Product GetProduct(int id)

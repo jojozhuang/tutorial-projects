@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace RestfulAspNet.Models
+namespace Johnny.Tutorials.RestfulAspNet.Models
 {
     public class Product
     {

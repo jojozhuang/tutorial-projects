@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace RestfulAspNet.Data
+namespace Johnny.Tutorials.RestfulAspNet.Data
 {
     public class DatabaseHelper
     {
