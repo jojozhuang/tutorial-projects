@@ -1,11 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
-//import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { ProductService } from './../product.service';
-import { Product, ResponseResult } from './../product';
 
 @Component({
   selector: 'app-productadd',
@@ -13,8 +10,8 @@ import { Product, ResponseResult } from './../product';
   styleUrls: ['./productadd.component.css']
 })
 export class ProductaddComponent implements OnInit {
-  subscription:Subscription;
   statusCode: number;
+  errmsg: string;
   filename: string;
   id;
 
@@ -35,66 +32,49 @@ export class ProductaddComponent implements OnInit {
 
   constructor(private service: ProductService, private router: Router, private route: ActivatedRoute) { }
   ngOnInit() {
-    console.log(222);
     this.id = this.route.snapshot.paramMap.get('id');
-    console.log(this.id);
+    //console.log(this.id);
     if (this.id != null) {
-      this.loadProduct(this.id);
+      this.service.getProductById(this.id).subscribe(product => {
+        //console.log(product);
+        this.productForm.setValue({ id: product.id, productName: product.productName, price: product.price, image: product.image });  
+      },
+      errorCode =>  this.statusCode = errorCode);    
     }
   }
-  
-  //Load article by id to edit
-  loadProduct(id: number) {
-    this.service.getProductById(id).subscribe(product => {
-      //this.articleIdToUpdate = article.id;   
-      this.updateUI(product);
-      //this.processValidation = true;
-      //this.requestProcessing = false;   
-    },
-    errorCode =>  this.statusCode = errorCode);    
-  }
-  updateUI(product) {
-    console.log(product);
-    this.productForm.setValue({ id: product.id, productName: product.productName, price: product.price, image: product.image });
-  }
 
-  //Handle create and update article
-  onArticleFormSubmit() {
-	  //this.processValidation = true;   
+  //Handle create and update product
+  onClickSubmit() {
 	  if (this.productForm.invalid) {
-	       return; //Validation failed, exit from method.
+	    return; //Validation failed, exit from method.
 	  }   
 	  //Form is valid, now perform create or update
-    //this.preProcessConfigurations();
     let product = this.productForm.value;
     console.log(product);
 	  if (product.id == null || product.id == "") {  
-      //Create article
+      //Create product
       product.id = 0;
-      console.log()
      	this.service.createProduct(product).subscribe(successCode => {
           this.statusCode = successCode;
           this.router.navigate(['productlist'])
 			  },
-		    errorCode => this.statusCode = errorCode);
+        error => {this.statusCode = error.statusCode; this.errmsg = error.message});
 	  } else {  
+      //Update product
 	    this.service.updateProduct(product).subscribe(successCode => {
           this.statusCode = successCode;
           this.router.navigate(['productlist'])
         },
-        errorCode => this.statusCode = errorCode);	  
+        error => {this.statusCode = error.statusCode; this.errmsg = error.message});
 	  }
   }
 
-  onClickSubmit(data) {
-    this.onArticleFormSubmit();
-  }
-
+  //Image upload
   @ViewChild("fileInput") fileInput;
   @ViewChild("productImage") productImage;
   filechanged(event): void {    
     var name = this.fileInput.nativeElement.files[0].name;
-    console.log(name);
+    //console.log(name);
     this.filename = name;
   }
   upload(): void {
@@ -103,11 +83,10 @@ export class ProductaddComponent implements OnInit {
       let fileToUpload = fi.files[0];
       this.service.upload(fileToUpload)
         .subscribe(res => {
-          console.log(res);
+          //console.log("fileupload:" + res.statusCode);
+          //console.log("fileupload:" + res.message);
           this.productForm.patchValue({image: res.message});
-          this.productImage.src = res.message;
-          //console.log(this.productForm.image);
-          //this.loadProduct(+this.productId.nativeElement.value);
+          this.productImage.src = res.message;          
         });
     }
   }

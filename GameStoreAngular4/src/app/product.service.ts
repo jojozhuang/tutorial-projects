@@ -3,62 +3,46 @@ import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angul
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-import { Product, ResponseResult } from './product';
+import { Product, ResponseResult } from './models';
 
 @Injectable()
 export class ProductService {
   //URL for CRUD operations
-  apiUrl = "http://localhost:5000/api/products";
-  imageUrl = "http://localhost:5000/api/images";
-  baseUrl = "http://localhost:5000/";
+  serverUrl = "http://localhost:5000/";
+  apiUrl = this.serverUrl + "api/products";
+  imageUrl = this.serverUrl + "api/images";
+  
   //Create constructor to get Http instance
   constructor(private http: HttpClient) { 
   }
   //Fetch all products
   getProducts(): Observable<Product[]> {
-    return this.http.get(this.apiUrl).map(this.extractData)
-           .catch(this.handleError);
+    return this.http.get<Product[]>(this.apiUrl)
   }
   //Create product
-  createProduct(product: Product):Observable<number> {
-      return this.http.post(this.apiUrl + "/" + product.id, product)
-             //.map(success => success.status)
-             .catch(this.handleError);
+  createProduct(product: Product): Observable<any> {
+    return this.http.post(this.apiUrl, product, {observe: 'response'})
+           .map(success => success.status)
   }
   //Fetch product by id
   getProductById(pid: number): Observable<Product> {
-    return this.http.get(this.apiUrl + "/" + pid)
-           .map(this.extractData)
-           .catch(this.handleError);
+    return this.http.get<Product>(this.apiUrl + "/" + pid)
   }	
   //Update product
-  updateProduct(product: Product):Observable<number> {
-    return this.http.put(this.apiUrl + "/" + product.id, product)
-           //.map(success => success.status)
-           .catch(this.handleError);
+  updateProduct(product: Product): Observable<any> {
+    return this.http.put(this.apiUrl + "/" + product.id, product, {observe: 'response'})
+           .map(success => success.status)
   }
   //Delete product	
-  deleteProductById(pid: number): Observable<number> {
-    return this.http.delete(this.apiUrl +"/"+ pid)
-           //.map(success => success.status)
-          .catch(this.handleError);
-  }	
-
+  deleteProductById(pid: number): Observable<any> {
+    return this.http.delete(this.apiUrl +"/"+ pid, {observe: 'response'})
+           .map(success => success.status)
+  }
+  //Upload image
   upload(fileToUpload: any): Observable<ResponseResult> {
     let input = new FormData();
     input.append("file", fileToUpload);
 
-    return this.http.post(this.imageUrl + "/" + "UploadFile", input)
-           .map(this.extractData)
-           .catch(this.handleError);;
-  }
-  
-  private extractData(res: Response) {
-    return res;
-  }
-
-  private handleError (error: Response | any) {
-    //console.error(error.message || error);
-    return Observable.throw(error.status);
+    return this.http.post<ResponseResult>(this.imageUrl + "/" + "UploadFile", input)
   }
 }

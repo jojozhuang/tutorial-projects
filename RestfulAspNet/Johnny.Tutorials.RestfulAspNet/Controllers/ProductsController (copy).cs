@@ -7,21 +7,19 @@ using Johnny.Tutorials.RestfulAspNet.Data;
 using Johnny.Tutorials.RestfulAspNet.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Johnny.Tutorials.RestfulAspNet.Controllers
 {
     [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     //[Route("api/[controller]/[action]")]
-    public class ProductsController : Controller
+    public class ProductsController2 : Controller
     {
         private readonly SqliteContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public ProductsController(SqliteContext context, IHostingEnvironment hostingEnvironment)
+        public ProductsController2(SqliteContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
@@ -37,18 +35,22 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
 
         // GET: api/products
         [HttpGet]
-        public IActionResult Get()
+        public IEnumerable<Product> Get()
         {
-            var products = _context.Products.ToList();
-            products.Reverse();
-            return Ok(products);
+            List<Product> list = DatabaseHelper.Database.GetProducts();
+            if (list == null || list.Count == 0) {
+                CreateDummyData();
+                return DatabaseHelper.Database.GetProducts();
+            } else {
+                return list;
+            }
         }
 
         // GET api/products/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+            var product = DatabaseHelper.Database.GetProduct(id);
             if (product == null)
             {
                 return NotFound();
@@ -60,47 +62,42 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]Product product)
         {
-            if (product == null || product.Id != 0 || String.IsNullOrEmpty(product.ProductName)) {
-                return StatusCode(StatusCodes.Status400BadRequest);
-            }
-            _context.Products.Add(product);
-            _context.SaveChanges();
-
-            return Ok();
+            return StatusCode(200);
         }
 
         // PUT api/products/5
         [HttpPut("{id}")]
-        public IActionResult Put([FromBody]Product product)
+        public void Put([FromBody]Product product)
         {
-            if (product == null || product.Id == 0 || String.IsNullOrEmpty(product.ProductName))
-            {
-                return StatusCode(StatusCodes.Status400BadRequest);
-            }
-
-            var oldProduct = _context.Products.SingleOrDefault(p => p.Id == product.Id);
-            if (oldProduct == null) {
-                return NotFound();
-            }
-            _context.Entry(oldProduct).CurrentValues.SetValues(product);
-            _context.SaveChanges();
-
-            return Ok();
+            DatabaseHelper.Database.SaveProduct(product);
         }
 
         // DELETE api/products/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public void Delete(int id)
         {
-            var product = _context.Products.SingleOrDefault(p => p.Id == id);
-            if (product == null) {
-                return NotFound();
-            }
+            DatabaseHelper.Database.DeleteProduct(id);
+        }
 
-            _context.Products.Remove(product);
-            _context.SaveChanges();
+        private void CreateDummyData()
+        {
+            Product product = new Product();
+            product.ProductName = "Xbox 360";
+            product.Price = 299.00;
+            product.Image = GetImageUrl("xbox360.jpg");
+            DatabaseHelper.Database.SaveProduct(product);
 
-            return Ok();
+            product = new Product();
+            product.ProductName = "Wii";
+            product.Price = 269.00;
+            product.Image = GetImageUrl("wii.jpg");
+            DatabaseHelper.Database.SaveProduct(product);
+
+            product = new Product();
+            product.ProductName = "Wireless Controller";
+            product.Price = 19.99;
+            product.Image = GetImageUrl("controller.jpg");
+            DatabaseHelper.Database.SaveProduct(product);
         }
 
         private string GetImageUrl(string imageName)

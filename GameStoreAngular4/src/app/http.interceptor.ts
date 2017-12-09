@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { _throw } from 'rxjs/observable/throw';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
+import { ResponseResult } from './models';
 
 /**
  * Intercepts the HTTP responses, and in case that an error/exception is thrown, handles it
@@ -32,16 +33,18 @@ export class ErrorInterceptor implements HttpInterceptor {
                 }*/
             })
             .catch(response => {
-                let errMsg: string;
+                let respResult = new ResponseResult(200, "");
                 console.error(response);
                 if (response instanceof HttpErrorResponse) {
                     const err = response.message || JSON.stringify(response.error);
-                    errMsg = `${response.status} - ${response.statusText || ''} Details: ${err}`;
+                    respResult.statusCode = response.status;
+                    respResult.message = `${response.statusText || ''} Details: ${err}`;
                 } else {
-                    errMsg = response.message ? response.message : response.toString();
+                    respResult.statusCode = 400
+                    respResult.message = response.message ? response.message : response.toString();
                 }
-                console.error(errMsg);
-                return _throw(errMsg);
+                console.error(respResult.message);
+                return _throw(respResult);
             });
     }
 }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Johnny.Tutorials.RestfulAspNet.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -34,6 +36,14 @@ namespace RestfulAspNet
                        .AllowCredentials();
             }));
 
+            try {
+                services.AddDbContext<SqliteContext>(opt => opt.UseSqlite("Data Source=SQLiteProduct.db"));
+
+            }
+            catch(Exception ex) {
+                int a = 1;
+                a = 1 + 2;
+            }
             services.AddMvc();
         }
 

@@ -6,9 +6,10 @@ export class Product {
         public image: string) 
     { }
 }
+
 export class ResponseResult {
     constructor(
-        public code: string, 
+        public statusCode: number, 
         public message: string) 
     { }
- }
+}

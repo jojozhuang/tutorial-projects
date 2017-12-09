@@ -24,14 +24,14 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
 
         [ActionName("UploadFile")]
         [HttpPost]
-        public async Task<ResponseResult> UploadFile(IFormFile file)
+        public async Task<IActionResult> UploadFile(IFormFile file)
         {
             ResponseResult rr = new ResponseResult();
             if (file == null || file.Length == 0)
             {
-                rr.Code = "404";
+                rr.StatusCode = StatusCodes.Status400BadRequest;
                 rr.Message = "no file is uploaded";
-                return rr;
+                return Ok(rr);
             }
 
             var filename = $@"{DateTime.Now.Ticks}_" + file.FileName;
@@ -43,9 +43,9 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
                 await file.CopyToAsync(stream);
             }
 
-            rr.Code = "200";
+            rr.StatusCode = StatusCodes.Status200OK;
             rr.Message = Path.Combine("images", filename);
-            return rr;
+            return Ok(rr);
         }
     }
 }

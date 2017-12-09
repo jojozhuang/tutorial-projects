@@ -1,9 +1,13 @@
 <div class="container">
-  <h2 *ngIf="!id" >Add New Product</h2>
+  <h2 *ngIf="!id" >Create New Product</h2>
   <h2 *ngIf="id" >Edit Product</h2>
-  <h3 style='color:red'>{{statusCode}}</h3>
-  <alert *ngIf="1==0" ype="success">hello</alert>
-  <form class="form-horizontal" [formGroup]="productForm" (ngSubmit) = "onClickSubmit(productForm.value)" >
+  <div *ngIf="statusCode">
+      <alert *ngIf="statusCode === 400" type="danger">{{errmsg}}</alert>
+      <alert *ngIf="statusCode === 404" type="danger">404: Product not found.</alert>
+      <alert *ngIf="statusCode === 200 && !id" type="success">200: Product has been created successfully.</alert>
+      <alert *ngIf="statusCode === 200 && id" type="success">200: Product has been updated successfully.</alert>
+  </div>
+  <form *ngIf="statusCode != 404" class="form-horizontal" [formGroup]="productForm" (ngSubmit) = "onClickSubmit()" >
     <div *ngIf="id" class="form-group" >
       <label class="control-label col-sm-2" for="id">Product ID:</label>
       <div class="col-sm-10">
@@ -26,7 +30,7 @@
       <label class="control-label col-sm-2" for="image">Image:</label>
       <div class="col-sm-10">
           <input type="hidden" name="image" formControlName="image" />
-          <img src="{{this.service.baseUrl}}{{productForm.value.image}}" #productImage class="img-thumbnail" width="80" height="80">
+          <img src="{{this.service.serverUrl}}{{productForm.value.image}}" #productImage class="img-thumbnail" width="80" height="80">
           <label class="btn btn-primary" for="fileSelector">
               <input id="fileSelector" type="file" #fileInput style="display:none" 
               (change)="filechanged($event)">
