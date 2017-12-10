@@ -37,18 +37,18 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
 
         // GET: api/products
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var products = _context.Products.ToList();
+            var products = await _context.Products.ToListAsync();
             products.Reverse();
             return Ok(products);
         }
 
         // GET api/products/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -58,12 +58,12 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
 
         // POST api/products
         [HttpPost]
-        public IActionResult Post([FromBody]Product product)
+        public async Task<IActionResult> Post([FromBody]Product product)
         {
             if (product == null || product.Id != 0 || String.IsNullOrEmpty(product.ProductName)) {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
-            _context.Products.Add(product);
+            await _context.Products.AddAsync(product);
             _context.SaveChanges();
 
             return Ok();
@@ -71,7 +71,7 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
 
         // PUT api/products/5
         [HttpPut("{id}")]
-        public IActionResult Put([FromBody]Product product)
+        public async Task<IActionResult> Put([FromBody]Product product)
         {
             if (product == null || product.Id == 0 || String.IsNullOrEmpty(product.ProductName))
             {
@@ -83,14 +83,14 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
                 return NotFound();
             }
             _context.Entry(oldProduct).CurrentValues.SetValues(product);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Ok();
         }
 
         // DELETE api/products/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var product = _context.Products.SingleOrDefault(p => p.Id == id);
             if (product == null) {
@@ -98,7 +98,7 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
             }
 
             _context.Products.Remove(product);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Ok();
         }
