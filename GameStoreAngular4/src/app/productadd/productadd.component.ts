@@ -39,7 +39,7 @@ export class ProductaddComponent implements OnInit {
         //console.log(product);
         this.productForm.setValue({ id: product.id, productName: product.productName, price: product.price, image: product.image });  
       },
-      errorCode =>  this.statusCode = errorCode);    
+      error => {this.statusCode = error.statusCode; this.errmsg = error.message});   
     }
   }
 

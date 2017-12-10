@@ -2,8 +2,7 @@
   <h2>Products</h2>
   <p>Data from Restful API</p>
   <div *ngIf="statusCode">
-      <alert *ngIf="statusCode === 400" type="danger">400: Bad Request. Please check all the values and try again.</alert>
-      <alert *ngIf="statusCode === 404" type="danger">404: Product not found.</alert>
+      <alert *ngIf="statusCode != 200" type="danger">{{errmsg}}</alert>
       <alert *ngIf="statusCode === 200" type="success">Product has been deleted successfully.</alert>
   </div>
   <table class="table">

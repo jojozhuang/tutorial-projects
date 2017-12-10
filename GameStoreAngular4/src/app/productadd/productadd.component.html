@@ -2,8 +2,7 @@
   <h2 *ngIf="!id" >Create New Product</h2>
   <h2 *ngIf="id" >Edit Product</h2>
   <div *ngIf="statusCode">
-      <alert *ngIf="statusCode === 400" type="danger">{{errmsg}}</alert>
-      <alert *ngIf="statusCode === 404" type="danger">404: Product not found.</alert>
+      <alert *ngIf="statusCode != 200" type="danger">{{errmsg}}</alert>
       <alert *ngIf="statusCode === 200 && !id" type="success">200: Product has been created successfully.</alert>
       <alert *ngIf="statusCode === 200 && id" type="success">200: Product has been updated successfully.</alert>
   </div>

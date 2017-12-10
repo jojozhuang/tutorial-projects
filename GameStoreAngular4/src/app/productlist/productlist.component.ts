@@ -11,6 +11,7 @@ export class ProductlistComponent implements OnInit {
   constructor(private service: ProductService) { }
   products;
   statusCode: number;
+  errmsg: string;
 
   ngOnInit() {
     this.getProducts();
@@ -29,7 +30,7 @@ export class ProductlistComponent implements OnInit {
         this.statusCode = successCode;
         this.getProducts();	
       },
-      errorCode => this.statusCode = errorCode);    
+      error => {this.statusCode = error.statusCode; this.errmsg = error.message});
     }
   }
 }
