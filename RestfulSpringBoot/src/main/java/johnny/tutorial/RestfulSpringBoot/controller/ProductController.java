@@ -43,7 +43,7 @@ public class ProductController {
     }
 
     // POST /products
-    @PostMapping("/")
+    @PostMapping("")
     public Product create(@Valid @RequestBody Product product){
         return productRepository.save(product);
     }

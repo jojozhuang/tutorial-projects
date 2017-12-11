@@ -33,12 +33,6 @@ import javax.servlet.http.HttpServletRequest;
 //@RequestMapping("/images")
 public class UploadController {
 
-	@Autowired
-	ServletContext context;
-	
-    //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "F://temp//";
-
     // 3.1.1 Single file upload
     @PostMapping("/api/upload")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile uploadfile) {
@@ -110,8 +104,7 @@ public class UploadController {
             long tick = System.currentTimeMillis()*10000 + TICKS_AT_EPOCH;
             filename = String.valueOf(tick).concat("_").concat(file.getOriginalFilename());
             
-            //filepath = context.getRealPath("/static/images") + filename;
-            filepath = "/Users/i857285/Johnny/GitHub/Tutorials/RestfulSpringBoot/src/main/resources/static/images/"+filename;
+            filepath = "./src/main/resources/static/images/"+filename;
             Path path = Paths.get(filepath);
             Files.write(path, bytes);
         }
