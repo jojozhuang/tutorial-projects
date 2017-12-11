@@ -9,8 +9,11 @@ import { Product, ResponseResult } from './models';
 export class ProductService {
   //URL for CRUD operations
   serverUrl = "http://localhost:5000/";
-  apiUrl = this.serverUrl + "api/products";
-  imageUrl = this.serverUrl + "api/images";
+  apiUrl = "http://localhost:5000/api/products";
+  uploadUrl = "http://localhost:5000/api/upload";
+  /*serverUrl = "http://localhost:8080/";
+  apiUrl = "http://localhost:8080/api/products";
+  uploadUrl = "http://localhost:8080/api/upload";*/
   
   //Create constructor to get Http instance
   constructor(private http: HttpClient) { 
@@ -43,6 +46,6 @@ export class ProductService {
     let input = new FormData();
     input.append("file", fileToUpload);
 
-    return this.http.post<ResponseResult>(this.imageUrl + "/" + "UploadFile", input)
+    return this.http.post<ResponseResult>(this.uploadUrl, input)
   }
 }

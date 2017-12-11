@@ -29,7 +29,7 @@
       <label class="control-label col-sm-2" for="image">Image:</label>
       <div class="col-sm-10">
           <input type="hidden" name="image" formControlName="image" />
-          <img src="{{this.service.serverUrl}}{{productForm.value.image}}" #productImage class="img-thumbnail" width="80" height="80">
+          <img src="{{productForm.value.image}}" #productImage class="img-thumbnail" width="80" height="80">
           <label class="btn btn-primary" for="fileSelector">
               <input id="fileSelector" type="file" #fileInput style="display:none" 
               (change)="filechanged($event)">

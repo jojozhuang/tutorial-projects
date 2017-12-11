@@ -30,11 +30,13 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-//@RequestMapping("/images")
+@RequestMapping("/api/upload")
 public class UploadController {
 
+	String IMAGE_FOLDER = "./src/main/resources/static/images/";
+	
     // 3.1.1 Single file upload
-    @PostMapping("/api/upload")
+    @PostMapping("")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile uploadfile) {
 
     		ResponseResult rr = new ResponseResult();
@@ -44,8 +46,8 @@ public class UploadController {
         }
 
         try {
-        		String filepath = saveUploadedFiles(Arrays.asList(uploadfile));
-        		rr.setMessage(filepath);
+        		String[] fileUrls = saveUploadedFiles(Arrays.asList(uploadfile));
+        		rr.setMessage(fileUrls[0]);
         } catch (IOException e) {
         		return ResponseEntity.badRequest().build();
         }
@@ -91,9 +93,9 @@ public class UploadController {
     }
 
     //save file
-    private String saveUploadedFiles(List<MultipartFile> files) throws IOException {
-    		String filepath = "";
-    		String filename = "";
+    private String[] saveUploadedFiles(List<MultipartFile> files) throws IOException {
+    		String[] fileUrls = new String[files.size()];
+    		int index = 0;
         for (MultipartFile file : files) {
             if (file.isEmpty()) {
                 continue;
@@ -102,16 +104,17 @@ public class UploadController {
             byte[] bytes = file.getBytes();
             long TICKS_AT_EPOCH = 621355968000000000L; 
             long tick = System.currentTimeMillis()*10000 + TICKS_AT_EPOCH;
-            filename = String.valueOf(tick).concat("_").concat(file.getOriginalFilename());
+            String filename = String.valueOf(tick).concat("_").concat(file.getOriginalFilename());
             
-            filepath = "./src/main/resources/static/images/"+filename;
-            Path path = Paths.get(filepath);
+            Path path = Paths.get(IMAGE_FOLDER+filename);
             Files.write(path, bytes);
+            fileUrls[index] = getBaseEnvLinkURL() + "/images/"+filename;
+            index++;
         }
-        return getBaseEnvLinkURL() + "/images/"+filename;
+        return fileUrls;
     }
     
-    protected static String getBaseEnvLinkURL() {
+    protected String getBaseEnvLinkURL() {
     	 
     	   String baseEnvLinkURL=null;
     	   HttpServletRequest currentRequest = 

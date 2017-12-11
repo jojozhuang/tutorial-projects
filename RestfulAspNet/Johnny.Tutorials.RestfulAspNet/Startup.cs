@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -36,15 +37,9 @@ namespace RestfulAspNet
                        .AllowCredentials();
             }));
 
-            try {
-                services.AddDbContext<SqliteContext>(opt => opt.UseSqlite("Data Source=SQLiteProduct.db"));
-
-            }
-            catch(Exception ex) {
-                int a = 1;
-                a = 1 + 2;
-            }
+            services.AddDbContext<SqliteContext>(opt => opt.UseSqlite("Data Source=SQLiteProduct.db"));
             services.AddMvc();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

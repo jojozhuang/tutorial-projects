@@ -27,7 +27,7 @@ export class ProductaddComponent implements OnInit {
         Validators.min(0),
         Validators.max(2147483647)
     ])),
-    image:new FormControl("images/default.png") 
+    image:new FormControl(this.service.serverUrl+"images/default.png") 
   });
 
   constructor(private service: ProductService, private router: Router, private route: ActivatedRoute) { }
@@ -87,7 +87,8 @@ export class ProductaddComponent implements OnInit {
           //console.log("fileupload:" + res.message);
           this.productForm.patchValue({image: res.message});
           this.productImage.src = res.message;          
-        });
+        }, 
+        error => {this.statusCode = error.statusCode; this.errmsg = error.message});
     }
   }
 }

@@ -19,8 +19,8 @@ export class ProductlistComponent implements OnInit {
   //Fetch all articles
   getProducts() {
     this.service.getProducts().subscribe(
-              data => this.products = data,
-              errorCode => this.statusCode = errorCode);   
+      data => this.products = data,
+      error => {this.statusCode = error.statusCode; this.errmsg = error.message});   
     }
 
   deleteProduct(event) { 

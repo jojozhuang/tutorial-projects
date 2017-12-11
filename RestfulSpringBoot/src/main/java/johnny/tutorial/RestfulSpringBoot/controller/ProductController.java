@@ -17,7 +17,7 @@ import johnny.tutorial.RestfulSpringBoot.domain.Product;
 import johnny.tutorial.RestfulSpringBoot.repository.ProductRepository;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 public class ProductController {
     ProductRepository productRepository;
 

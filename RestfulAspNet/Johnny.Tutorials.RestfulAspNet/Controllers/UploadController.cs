@@ -12,17 +12,18 @@ using Microsoft.AspNetCore.Mvc;
 namespace Johnny.Tutorials.RestfulAspNet.Controllers
 {
     [Route("api/[controller]")]
-    [Route("api/[controller]/[action]")]
-    public class ImagesController : Controller
+    public class UploadController : Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly HttpContext _currentContext;
 
-        public ImagesController(IHostingEnvironment hostingEnvironment)
+        public UploadController(IHostingEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
         {
             _hostingEnvironment = hostingEnvironment;
+            _currentContext = httpContextAccessor.HttpContext;
         }
 
-        [ActionName("UploadFile")]
+        // POST api/upload
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
@@ -44,8 +45,21 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
             }
 
             rr.StatusCode = StatusCodes.Status200OK;
-            rr.Message = Path.Combine("images", filename);
+            rr.Message = GetImageUrl(_currentContext, filename);
             return Ok(rr);
+        }
+
+        public static string GetImageUrl(HttpContext context, string imageName)
+        {
+            return Path.Combine(GetBaseUrl(context), "images", imageName);
+        }
+
+        public static string GetBaseUrl(HttpContext context)
+        {
+            var request = context.Request;
+            var host = request.Host.ToUriComponent();
+            var pathBase = request.PathBase.ToUriComponent();
+            return $"{request.Scheme}://{host}{pathBase}";
         }
     }
 }

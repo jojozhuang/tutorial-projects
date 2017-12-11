@@ -1,7 +1,7 @@
 <div class="container">
   <h2>Products</h2>
   <p>Data from Restful API</p>
-  <div *ngIf="statusCode">
+  <div *ngIf="statusCode || errmsg">
       <alert *ngIf="statusCode != 200" type="danger">{{errmsg}}</alert>
       <alert *ngIf="statusCode === 200" type="success">Product has been deleted successfully.</alert>
   </div>
@@ -20,7 +20,7 @@
           <td>{{product.id}}</td>
           <td>{{product.productName}}</td>
           <td>${{product.price}}</td>
-          <td><img src="{{this.service.serverUrl}}{{product.image}}" class="img-thumbnail" width="80" height="80"></td>
+          <td><img src="{{product.image}}" class="img-thumbnail" width="80" height="80"></td>
           <td><a class="btn btn-success" [routerLink]="['/productadd', product.id ]">Edit</a>&nbsp;<a class="btn btn-danger" (click)="deleteProduct({ event:$event, id: product.id })">Delete</a></td>
         </tr>
      </tbody>

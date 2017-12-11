@@ -19,18 +19,18 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
     public class ProductsController : Controller
     {
         private readonly SqliteContext _context;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly HttpContext _currentContext;
 
-        public ProductsController(SqliteContext context, IHostingEnvironment hostingEnvironment)
+        public ProductsController(SqliteContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
-            _hostingEnvironment = hostingEnvironment;
+            _currentContext = httpContextAccessor.HttpContext;
 
             if (_context.Products.Count() == 0)
             {
-                _context.Products.Add(new Product { ProductName = "Xbox 360", Price = 299.00, Image = GetImageUrl("xbox360.jpg") });
-                _context.Products.Add(new Product { ProductName = "Wii", Price = 269.00, Image = GetImageUrl("wii.jpg") });
-                _context.Products.Add(new Product { ProductName = "Wireless Controller", Price = 19.99, Image = GetImageUrl("controller.jpg") });
+                _context.Products.Add(new Product { ProductName = "Xbox 360", Price = 299.00, Image = UploadController.GetImageUrl(_currentContext, "xbox360.jpg") });
+                _context.Products.Add(new Product { ProductName = "Wii", Price = 269.00, Image = UploadController.GetImageUrl(_currentContext, "wii.jpg") });
+                _context.Products.Add(new Product { ProductName = "Wireless Controller", Price = 19.99, Image = UploadController.GetImageUrl(_currentContext, "controller.jpg") });
                 _context.SaveChanges();
             }
         }
@@ -93,7 +93,8 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var product = _context.Products.SingleOrDefault(p => p.Id == id);
-            if (product == null) {
+            if (product == null)
+            {
                 return NotFound();
             }
 
@@ -101,13 +102,6 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
-        }
-
-        private string GetImageUrl(string imageName)
-        {
-            //string baseurl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
-            //return Path.Combine(baseurl, "images", imageName);
-            return Path.Combine("images", imageName);
         }
     }
 }
