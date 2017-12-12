@@ -2,10 +2,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <StartAction>Project</StartAction>
-    <EnvironmentVariables>
-      <Variable name="ASPNETCORE_ENVIRONMENT" value="Development" xmlns="" />
-      <Variable name="ASPNETCORE_ENVIRONMENT" value="Development" xmlns="" />
-    </EnvironmentVariables>
     <LaunchUrl>api/products</LaunchUrl>
   </PropertyGroup>
 </Project>

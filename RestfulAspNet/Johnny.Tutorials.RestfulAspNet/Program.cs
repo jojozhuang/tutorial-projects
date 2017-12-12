@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace RestfulAspNet
+namespace Johnny.Tutorials.RestfulAspNet
 {
     public class Program
     {

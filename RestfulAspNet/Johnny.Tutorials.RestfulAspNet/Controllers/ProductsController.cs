@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Johnny.Tutorials.RestfulAspNet.Data;
 using Johnny.Tutorials.RestfulAspNet.Models;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Johnny.Tutorials.RestfulAspNet.Controllers
 {
-    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
-    //[Route("api/[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
     public class ProductsController : Controller
     {
         private readonly SqliteContext _context;
@@ -102,6 +98,15 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        // GET api/products/top
+        [ActionName("top")]
+        public async Task<IActionResult> GetTop()
+        {
+            var products = await _context.Products.ToListAsync();
+            var topProducts = products.Take(3);
+            return Ok(topProducts);
         }
     }
 }
