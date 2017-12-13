@@ -1,4 +1,4 @@
-package johnny.tutorial.RestfulSpringBoot.domain;
+package johnny.tutorial.restful.domain;
 
 public class ResponseResult {
 	private int statusCode;

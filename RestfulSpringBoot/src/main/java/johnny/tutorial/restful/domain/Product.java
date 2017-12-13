@@ -1,4 +1,4 @@
-package johnny.tutorial.RestfulSpringBoot.domain;
+package johnny.tutorial.restful.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package johnny.tutorial.RestfulSpringBoot;
+package johnny.tutorial.restful;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;

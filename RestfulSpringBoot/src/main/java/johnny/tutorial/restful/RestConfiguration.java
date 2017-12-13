@@ -1,4 +1,4 @@
-package johnny.tutorial.RestfulSpringBoot;
+package johnny.tutorial.restful;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

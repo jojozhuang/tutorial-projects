@@ -1,7 +1,7 @@
-package johnny.tutorial.RestfulSpringBoot.controller;
+package johnny.tutorial.restful.controller;
 
-import johnny.tutorial.RestfulSpringBoot.domain.ResponseResult;
-import johnny.tutorial.RestfulSpringBoot.domain.UploadModel;
+import johnny.tutorial.restful.domain.ResponseResult;
+import johnny.tutorial.restful.domain.UploadModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

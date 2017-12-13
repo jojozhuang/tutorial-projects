@@ -1,8 +1,8 @@
-package johnny.tutorial.RestfulSpringBoot.repository;
+package johnny.tutorial.restful.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import johnny.tutorial.RestfulSpringBoot.domain.Product;
+import johnny.tutorial.restful.domain.Product;
 
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
