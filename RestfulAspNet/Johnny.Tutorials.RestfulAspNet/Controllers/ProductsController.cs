@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 namespace Johnny.Tutorials.RestfulAspNet.Controllers
 {
     [Route("api/[controller]")]
-    [Route("api/[controller]/[action]")]
     public class ProductsController : Controller
     {
         private readonly SqliteContext _context;
@@ -100,9 +99,8 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
             return Ok();
         }
 
-        // GET api/products/top
-        [ActionName("top")]
-        public async Task<IActionResult> GetTop()
+        [Route("top")]
+        public async Task<IActionResult> Top()
         {
             var products = await _context.Products.ToListAsync();
             var topProducts = products.Take(3);

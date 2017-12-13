@@ -27,9 +27,7 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
             ResponseResult rr = new ResponseResult();
             if (file == null || file.Length == 0)
             {
-                rr.StatusCode = StatusCodes.Status400BadRequest;
-                rr.Message = "no file is uploaded";
-                return Ok(rr);
+                return StatusCode(StatusCodes.Status400BadRequest);
             }
 
             var filename = $@"{DateTime.Now.Ticks}_" + file.FileName;
