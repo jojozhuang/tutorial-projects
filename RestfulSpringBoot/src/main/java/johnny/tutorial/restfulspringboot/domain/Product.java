@@ -1,4 +1,4 @@
-package johnny.tutorial.restful.domain;
+package johnny.tutorial.restfulspringboot.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

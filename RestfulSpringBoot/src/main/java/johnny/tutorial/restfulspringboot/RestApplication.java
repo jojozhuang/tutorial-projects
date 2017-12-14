@@ -1,12 +1,12 @@
-package johnny.tutorial.restful;
+package johnny.tutorial.restfulspringboot;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import johnny.tutorial.restful.domain.Product;
-import johnny.tutorial.restful.repository.ProductRepository;
+import johnny.tutorial.restfulspringboot.domain.Product;
+import johnny.tutorial.restfulspringboot.repository.ProductRepository;
 
 @SpringBootApplication
 public class RestApplication {

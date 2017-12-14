@@ -1,4 +1,4 @@
-package johnny.tutorial.restful.domain;
+package johnny.tutorial.restfulspringboot.domain;
 
 import org.springframework.web.multipart.MultipartFile;
 

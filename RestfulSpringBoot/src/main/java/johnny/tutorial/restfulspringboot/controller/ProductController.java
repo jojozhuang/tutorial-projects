@@ -1,4 +1,4 @@
-package johnny.tutorial.restful.controller;
+package johnny.tutorial.restfulspringboot.controller;
 
 import javax.validation.Valid;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import johnny.tutorial.restful.domain.Product;
-import johnny.tutorial.restful.repository.ProductRepository;
+import johnny.tutorial.restfulspringboot.domain.Product;
+import johnny.tutorial.restfulspringboot.repository.ProductRepository;
 
 @RestController
 @RequestMapping("/api/products")
