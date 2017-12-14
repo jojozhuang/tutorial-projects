@@ -1,5 +1,10 @@
 package johnny.tutorial.restfulspringboot.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +34,11 @@ public class ProductController {
     // GET /products
     @GetMapping("")
     public Iterable<Product> findAll(){
-        return productRepository.findAll();
+        List<Product> products = new ArrayList<>();
+        Iterator<Product> iterator = productRepository.findAll().iterator();
+        iterator.forEachRemaining(products::add);
+        Collections.reverse(products);
+        return products;
     }
 
     // GET /products/5
