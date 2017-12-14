@@ -28,14 +28,14 @@ public class ProductController {
 
     // GET /products
     @GetMapping("")
-    public Iterable<Product> list(){
+    public Iterable<Product> findAll(){
         return productRepository.findAll();
     }
 
     // GET /products/5
     @GetMapping("/{id}")
-    public ResponseEntity<Product> read(@PathVariable(value = "id") long id) {
-    		Product product = productRepository.findOne(id);
+    public ResponseEntity<Product> findOne(@PathVariable(value = "id") long id) {
+        Product product = productRepository.findOne(id);
         if(product == null) {
             return ResponseEntity.notFound().build();
         }
@@ -44,8 +44,9 @@ public class ProductController {
 
     // POST /products
     @PostMapping("")
-    public Product create(@Valid @RequestBody Product product){
-        return productRepository.save(product);
+    public ResponseEntity<Product> create(@Valid @RequestBody Product product){
+        Product newProduct = productRepository.save(product);
+        return ResponseEntity.ok(newProduct);
     }
 
     // PUT /products/5
@@ -60,8 +61,8 @@ public class ProductController {
         oldProduct.setPrice(product.getPrice());
         oldProduct.setImage(product.getImage());
 
-        Product newProduct = productRepository.save(oldProduct);
-        return ResponseEntity.ok(newProduct);
+        Product updProduct = productRepository.save(oldProduct);
+        return ResponseEntity.ok(updProduct);
     }
 
     // DELETE /products/5

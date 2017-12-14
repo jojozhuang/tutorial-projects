@@ -1,13 +1,13 @@
 package johnny.tutorial.restfulspringboot.domain;
 
 public class ResponseResult {
-	private int statusCode;
-	private String message;
-    
+    private int statusCode;
+    private String message;
+
     public ResponseResult(){}
     public ResponseResult(int statusCode, String message){
-    		this.statusCode = statusCode;
-    		this.message = message;
+        this.statusCode = statusCode;
+        this.message = message;
     }
     
     public int getstatusCode() {
@@ -17,7 +17,7 @@ public class ResponseResult {
     public void setstatusCode(int statusCode) {
         this.statusCode = statusCode;
     }
-    
+
     public String getMessage() {
         return message;
     }
