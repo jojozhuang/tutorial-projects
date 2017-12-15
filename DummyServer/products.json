@@ -9,7 +9,7 @@
     {
       "id": "2",
       "productName": "Wii",
-      "price": 269,
+      "price": "269",
       "image": "http://localhost:5000/images/wii.jpg"
     },
     {
