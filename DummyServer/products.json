@@ -1,22 +1,22 @@
 {
-  "product": [
-       {
-          "id": 1,
-          "productName": "Xbox 360",
-          "price": 299,
-          "image": "http:\\\\//Images/Upload/xbox360.jpg"
-       },
-       {
-          "id": 2,
-          "productName": "Wii",
-          "price": 269,
-          "image": "http:\\\\//Images/Upload/wii.jpg"
-       },
-       {
-          "id": 3,
-          "productName": "Wireless Controller",
-          "price": 19.99,
-          "image": "http:\\\\//Images/Upload/controller.jpg"
-       }
-    ]
+  "products": [
+    {
+      "id": "1",
+      "productName": "Xbox 360",
+      "price": "299",
+      "image": "http://localhost:5000/images/xbox360.jpg"
+    },
+    {
+      "id": "2",
+      "productName": "Wii",
+      "price": 269,
+      "image": "http://localhost:5000/images/wii.jpg"
+    },
+    {
+      "id": "3",
+      "productName": "Wireless Controller",
+      "price": "19.99",
+      "image": "http://localhost:5000/images/controller.jpg"
+    }
+  ]
 }
