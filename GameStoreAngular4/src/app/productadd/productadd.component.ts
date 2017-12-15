@@ -27,7 +27,7 @@ export class ProductaddComponent implements OnInit {
         Validators.min(0),
         Validators.max(2147483647)
     ])),
-    image:new FormControl(this.service.serverUrl+"images/default.png") 
+    image:new FormControl(this.service.baseUrl+"images/default.png")
   });
 
   constructor(private service: ProductService, private router: Router, private route: ActivatedRoute) { }
@@ -45,38 +45,40 @@ export class ProductaddComponent implements OnInit {
 
   //Handle create and update product
   onClickSubmit() {
-	  if (this.productForm.invalid) {
-	    return; //Validation failed, exit from method.
-	  }   
-	  //Form is valid, now perform create or update
+    if (this.productForm.invalid) {
+      return; //Validation failed, exit from method.
+    }   
+      //Form is valid, now perform create or update
     let product = this.productForm.value;
     console.log(product);
-	  if (product.id == null || product.id == "") {  
+    if (product.id == null || product.id == "") {  
       //Create product
       product.id = 0;
-     	this.service.createProduct(product).subscribe(successCode => {
-          this.statusCode = successCode;
-          this.router.navigate(['productlist'])
-			  },
-        error => {this.statusCode = error.statusCode; this.errmsg = error.message});
-	  } else {  
-      //Update product
-	    this.service.updateProduct(product).subscribe(successCode => {
+      this.service.createProduct(product).subscribe(successCode => {
           this.statusCode = successCode;
           this.router.navigate(['productlist'])
         },
         error => {this.statusCode = error.statusCode; this.errmsg = error.message});
-	  }
+    } else {  
+      //Update product
+      this.service.updateProduct(product).subscribe(successCode => {
+          this.statusCode = successCode;
+          this.router.navigate(['productlist'])
+        },
+        error => {this.statusCode = error.statusCode; this.errmsg = error.message});
+    }
   }
 
   //Image upload
   @ViewChild("fileInput") fileInput;
   @ViewChild("productImage") productImage;
-  filechanged(event): void {    
+
+  filechanged(event): void {
     var name = this.fileInput.nativeElement.files[0].name;
     //console.log(name);
     this.filename = name;
   }
+
   upload(): void {
     let fi = this.fileInput.nativeElement;
     if (fi.files && fi.files[0]) {
@@ -86,8 +88,8 @@ export class ProductaddComponent implements OnInit {
           //console.log("fileupload:" + res.statusCode);
           //console.log("fileupload:" + res.message);
           this.productForm.patchValue({image: res.message});
-          this.productImage.src = res.message;          
-        }, 
+          this.productImage.src = res.message;
+        },
         error => {this.statusCode = error.statusCode; this.errmsg = error.message});
     }
   }

@@ -8,12 +8,10 @@ import { Product, ResponseResult } from './models';
 @Injectable()
 export class ProductService {
   //URL for CRUD operations
-  serverUrl = "http://localhost:5000/";
-  apiUrl = "http://localhost:5000/api/products";
-  uploadUrl = "http://localhost:5000/api/upload";
-  /*serverUrl = "http://localhost:8080/";
-  apiUrl = "http://localhost:8080/api/products";
-  uploadUrl = "http://localhost:8080/api/upload";*/
+  baseUrl = "http://localhost:5000/";
+  //baseUrl = "http://localhost:8080/";
+  apiUrl = this.baseUrl + "api/products";
+  uploadUrl = this.baseUrl + "api/upload";
   
   //Create constructor to get Http instance
   constructor(private http: HttpClient) { 
