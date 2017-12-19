@@ -1,14 +1,13 @@
-import React, {PropTypes} from 'react';  
-import { Link, IndexLink } from 'react-router';
+import React from 'react'
 
 const Footer = () => {  
   return (
-    <nav>
-      
-      <footer>
+    <div>
+      <hr />
+      <footer className="container-fluid text-center">
         <p>&copy; 2017 jojozhuang.github.io, All rights reserved.</p>
-     </footer>
-    </nav>
+      </footer>
+    </div>
   );
 };
 
