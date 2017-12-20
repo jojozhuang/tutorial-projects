@@ -60,10 +60,3 @@ export function deleteProduct(product) {
     })
   }
 }
-
-
-
-
-
-
-

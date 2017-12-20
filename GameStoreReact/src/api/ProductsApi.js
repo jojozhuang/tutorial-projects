@@ -25,7 +25,6 @@ class ProductsApi {
             body: JSON.stringify({product: product})
         });
 
-
         return fetch(request).then(response => {
             return response.json();
         }).catch(error => {
@@ -40,7 +39,6 @@ class ProductsApi {
             headers: headers,
             body: JSON.stringify({product: product})
         });
-
 
         return fetch(request).then(response => {
             return response.json();
@@ -65,4 +63,3 @@ class ProductsApi {
 }
 
 export default ProductsApi;
-    

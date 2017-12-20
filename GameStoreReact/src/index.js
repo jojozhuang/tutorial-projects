@@ -11,11 +11,9 @@ store.dispatch(loadProducts());
 
 render(
   <Provider store={store}>
-
-
-  </Provider>,
-          <BrowserRouter>
-          <App />
-        </BrowserRouter>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+  </Provider>
   , document.getElementById('root')
 );
