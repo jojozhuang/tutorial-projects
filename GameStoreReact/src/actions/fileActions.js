@@ -8,7 +8,8 @@ export function uploadFileSuccess(file) {
 export function uploadFile(file) {
   return function (dispatch) {
     return fileApi.uploadFile(file).then(response => {
-      dispatch(createProductSuccess(response));
+      //console.log(response);
+      dispatch(uploadFileSuccess(response));
       return response;
     }).catch(error => {
       throw(error);
