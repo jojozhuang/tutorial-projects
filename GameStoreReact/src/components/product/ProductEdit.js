@@ -101,8 +101,8 @@ class ProductEdit extends React.Component {
   }
 
   uploadFile(event) {
-    console.log(this.state.file);
-    let response = this.props.fileactions.uploadFile(this.state.file);      
+    //console.log(this.state.file);
+    let response = this.props.fileactions.getTest();
     console.log(response);
   }
   saveProduct(event) {
