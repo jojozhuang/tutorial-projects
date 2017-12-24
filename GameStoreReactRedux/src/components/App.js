@@ -3,12 +3,16 @@ import Header from './Header'
 import Footer from './Footer'
 import Main from './Main'
 
-const App = () => (
-  <div >
-    <Header />
-    <Main />
-    <Footer />
-  </div>
-)
+class App extends React.Component {
+  render() {
+    return (
+      <div >
+        <Header />
+        <Main />
+        <Footer />
+      </div>
+    );
+  }
+}
 
 export default App

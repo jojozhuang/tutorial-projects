@@ -3,9 +3,6 @@ import PropTypes from 'prop-types'
 import { Form, FormGroup, Col, ControlLabel, FormControl, Checkbox, Button, Image, Label} from 'react-bootstrap';
 import productApi from '../../api/ProductsApi';
 import fileApi from '../../api/FileApi';
-import { createHashHistory } from 'history';
-
-const history = createHashHistory()
 
 class ProductEdit extends React.Component {
 //const ProductEdit = ({product, filename}) => {

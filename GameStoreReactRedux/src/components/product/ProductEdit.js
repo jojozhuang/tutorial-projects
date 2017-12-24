@@ -1,7 +1,7 @@
 import React from 'react';  
 import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux';
-import { Form, FormGroup, Col, ControlLabel, FormControl, Checkbox, FieldGroup, Button, Image, Label} from 'react-bootstrap';
+import { Form, FormGroup, Col, ControlLabel, FormControl, Checkbox, Button, Image, Label} from 'react-bootstrap';
 import HtmlInput from '../controls/HtmlInput';
 import HtmlFile from '../controls/HtmlFile';
 import {connect} from 'react-redux';  
@@ -9,31 +9,32 @@ import * as productactions from '../../actions/productActions'
 import * as fileactions from '../../actions/fileActions'
 
 class ProductEdit extends React.Component {
-//const ProductEdit = ({product, filename}) => {
   constructor(props) {
     super(props);
-    console.log(this.props);
+    //console.log(this.props);
     this.state = {
       id: this.props.id,
       productName: this.props.productName,
       price: this.props.price,
       image: this.props.image,
       isnew: this.props.isnew,
-      filename: this.props.filename,
-      file: null
+      filename: this.props.filename
     };
-    console.log("this.state")
-    console.log(this.state);
+    //console.log("this.state")
+    //console.log(this.state);
   }
   
+  
   componentWillReceiveProps(nextProps) {
+    //this.props.history.push('/products')
     this.setState({id: nextProps.id});
     this.setState({productName: nextProps.productName});
     this.setState({price: nextProps.price});
+    console.log('componentWillReceiveProps');
+    console.log(nextProps.image);
     this.setState({image: nextProps.image});
     this.setState({isnew: nextProps.isnew});
     this.setState({filename: nextProps.filename});
-    this.setState({file: nextProps.file});
   }
 
   render() {
@@ -93,7 +94,7 @@ class ProductEdit extends React.Component {
     const filename = event.target.files[0].name;
     this.setState({filename: filename});
     this.setState({file: event.target.files[0]});
-    console.log(this.state.file);
+    //console.log(this.state.file);
   }
 
   handleImageChange(event) {
@@ -101,11 +102,14 @@ class ProductEdit extends React.Component {
   }
 
   uploadFile(event) {
-    //console.log(this.state.file);
-    let response = this.props.fileactions.getTest();
-    console.log(response);
+    console.log(this.state.file);
+    this.props.fileactions.uploadFile(this.state.file);
+    //console.log('uploadFile');
+    //console.log(response);
   }
   saveProduct(event) {
+    
+    
     console.log("saveProduct");
     event.preventDefault();
     //this.setState({saving: true});
@@ -118,7 +122,7 @@ class ProductEdit extends React.Component {
       this.props.productactions.updateProduct(product);      
     }
   } 
-};
+}
 
 ProductEdit.propTypes = {
   //product: PropTypes.object.isRequired
@@ -134,16 +138,27 @@ function getProductById(products, id) {
 }
 
 function mapStateToProps(state, ownProps) {
+  console.log('mapStateToProps');
+  console.log(state);
+  if (state.file.response) {
+    console.log(state.file.response.message);
+  }
+  //console.log(ownProps);
   const pId = ownProps.match.params.id;
   let product = {id: '0', productName: '', price: '', image: ''};
-  let filename = "xbox.jpg";
-  let file = null;
   let isnew = pId == null;
+  
   product.image = process.env.API_HOST+"/images/default.png";
-  //console.log(ownProps);
+  
   if (pId) {
     product = getProductById(state.products, pId);
+  } else {
+    
   }
+  if (state.file.response) {
+    product.image = state.file.response.message;
+  }
+
   //console.log(product);
   return {
     id: product.id,
@@ -151,7 +166,7 @@ function mapStateToProps(state, ownProps) {
     price: product.price,
     image: product.image,
     isnew: isnew,
-    filename: filename
+    filename: ""
   };
 } 
 

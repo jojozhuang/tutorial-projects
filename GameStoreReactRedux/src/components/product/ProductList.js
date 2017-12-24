@@ -16,11 +16,14 @@ class ProductList extends React.Component {
     //onChange={this.deleteRow}
   }
   
+  
   componentWillReceiveProps(nextProps) {
     this.setState({products: nextProps.products});
   }
 
   render() {
+    console.log('reader');
+    console.log(this.state.products);
     return (
       <div className="container">
           <h2>Products</h2>
@@ -64,13 +67,15 @@ class ProductList extends React.Component {
       this.props.actions.deleteProduct(product);
     }
   }
-};
+}
 
+/*
 ProductList.propTypes = {
   products: PropTypes.array.isRequired,
-};
+};*/
 
 function mapStateToProps(state, ownProps) {
+  console.log(state);
   return {
     products: state.products
   };
@@ -81,3 +86,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList);
+//export default ProductList;

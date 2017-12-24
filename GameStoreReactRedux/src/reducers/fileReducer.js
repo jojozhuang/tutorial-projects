@@ -1,19 +1,21 @@
 import * as types from '../actions/actionTypes';
-import initialState from './initialState';
-import {browserHistory} from 'react-router';
+import initialStatus from './initialStatus';
 
-export default function fileReducer(state = initialState.file, action) {
-  //console.log('fileReducer');
-  //console.log(initialState.file);
-  //console.log(action);
+export default function fileReducer(state = initialStatus.response, action) {
   switch(action.type) {
     case types.UPLOAD_FILE_SUCCESS:
-      return action.file
-    case types.UPLOAD_TEST_SUCCESS:
-    console.log(action.restest);
-    state.file = Object.assign({}, action.restest);
-      return state;
-      //return action.file
+      //console.log('fileReducer');
+      //console.log(initialStatus);
+      //console.log(action);
+      //let response = action.response
+      
+      console.log(state);
+      
+      let res = Object.assign({}, state, {
+        response: action.response
+      });
+      console.log(res);
+      return res;
     default: 
       return state;
   }
