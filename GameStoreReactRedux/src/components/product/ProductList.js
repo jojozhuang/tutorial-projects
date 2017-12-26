@@ -41,7 +41,9 @@ class ProductList extends React.Component {
             </thead>
             <tbody>
             {
-              this.state.products.map(product => 
+              this.state.products
+              .sort((a, b) => a.id < b.id)
+              .map(product => 
                 <tr key={product.id}>
                   <td>{product.id}</td>
                   <td>{product.productName}</td>

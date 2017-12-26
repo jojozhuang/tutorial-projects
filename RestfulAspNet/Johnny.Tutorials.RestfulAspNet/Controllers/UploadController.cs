@@ -44,6 +44,15 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
             return Ok(rr);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            ResponseResult rr = new ResponseResult();
+            rr.StatusCode = StatusCodes.Status200OK;
+            rr.Message = "http://localhost:5000/images/636494637368678780_controller.jpg";
+            return Ok(rr);
+        }
+
         public static string GetImageUrl(HttpContext context, string imageName)
         {
             return Path.Combine(GetBaseUrl(context), "images", imageName);

@@ -11,6 +11,7 @@ import * as fileactions from '../../actions/fileActions'
 class ProductEdit extends React.Component {
   constructor(props) {
     super(props);
+    console.log('constructor');
     //console.log(this.props);
     this.state = {
       id: this.props.id,
@@ -18,29 +19,41 @@ class ProductEdit extends React.Component {
       price: this.props.price,
       image: this.props.image,
       isnew: this.props.isnew,
-      filename: this.props.filename
+      filename: this.props.filename,
+      isUploading: false,
+      isSaving: false
     };
     //console.log("this.state")
-    //console.log(this.state);
+    console.log(this.state);
   }
   
-  
+  componentWillUpdate () {
+    console.log('componentWillUpdate');
+    console.log(this.state)
+  }
   componentWillReceiveProps(nextProps) {
-    //this.props.history.push('/products')
-    this.setState({id: nextProps.id});
-    this.setState({productName: nextProps.productName});
-    this.setState({price: nextProps.price});
     console.log('componentWillReceiveProps');
-    console.log(nextProps.image);
-    this.setState({image: nextProps.image});
+    console.log(this.state);
+
+    this.setState({id: nextProps.id});
+    if (!this.isUploading) {
+      this.setState({productName: nextProps.productName});
+      this.setState({price: nextProps.price});
+      this.setState({image: nextProps.image});
+    }
     this.setState({isnew: nextProps.isnew});
     this.setState({filename: nextProps.filename});
+    this.setState({isSaving: false});
+    console.log(this.state);
+    //console.log(this.state.isSaving);
   }
 
   render() {
-    console.log('reader');
-    //console.log(this.state.product);
-
+    console.log('render');
+    console.log(this.state);
+    if (this.state.isSaving) {
+      this.props.history.push('/products')
+    }
     return(
       <div className="container">
       <h2  >Create New Product</h2>
@@ -94,7 +107,8 @@ class ProductEdit extends React.Component {
     const filename = event.target.files[0].name;
     this.setState({filename: filename});
     this.setState({file: event.target.files[0]});
-    //console.log(this.state.file);
+    
+    console.log(this.state);
   }
 
   handleImageChange(event) {
@@ -102,20 +116,21 @@ class ProductEdit extends React.Component {
   }
 
   uploadFile(event) {
-    console.log(this.state.file);
+    console.log('uploadFile');
+    event.preventDefault();
+    this.setState({isUploading: true});
     this.props.fileactions.uploadFile(this.state.file);
     //console.log('uploadFile');
     //console.log(response);
   }
   saveProduct(event) {
-    
-    
+    this.setState({isSaving: true});
     console.log("saveProduct");
     event.preventDefault();
     //this.setState({saving: true});
     console.log(this.state);
     let product = {id: this.state.id, productName: this.state.productName, price: this.state.price, image: this.state.image};
-    console.log(product);
+    //console.log(product);
     if (this.state.isnew) {
       this.props.productactions.createProduct(product);      
     } else {
@@ -143,7 +158,7 @@ function mapStateToProps(state, ownProps) {
   if (state.file.response) {
     console.log(state.file.response.message);
   }
-  //console.log(ownProps);
+  console.log(ownProps);
   const pId = ownProps.match.params.id;
   let product = {id: '0', productName: '', price: '', image: ''};
   let isnew = pId == null;
@@ -160,13 +175,37 @@ function mapStateToProps(state, ownProps) {
   }
 
   //console.log(product);
+  /*
+  if (this.state.isUploading) {
+    return {
+      id: product.id,
+      productName: this.state.productName,
+      price: this.state.price,
+      image: product.image,
+      isnew: isnew,
+      filename: "",
+      isSaving: false
+    };
+  } else {
+    return {
+      id: product.id,
+      productName: product.productName,
+      price: product.price,
+      image: product.image,
+      isnew: isnew,
+      filename: "",
+      isSaving: false
+    };
+  }*/
+
   return {
     id: product.id,
-    productName: product.productName,
-    price: product.price,
+    productName: 'product.productName',
+    price: 22,
     image: product.image,
     isnew: isnew,
-    filename: ""
+    filename: "",
+    isSaving: false
   };
 } 
 

@@ -61,7 +61,7 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
             await _context.Products.AddAsync(product);
             _context.SaveChanges();
 
-            return Ok();
+            return Ok(product);
         }
 
         // PUT api/products/5
@@ -80,7 +80,7 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
             _context.Entry(oldProduct).CurrentValues.SetValues(product);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(product);
         }
 
         // DELETE api/products/5

@@ -7,7 +7,7 @@ import { browserHistory } from 'react-router';
 export default function productsReducer(state = initialStatus.products, action) {
   switch(action.type) {
     case types.LOAD_PRODUCTS_SUCCESS:
-    console.log(action.products)
+    //console.log(action.products)
       return action.products
     case types.CREATE_PRODUCT_SUCCESS:
       //history.push(`/products/${action.product.id}`)
@@ -18,7 +18,7 @@ export default function productsReducer(state = initialStatus.products, action) 
       ]
     case types.UPDATE_PRODUCT_SUCCESS:
      //console.log(history);
-     //browserHistory.push('/');
+      //browserHistory.push('/');
       return [
         ...state.filter(product => product.id !== action.product.id),
         Object.assign({}, action.product)

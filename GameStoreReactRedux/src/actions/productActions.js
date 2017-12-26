@@ -34,7 +34,7 @@ export function createProduct(product) {
   return function (dispatch) {
     return productApi.createProduct(product).then(response => {
       dispatch(createProductSuccess(response));
-      history.push('/products');
+      //history.push('/products');
       return response;
     }).catch(error => {
       throw(error);
@@ -46,10 +46,11 @@ export function updateProduct(product) {
   return function (dispatch) {
     return productApi.updateProduct(product).then(response => {
       dispatch(updateProductSuccess(response));
-      console.log('action-updateProduct');
-      this.props.history.push('/')
-      history.push('/');
-      console.log(history);
+      //console.log('action-updateProduct');
+      //this.props.history.push('/')
+      //history.push('/');
+      //console.log(history);
+      return(response);
     }).catch(error => {
       throw(error);
     });
@@ -59,9 +60,8 @@ export function updateProduct(product) {
 export function deleteProduct(product) {
   return function(dispatch) {
     return productApi.deleteProduct(product).then(() => {
-      console.log(`Deleted ${product.id}`)
+      //console.log(`Deleted ${product.id}`)
       dispatch(deleteProductSuccess(product));
-      return;
     }).catch(error => {
       throw(error);
     })
