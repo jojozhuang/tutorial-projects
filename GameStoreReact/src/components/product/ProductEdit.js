@@ -24,6 +24,10 @@ class ProductEdit extends React.Component {
     console.log("this.state")
     console.log(this.state);
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.image != nextState.image;
+  }
   
   componentDidMount() {
     const pId = this.props.match.params.id;

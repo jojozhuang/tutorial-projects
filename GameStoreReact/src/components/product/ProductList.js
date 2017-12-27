@@ -18,7 +18,7 @@ class ProductList extends React.Component {
     //onChange={this.deleteRow}
   }
   
-  componentWillMount() {
+  componentDidMount() {
     return productApi.getAllProducts().then(products => {
       this.setState({products: products});
     }).catch(error => {
