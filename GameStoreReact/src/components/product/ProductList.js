@@ -65,7 +65,7 @@ class ProductList extends React.Component {
                   <td><img src={product.image} className="img-thumbnail" width="80" height="80"/></td>
                   <td>
                     <ButtonToolbar>
-                      <Button bsStyle="success" href={'/productedit/' + product.id} >Edit</Button>
+                      <Button bsStyle="success" href={'/productpage/' + product.id} >Edit</Button>
                       <Button bsStyle="danger" onClick={(e) => this.deleteRow(product.id, e)}>Delete</Button>
                     </ButtonToolbar>
                   </td>

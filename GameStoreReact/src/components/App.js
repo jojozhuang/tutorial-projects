@@ -4,7 +4,7 @@ import Header from './Header'
 import Footer from './Footer'
 import Home from './Home'
 import ProductList from './product/ProductList'
-import ProductEdit from './product/ProductEdit'
+import ProductPage from './product/ProductPage'
 
 const App = () => (
   <div >
@@ -12,8 +12,8 @@ const App = () => (
     <Switch>
       <Route exact path='/' component={Home}/>
       <Route path='/products' component={ProductList}/>
-      <Route exact path='/productedit' component={ProductEdit}/>
-      <Route path='/productedit/:id' component={ProductEdit}/>
+      <Route exact path='/productpage' component={ProductPage}/>
+      <Route path='/productpage/:id' component={ProductPage}/>
     </Switch>
     <Footer />
   </div>
