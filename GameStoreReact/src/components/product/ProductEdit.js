@@ -1,6 +1,7 @@
 import React from 'react';  
 import PropTypes from 'prop-types'
 import { Form, FormGroup, Col, ControlLabel, FormControl, Checkbox, Button, Image, Label} from 'react-bootstrap';
+import AlertSimple from '../controls/AlertSimple';
 import productApi from '../../api/ProductsApi';
 import fileApi from '../../api/FileApi';
 
@@ -10,6 +11,8 @@ class ProductEdit extends React.Component {
     super(props);
     console.log(this.props);
     this.state = {
+      hasError: false,
+      error: {},
       id: this.props.id,
       productName: this.props.productName,
       price: this.props.price,
@@ -30,6 +33,12 @@ class ProductEdit extends React.Component {
     let file = null;
     product.image = process.env.API_HOST+"/images/default.png";
 
+    this.setState({id: product.id});
+    this.setState({productName: product.productName});
+    this.setState({price: product.price});
+    this.setState({image: product.image});
+    this.setState({isnew: isnew});
+
     if (pId) {
       productApi.getProduct(pId).then(response => {
         product = response
@@ -40,28 +49,39 @@ class ProductEdit extends React.Component {
         this.setState({image: product.image});
         this.setState({isnew: isnew});
       }).catch(error => {
-        throw(error);
+        this.handleError(error);
       });
-    } else {
-      this.setState({id: product.id});
-      this.setState({productName: product.productName});
-      this.setState({price: product.price});
-      this.setState({image: product.image});
-      this.setState({isnew: isnew});
     }
   }
 
   render() {
     console.log('render');
+    let alert = null;
+    if (this.state.hasError) {
+      console.log(this.state.error)
+      alert = <AlertSimple error={this.state.error}/>;
+    } else {
+      alert = '';
+    }
+    let productIdControl = null;
+    let pageTitle = '';
+    if (this.state.isnew) {
+      pageTitle = 'Create New Product';
+      productIdControl = '';
+    } else {
+      pageTitle = 'Edit Product';
+      productIdControl = 
+      <FormGroup controlId="id">
+      <Col componentClass={ControlLabel} sm={2}>Product ID:</Col>
+      <Col sm={10}><FormControl type="text" value={this.state.id +""} disabled onChange={(e) => this.handleIdChange(e)}/></Col>
+      </FormGroup>;
+    }
     return(
       <div className="container">
-      <h2  >Create New Product</h2>
-      <h2 >Edit Product</h2>
+      <h2>{pageTitle}</h2>
+      {alert}
       <Form horizontal>
-        <FormGroup controlId="id">
-          <Col componentClass={ControlLabel} sm={2}>Product ID:</Col>
-          <Col sm={10}><FormControl type="text" value={this.state.id +""} disabled onChange={(e) => this.handleIdChange(e)}/></Col>
-        </FormGroup>
+        {productIdControl}
         <FormGroup controlId="productName">
           <Col componentClass={ControlLabel} sm={2}>Product Name:</Col>
           <Col sm={10}><FormControl type="text" placeholder="Enter product name" value={this.state.productName +""} onChange={(e) => this.handleNameChange(e)}/></Col>
@@ -114,9 +134,10 @@ class ProductEdit extends React.Component {
 
   uploadFile(event) {
     fileApi.uploadFile(this.state.file).then(response => {
+    //fileApi.uploadFile().then(response => {
       this.setState({image: response.message});
     }).catch(error => {
-      throw(error);
+      this.handleError(error);
     });
   }
   
@@ -128,16 +149,22 @@ class ProductEdit extends React.Component {
       productApi.createProduct(product).then(response => {
         this.props.history.push('/products')
       }).catch(error => {
-        throw(error);
+        this.handleError(error);
       });
     } else {
       productApi.updateProduct(product).then(response => {
         this.props.history.push('/products')
       }).catch(error => {
-        throw(error);
+        this.handleError(error);
       });
     }
-  } 
+  }
+  
+  handleError(error) {
+    console.log(error);
+    this.setState({ hasError: true });
+    this.setState({ error: error });
+  }
 }
 
 export default ProductEdit

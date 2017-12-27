@@ -70,7 +70,7 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
         {
             if (product == null || product.Id == 0 || String.IsNullOrEmpty(product.ProductName))
             {
-                return StatusCode(StatusCodes.Status400BadRequest);
+                return BadRequest();
             }
 
             var oldProduct = _context.Products.SingleOrDefault(p => p.Id == product.Id);
@@ -96,7 +96,7 @@ namespace Johnny.Tutorials.RestfulAspNet.Controllers
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(product);
         }
 
         [Route("top")]
