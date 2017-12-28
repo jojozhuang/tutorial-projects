@@ -42,6 +42,10 @@ class ProductPage extends React.Component {
   }
 
   handleImageChange(image) {
+    // clear error
+    this.setState({ hasError: false });
+    this.setState({ error: null });
+    // update product to inform child component
     const product = this.state.product;
     product['image'] = image;
     return this.setState({product: this.state.product});
@@ -68,12 +72,13 @@ class ProductPage extends React.Component {
   
   handleError(error) {
     //console.log(error);
-    this.setState({ hasError: true });
     this.setState({ error: error });
+    this.setState({ hasError: true });
   }
 
   render() {
-    //console.log('ProductEdit.render');
+    //console.log('ProductPage.render');
+    //console.log(this.state);
     let alert = '';
     if (this.state.hasError) {
       alert = <AlertSimple error={this.state.error}/>;

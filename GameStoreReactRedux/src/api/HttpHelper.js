@@ -1,8 +1,7 @@
 class HttpHelper {
-    static fetch(url, method, header, body) {
+    static fetch(url, method, headers, body) {
         let options = Object.assign({'method': method});
-        if (header) {
-            const headers = Object.assign({'Content-Type': 'application/json'});
+        if (headers) {
             options = Object.assign(options, {'headers': headers});
         }
         if (body && method != 'GET') {

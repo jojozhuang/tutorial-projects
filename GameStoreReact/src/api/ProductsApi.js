@@ -1,25 +1,29 @@
 import HttpHelper from './HttpHelper';
 
 class ProductsApi {
-    static getAllProducts() {
-        return HttpHelper.fetch(`${process.env.API_HOST}/api/products/`, 'GET', true, null);
-    }
+  static requestHeaders() {
+    return {'Content-Type': 'application/json'};
+  }
 
-    static getProduct(id) {
-        return HttpHelper.fetch(`${process.env.API_HOST}/api/products/${id}`, 'GET', true, null);
-    }
+  static getAllProducts() {
+    return HttpHelper.fetch(`${process.env.API_HOST}/api/products/`, 'GET', this.requestHeaders(), null);
+  }
 
-    static createProduct(product) {
-        return HttpHelper.fetch(`${process.env.API_HOST}/api/products/`, 'POST', true, JSON.stringify(product));
-    }
+  static getProduct(id) {
+    return HttpHelper.fetch(`${process.env.API_HOST}/api/products/${id}`, 'GET', this.requestHeaders(), null);
+  }
 
-    static updateProduct(product) {
-        return HttpHelper.fetch(`${process.env.API_HOST}/api/products/${product.id}`, 'PUT', true, JSON.stringify(product));
-    }
+  static createProduct(product) {
+    return HttpHelper.fetch(`${process.env.API_HOST}/api/products/`, 'POST', this.requestHeaders(), JSON.stringify(product));
+  }
+
+  static updateProduct(product) {
+    return HttpHelper.fetch(`${process.env.API_HOST}/api/products/${product.id}`, 'PUT', this.requestHeaders(), JSON.stringify(product));
+  }
     
-    static deleteProduct(product) {
-        return HttpHelper.fetch(`${process.env.API_HOST}/api/products/${product.id}`, 'DELETE', true, null);
-    }
+  static deleteProduct(product) {
+    return HttpHelper.fetch(`${process.env.API_HOST}/api/products/${product.id}`, 'DELETE', this.requestHeaders(), null);
+  }
 }
 
 export default ProductsApi;

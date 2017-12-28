@@ -15,8 +15,7 @@ class ProductPage extends React.Component {
       hasError: false,
       error: {},
       product: {id: '0', productName: '', price: '', image: process.env.API_HOST+"/images/default.png"},
-      isnew: false,
-      isSaving: false
+      isnew: false
     };
 
     this.updateProductState = this.updateProductState.bind(this);
@@ -32,7 +31,6 @@ class ProductPage extends React.Component {
     this.setState({error: nextProps.error});
     this.setState({product: nextProps.product});
     this.setState({isnew: nextProps.isnew});
-    this.setState({isSaving: nextProps.isSaving});
   }
 
   updateProductState(event) {
@@ -49,7 +47,6 @@ class ProductPage extends React.Component {
   }
   
   handleSave(event) {
-    this.setState({isSaving: true});
     event.preventDefault();
     let product = this.state.product;
     //console.log(product);
@@ -100,7 +97,6 @@ ProductPage.propTypes = {
   error: PropTypes.object,
   product: PropTypes.object.isRequired,
   isnew: PropTypes.bool.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   productActions: PropTypes.object.isRequired
 };
 
@@ -151,8 +147,7 @@ function mapStateToProps(state, ownProps) {
     hasError: hasError,
     error: error,
     product: product,
-    isnew: isnew,
-    isSaving: false
+    isnew: isnew
   };
 } 
 

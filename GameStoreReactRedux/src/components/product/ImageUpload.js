@@ -20,7 +20,7 @@ class ImageUpload extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     //console.log('ImageUpload.componentWillReceiveProps');
-    this.props.onImageChange(nextProps.image); // can't set parent's props in child component, instead, have to call the parent's method to update the image.
+    this.props.onImageChange(nextProps.image); // can't set parent's props in child component, it's read-only. Instead, have to call the parent's method to update the image.
   }
 
   handleFileChange(event) {
