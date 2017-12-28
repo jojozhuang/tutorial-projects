@@ -1,18 +1,11 @@
+import HttpHelper from './HttpHelper';
+
 class FileApi {
-    static uploadFile(file) {
-        const formData = new FormData();
-        formData.append('file',file);
-        const request = new Request(`${process.env.API_HOST}/api/upload`, {
-            method: 'POST',
-            body: formData
-        });
-        console.log(request);
-        return fetch(request).then(response => {
-            return response.json();
-        }).catch(error => {
-            return error;
-        });
-    }
+  static uploadFile(file) {
+    const formData = new FormData();
+    formData.append('file',file);
+    return HttpHelper.fetch(`${process.env.API_HOST}/api/upload`, 'POST', false, formData);
+  }
 }
 
 export default FileApi;

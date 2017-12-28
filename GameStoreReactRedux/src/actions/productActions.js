@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import productApi from '../api/ProductsApi';
+import productApi from '../api/ProductApi';
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 
@@ -17,6 +17,12 @@ export function updateProductSuccess(product) {
 
 export function deleteProductSuccess(product) {
   return {type: types.DELETE_PRODUCT_SUCCESS, product}
+}
+
+export function fetchResoucesFail(error) {
+  console.log('fetchResoucesFail');
+  console.log(error);
+  return {type: types.FETCH_RESOURCES_FAIL, error}
 }
 
 export function loadProducts() {
@@ -52,7 +58,7 @@ export function updateProduct(product) {
       //console.log(history);
       return(response);
     }).catch(error => {
-      throw(error);
+      dispatch(fetchResoucesFail(error));
     });
   };
 }
