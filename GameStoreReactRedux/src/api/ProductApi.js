@@ -18,7 +18,7 @@ class ProductApi {
     }
     
     static deleteProduct(product) {
-        return HttpHelper.fetch(`${process.env.API_HOST}/api/products/99`, 'DELETE', true, null);
+        return HttpHelper.fetch(`${process.env.API_HOST}/api/products/${product.id}`, 'DELETE', true, null);
     }
 }
 

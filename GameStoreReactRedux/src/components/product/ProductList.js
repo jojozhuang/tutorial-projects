@@ -22,9 +22,17 @@ class ProductList extends React.Component {
   
   componentWillReceiveProps(nextProps) {
     console.log('componentWillReceiveProps');
-    
-    this.setState({products: nextProps.products});
-    console.log(nextProps.products);
+    //console.log(nextProps);
+    if (nextProps.error) {
+      this.setState({hasError: true});
+      this.setState({error: nextProps.error});
+      this.setState({products: nextProps.products});
+    } else {
+      this.setState({hasError: false});
+      this.setState({error: null});
+      this.setState({products: nextProps.products});      
+    }
+    //console.log(nextProps.products);
   }
 
   deleteRow (event, id) {
@@ -89,7 +97,13 @@ class ProductList extends React.Component {
 function mapStateToProps(state, ownProps) {
   console.log('mapStateToProps');
   console.log(state);
+  console.log(state.error)
+  let error = state.error;
+  if (state.error) {
+    error: state.error.error
+  }
   return {
+    error: error,
     products: state.products
   };
 } 

@@ -12,7 +12,7 @@ export default function fileReducer(state = initialState.response, action) {
       console.log(state);
       
       let res = Object.assign({}, state, {
-        response: action.response
+        response: action.wrapperRes
       });
       console.log(res);
       return res;

@@ -36,8 +36,14 @@ class ProductPage extends React.Component {
     console.log('componentWillReceiveProps');
     console.log(this.state);
 
-    this.setState({hasError: nextProps.hasError});
-    this.setState({error: nextProps.error});
+    if (nextProps.error) {
+      this.setState({hasError: true});
+      this.setState({error: nextProps.error});
+    } else {
+      this.setState({hasError: false});
+      this.setState({error: null});
+    }
+
     this.setState({product: nextProps.product});
     this.setState({isnew: nextProps.isnew});
     this.setState({isSaving: nextProps.isSaving});
@@ -79,9 +85,9 @@ class ProductPage extends React.Component {
   render() {
     console.log('ProductPage.render');
     console.log(this.state);
-    if (this.state.isSaving) {
-      this.props.history.push('/products')
-    }
+    //if (this.state.isSaving) {
+    //  this.props.history.push('/products')
+    //}
     let alert = '';
     if (this.state.hasError) {
       alert = <AlertSimple error={this.state.error}/>;
@@ -120,23 +126,25 @@ function mapStateToProps(state, ownProps) {
   console.log('mapStateToProps');
   console.log(state);
   console.log(ownProps);
-  if (state.file.response) {
-    console.log(state.file.response.message);
-  }
-  console.log(ownProps);
+
   const pId = ownProps.match.params.id;
-  let product = {id: '0', productName: '', price: '', image: process.env.API_HOST+"/images/default.png"};
   let isnew = pId == null;
-  
+
+  let product = {id: '0', productName: '', price: '', image: process.env.API_HOST+"/images/default.png"};
   if (pId) {
     product = getProductById(state.products, pId);
-  } else {
-    
-  }
+  } 
+
+  let error = state.error;
+  if (state.error) {
+    error = state.error.error;
+    product = state.error.product;    
+  } else if (state.file.response) { // refresh if image is uploaded, product info needs to be preserved
+    product = state.file.response.product;
+  } 
 
   return {
-    hasError: false,
-    error: {},
+    error: error,
     product: product,
     isnew: isnew,
     isSaving: false

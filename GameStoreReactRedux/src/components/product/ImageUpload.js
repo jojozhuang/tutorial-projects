@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, Col, ControlLabel, FormControl, Button, Image, Label} from 'react-bootstrap';
+//import fileApi from '../../api/FileApi';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as fileactions from '../../actions/fileActions'
+
 
 class ImageUpload extends React.Component {
   constructor(props) {
@@ -30,12 +32,15 @@ class ImageUpload extends React.Component {
   }
 
   handleFileUpload(event) {
-    this.props.fileactions.uploadFile(this.state.file);
-    /*fileApi.uploadFile(this.state.file).then(response => {
+    /*
+    fileApi.uploadFile(this.state.file).then(response => {
       this.props.onImageChange(response.message);
     }).catch(error => {
       this.props.onError(error);
     });*/
+    console.log('handleFileUpload')
+    console.log(this.props.product);
+    this.props.fileactions.uploadFile(this.state.file, this.props.product);
   }
 
   render() {
@@ -55,10 +60,10 @@ class ImageUpload extends React.Component {
 
 ImageUpload.propTypes = {
   image: PropTypes.string.isRequired,
+  product: PropTypes.object.isRequired,
   onImageChange: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired
 };
-
 
 function mapStateToProps(state, ownProps) {
   console.log('mapStateToProps');
@@ -81,3 +86,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImageUpload);
+
+//export default ImageUpload;

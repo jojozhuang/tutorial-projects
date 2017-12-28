@@ -34,7 +34,7 @@ class ProductForm extends React.Component {
         </FormGroup>
         <FormGroup>
           <Col componentClass={ControlLabel} sm={2}>Image:</Col>
-          <Col sm={10}><ImageUpload image={this.props.product.image} onImageChange={this.props.onImageChange} onError={this.props.onError} /></Col>
+          <Col sm={10}><ImageUpload image={this.props.product.image} product={this.props.product} onImageChange={this.props.onImageChange} onError={this.props.onError} /></Col>
         </FormGroup>
         <FormGroup>
           <Col smOffset={2} sm={10}>

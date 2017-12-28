@@ -1,7 +1,9 @@
 import * as types from './actionTypes';
 import productApi from '../api/ProductApi';
-import { createBrowserHistory } from 'history';
-const history = createBrowserHistory();
+import { BrowserRouter } from 'react-router-dom';
+//const history = createBrowserHistory();
+//import createHistory from 'history/createHashHistory';
+import history from '../history.js'
 
 export function loadProductsSuccess(products) {
   return {type: types.LOAD_PRODUCTS_SUCCESS, products};
@@ -19,10 +21,14 @@ export function deleteProductSuccess(product) {
   return {type: types.DELETE_PRODUCT_SUCCESS, product}
 }
 
-export function fetchResoucesFail(error) {
-  console.log('fetchResoucesFail');
-  console.log(error);
-  return {type: types.FETCH_RESOURCES_FAIL, error}
+export function fetchResoucesFail(error, product) {
+  let wrapperRes =  Object.assign({}, {
+    error: error
+  });
+   wrapperRes =  Object.assign({}, wrapperRes, {
+    product: product
+  });
+  return {type: types.FETCH_RESOURCES_FAIL, wrapperRes}
 }
 
 export function loadProducts() {
@@ -31,7 +37,7 @@ export function loadProducts() {
     return productApi.getAllProducts().then(products => {
       dispatch(loadProductsSuccess(products));
     }).catch(error => {
-      throw(error);
+      dispatch(fetchResoucesFail(error));
     });
   };
 }
@@ -40,10 +46,10 @@ export function createProduct(product) {
   return function (dispatch) {
     return productApi.createProduct(product).then(response => {
       dispatch(createProductSuccess(response));
-      //history.push('/products');
+      history.push('/products');
       return response;
     }).catch(error => {
-      throw(error);
+      dispatch(fetchResoucesFail(error, product));
     });
   };
 }
@@ -52,13 +58,10 @@ export function updateProduct(product) {
   return function (dispatch) {
     return productApi.updateProduct(product).then(response => {
       dispatch(updateProductSuccess(response));
-      //console.log('action-updateProduct');
-      //this.props.history.push('/')
-      //history.push('/');
-      //console.log(history);
+      history.push('/products');
       return(response);
     }).catch(error => {
-      dispatch(fetchResoucesFail(error));
+      dispatch(fetchResoucesFail(error, product));
     });
   };
 }
@@ -69,7 +72,7 @@ export function deleteProduct(product) {
       //console.log(`Deleted ${product.id}`)
       dispatch(deleteProductSuccess(product));
     }).catch(error => {
-      throw(error);
+      dispatch(fetchResoucesFail(error));
     })
   }
 }
