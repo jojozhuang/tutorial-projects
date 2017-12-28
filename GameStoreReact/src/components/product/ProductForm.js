@@ -9,16 +9,17 @@ class ProductForm extends React.Component {
   }
 
   render() {
-    console.log('ProductForm.render');
+    //console.log('ProductForm.render');
     let productIdControl = null;
     if (this.props.isnew) {
       productIdControl = '';
     } else {
-      productIdControl = 
-      <FormGroup controlId="id">
-        <Col componentClass={ControlLabel} sm={2}>Product ID:</Col>
-        <Col sm={10}><FormControl name="id" type="text" value={this.props.product.id +""} disabled onChange={this.props.onChange}/></Col>
-      </FormGroup>;
+      productIdControl = (
+        <FormGroup controlId="id">
+          <Col componentClass={ControlLabel} sm={2}>Product ID:</Col>
+          <Col sm={10}><FormControl name="id" type="text" value={this.props.product.id +""} disabled onChange={this.props.onChange}/></Col>
+        </FormGroup>
+      );
     }
     return(
       <Form horizontal>
@@ -31,10 +32,10 @@ class ProductForm extends React.Component {
           <Col componentClass={ControlLabel} sm={2}>Price:</Col>
           <Col sm={10}><FormControl name="price" type="text" placeholder="Enter price" value={this.props.product.price +""} onChange={this.props.onChange}/></Col>
         </FormGroup>
-        <ImageUpload 
-          image={this.props.product.image} 
-          onImageChange={this.props.onImageChange} 
-          onError={this.props.onError} /> 
+        <FormGroup>
+          <Col componentClass={ControlLabel} sm={2}>Image:</Col>
+          <Col sm={10}><ImageUpload image={this.props.product.image} onImageChange={this.props.onImageChange} onError={this.props.onError} /></Col>
+        </FormGroup>
         <FormGroup>
           <Col smOffset={2} sm={10}>
             <Button bsStyle="primary" type="button" onClick={this.props.onSave}>Save</Button>

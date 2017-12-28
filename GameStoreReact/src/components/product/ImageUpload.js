@@ -6,9 +6,8 @@ import fileApi from '../../api/FileApi';
 class ImageUpload extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
-      filename: this.props.filename,
+      filename: "",
       file: null
     };
 
@@ -16,27 +15,10 @@ class ImageUpload extends React.Component {
     this.handleFileUpload = this.handleFileUpload.bind(this);
   }
 
-  render() {
-    console.log('ImageUpload.render');
-    return(
-      <FormGroup>
-        <Col componentClass={ControlLabel} sm={2}>Image:</Col>
-        <Col sm={10}><Image src={this.props.image} thumbnail width="80" height="80" />&nbsp;
-        <ControlLabel className="btn btn-success" htmlFor="fileSelector">
-          <FormControl id="fileSelector" type="file" style={{display: 'none'}} onChange={this.handleFileChange}/>Choose Image
-        </ControlLabel>&nbsp;
-        <Label bsStyle="info">{this.state.filename}</Label>&nbsp;
-        <Button bsStyle="primary" type="button" onClick={this.handleFileUpload}>Upload</Button>
-        </Col>
-      </FormGroup>
-    );
-  }
-
-
   handleFileChange(event) {
-    const filename = event.target.files[0].name;
-    this.setState({filename: filename});
-    this.setState({file: event.target.files[0]});
+    const file = event.target.files[0];
+    this.setState({filename: file.name});
+    this.setState({file: file});
   }
 
   handleFileUpload(event) {
@@ -46,11 +28,24 @@ class ImageUpload extends React.Component {
       this.props.onError(error);
     });
   }
+
+  render() {
+    //console.log('ImageUpload.render');
+    return(
+      <div>
+        <Image src={this.props.image} thumbnail width="80" height="80" />&nbsp;
+        <ControlLabel className="btn btn-success" htmlFor="fileSelector">
+          <FormControl id="fileSelector" type="file" style={{display: 'none'}} onChange={this.handleFileChange}/>Choose Image
+        </ControlLabel>&nbsp;
+        <Label bsStyle="info">{this.state.filename}</Label>&nbsp;
+        <Button bsStyle="primary" type="button" onClick={this.handleFileUpload}>Upload</Button>
+      </div>
+    );
+  }
 }
 
-
 ImageUpload.propTypes = {
-  //image: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
   onImageChange: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired
 };

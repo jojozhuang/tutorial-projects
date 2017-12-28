@@ -1,12 +1,4 @@
 class HttpHelper {
-    static fetch(url, method) {
-        return fetch(url, method, true, null);
-    }
-
-    static fetch(url, method, header) {
-        return fetch(url, method, header, null);
-    }
-
     static fetch(url, method, header, body) {
         let options = Object.assign({'method': method});
         if (header) {
@@ -17,8 +9,8 @@ class HttpHelper {
             options = Object.assign(options, {'body': body});
         }
         const request =  new Request(url, options);    
-        console.log(options);
-        console.log(request);
+        //console.log(options);
+        //console.log(request);
         /*
         let request = null;
         if (body == null || body == "") {
@@ -38,7 +30,7 @@ class HttpHelper {
             if (response.status >= 200 && response.status < 300) {
                 return response.json();
             } else {
-                var error = new Error(response.statusText + "(" + response.status + "), URL: " + response.url);
+                const error = new Error(response.statusText + "(" + response.status + "), URL: " + response.url);
                 //error.response = response
                 //console.log(error);
                 return Promise.reject(error);

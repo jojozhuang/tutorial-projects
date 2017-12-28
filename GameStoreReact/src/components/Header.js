@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button, ButtonToolbar} from 'react-bootstrap';
 
 // The Header creates links that can be used to navigate
@@ -16,6 +16,6 @@ const Header = () => (
     </div>
     <hr/>
   </div>
-)
+);
 
-export default Header
+export default Header;
