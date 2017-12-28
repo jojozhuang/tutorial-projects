@@ -7,6 +7,6 @@ const rootReducer = combineReducers({
   products,
   file,
   error
-})
+});
 
 export default rootReducer; 

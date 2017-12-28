@@ -5,7 +5,7 @@ import AlertSimple from '../controls/AlertSimple';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';  
-import * as actions from '../../actions/productActions'
+import * as productActions from '../../actions/productActions';
 
 class ProductList extends React.Component {
   constructor(props) {
@@ -21,24 +21,17 @@ class ProductList extends React.Component {
   }
   
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps');
+    //console.log('ProductList.componentWillReceiveProps');
     //console.log(nextProps);
-    if (nextProps.error) {
-      this.setState({hasError: true});
-      this.setState({error: nextProps.error});
-      this.setState({products: nextProps.products});
-    } else {
-      this.setState({hasError: false});
-      this.setState({error: null});
-      this.setState({products: nextProps.products});      
-    }
-    //console.log(nextProps.products);
+    this.setState({hasError: nextProps.hasError});
+    this.setState({error: nextProps.error});
+    this.setState({products: nextProps.products});
   }
 
   deleteRow (event, id) {
     if(window.confirm('Are you sure to delete this product?')){
       let oldProduct = this.state.products.find(product => product.id == id);
-      this.props.actions.deleteProduct(oldProduct);
+      this.props.productActions.deleteProduct(oldProduct, this.state.products);
     }
   }
 
@@ -94,22 +87,36 @@ class ProductList extends React.Component {
   }
 }
 
+ProductList.propTypes = {
+  history: PropTypes.object.isRequired,
+  hasError: PropTypes.bool.isRequired,
+  error: PropTypes.object,
+  products: PropTypes.array.isRequired,
+  productActions: PropTypes.object.isRequired
+};
+
 function mapStateToProps(state, ownProps) {
-  console.log('mapStateToProps');
-  console.log(state);
-  console.log(state.error)
-  let error = state.error;
-  if (state.error) {
-    error: state.error.error
+  //console.log('ProductList.mapStateToProps');
+  //console.log(state);
+
+  let products = state.products;
+
+  // error occurs
+  let hasError = state.error !== null;
+  if (hasError) {
+    products = state.error.products; // empty list, '[]'
   }
   return {
-    error: error,
-    products: state.products
+    hasError: hasError,
+    error: state.error,
+    products: products
   };
 } 
 
 function mapDispatchToProps(dispatch) {
-  return {actions: bindActionCreators(actions, dispatch)}
+  return {
+    productActions: bindActionCreators(productActions, dispatch)
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

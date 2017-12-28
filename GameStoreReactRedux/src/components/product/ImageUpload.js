@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, Col, ControlLabel, FormControl, Button, Image, Label} from 'react-bootstrap';
-//import fileApi from '../../api/FileApi';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import * as fileactions from '../../actions/fileActions'
-
+import * as fileActions from '../../actions/fileActions';
 
 class ImageUpload extends React.Component {
   constructor(props) {
@@ -21,8 +19,8 @@ class ImageUpload extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps');
-    this.props.onImageChange(nextProps.image);
+    //console.log('ImageUpload.componentWillReceiveProps');
+    this.props.onImageChange(nextProps.image); // can't set parent's props in child component, instead, have to call the parent's method to update the image.
   }
 
   handleFileChange(event) {
@@ -32,15 +30,7 @@ class ImageUpload extends React.Component {
   }
 
   handleFileUpload(event) {
-    /*
-    fileApi.uploadFile(this.state.file).then(response => {
-      this.props.onImageChange(response.message);
-    }).catch(error => {
-      this.props.onError(error);
-    });*/
-    console.log('handleFileUpload')
-    console.log(this.props.product);
-    this.props.fileactions.uploadFile(this.state.file, this.props.product);
+    this.props.fileActions.uploadFile(this.state.file, this.props.product);
   }
 
   render() {
@@ -62,16 +52,17 @@ ImageUpload.propTypes = {
   image: PropTypes.string.isRequired,
   product: PropTypes.object.isRequired,
   onImageChange: PropTypes.func.isRequired,
-  onError: PropTypes.func.isRequired
+  onError: PropTypes.func.isRequired,
+  fileActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  console.log('mapStateToProps');
-  console.log(state);
-  console.log(ownProps);
+  //console.log('ImageUpload.mapStateToProps');
+  //console.log(state);
+  //console.log(ownProps);
   let image = ownProps.image;
-  if (state.file.response) {
-    image = state.file.response.message;
+  if (state.file.message) {
+    image = state.file.message;
   }
   
   return {
@@ -81,10 +72,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fileactions: bindActionCreators(fileactions, dispatch)
-  }
+    fileActions: bindActionCreators(fileActions, dispatch)
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImageUpload);
-
-//export default ImageUpload;

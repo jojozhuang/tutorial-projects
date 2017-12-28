@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import AlertSimple from '../controls/AlertSimple';
 import ProductForm from './ProductForm';
 
+import Error from '../../actions/Error.js';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import * as productactions from '../../actions/productActions'
-import * as fileactions from '../../actions/fileActions'
+import * as productActions from '../../actions/productActions';
 
 class ProductPage extends React.Component {
   constructor(props) {
@@ -25,30 +25,14 @@ class ProductPage extends React.Component {
     this.handleError = this.handleError.bind(this);
   }
   
-  componentWillMount() {
-    console.log('componentWillMount');
-    console.log(this.state.isSaving)
-    /*if (this.state.isSaving) {
-      this.props.history.push('/products')
-    }*/
-  }
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps');
-    console.log(this.state);
-
-    if (nextProps.error) {
-      this.setState({hasError: true});
-      this.setState({error: nextProps.error});
-    } else {
-      this.setState({hasError: false});
-      this.setState({error: null});
-    }
-
+    //console.log('ProductPage.componentWillReceiveProps');
+    //console.log(nextProps);
+    this.setState({hasError: nextProps.hasError});
+    this.setState({error: nextProps.error});
     this.setState({product: nextProps.product});
     this.setState({isnew: nextProps.isnew});
     this.setState({isSaving: nextProps.isSaving});
-    console.log(this.state);
-    //console.log(this.state.isSaving);
   }
 
   updateProductState(event) {
@@ -70,9 +54,9 @@ class ProductPage extends React.Component {
     let product = this.state.product;
     //console.log(product);
     if (this.state.isnew) {
-      this.props.productactions.createProduct(product);  
+      this.props.productActions.createProduct(product);  
     } else {
-      this.props.productactions.updateProduct(product);  
+      this.props.productActions.updateProduct(product);  
     }
   }
   
@@ -83,11 +67,8 @@ class ProductPage extends React.Component {
   }
 
   render() {
-    console.log('ProductPage.render');
-    console.log(this.state);
-    //if (this.state.isSaving) {
-    //  this.props.history.push('/products')
-    //}
+    //console.log('ProductPage.render');
+    //console.log(this.state);
     let alert = '';
     if (this.state.hasError) {
       alert = <AlertSimple error={this.state.error}/>;
@@ -114,36 +95,60 @@ class ProductPage extends React.Component {
 
 ProductPage.propTypes = {
   match: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  hasError: PropTypes.bool.isRequired,
+  error: PropTypes.object,
+  product: PropTypes.object.isRequired,
+  isnew: PropTypes.bool.isRequired,
+  isSaving: PropTypes.bool.isRequired,
+  productActions: PropTypes.object.isRequired
 };
 
 function getProductById(products, id) {
-  let product = products.find(product => product.id == id)
-  return Object.assign({}, product)
+  let product = products.find(product => product.id == id);
+  return Object.assign({}, product);
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log('mapStateToProps');
-  console.log(state);
-  console.log(ownProps);
+  //console.log('ProductPage.mapStateToProps');
+  //console.log(state);
+  //console.log(ownProps);
 
   const pId = ownProps.match.params.id;
   let isnew = pId == null;
 
+  // new product
   let product = {id: '0', productName: '', price: '', image: process.env.API_HOST+"/images/default.png"};
-  if (pId) {
-    product = getProductById(state.products, pId);
+  if (pId) { //update product
+    // find product from list by id
+    product = state.products.find(product => product.id == pId);
   } 
 
+  // error occurs
+  let hasError = state.error !== null;
   let error = state.error;
-  if (state.error) {
-    error = state.error.error;
-    product = state.error.product;    
-  } else if (state.file.response) { // refresh if image is uploaded, product info needs to be preserved
-    product = state.file.response.product;
+
+  if (hasError) {
+    product = state.error.product; // preserve the state in case user made change to the product
+  } else if (product == null) {
+    hasError = true;
+    error = new Error("No such product: " + pId);
+    product = {id: '0', productName: '', price: '', image: process.env.API_HOST+"/images/default.png"};
+  }
+
+  if (product == null) {
+    hasError = false;
+    error = null;
+    product = {id: '0', productName: '', price: '', image: process.env.API_HOST+"/images/default.png"};
+  }
+  
+  // refresh if image is uploaded, product info needs to be preserved
+  if (state.file.product) { 
+    product = state.file.product;
   } 
 
   return {
+    hasError: hasError,
     error: error,
     product: product,
     isnew: isnew,
@@ -153,8 +158,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    productactions: bindActionCreators(productactions, dispatch)
-  }
+    productActions: bindActionCreators(productActions, dispatch)
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);  
