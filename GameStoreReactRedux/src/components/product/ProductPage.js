@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import AlertSimple from '../controls/AlertSimple';
 import ProductForm from './ProductForm';
 
-import Error from '../../actions/Error.js';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as productActions from '../../actions/productActions';
