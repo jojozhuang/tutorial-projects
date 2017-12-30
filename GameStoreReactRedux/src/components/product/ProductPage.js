@@ -1,4 +1,4 @@
-import React from 'react';  
+import React from 'react';
 import PropTypes from 'prop-types';
 import AlertSimple from '../controls/AlertSimple';
 import ProductForm from './ProductForm';
@@ -50,9 +50,9 @@ class ProductPage extends React.Component {
     let product = this.state.product;
     //console.log(product);
     if (this.state.isnew) {
-      this.props.productActions.createProduct(product);  
+      this.props.productActions.createProduct(product);
     } else {
-      this.props.productActions.updateProduct(product);  
+      this.props.productActions.updateProduct(product);
     }
   }
   
