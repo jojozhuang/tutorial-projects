@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, Col, ControlLabel, FormControl, Button, Image, Label} from 'react-bootstrap';
+import {ControlLabel, FormControl, Button, Image, Label} from 'react-bootstrap';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
