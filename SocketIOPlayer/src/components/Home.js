@@ -14,15 +14,15 @@ class Home extends React.Component {
       time: 0
     };
 
-    socket.on('drawScreenshot', (imagedata) => this.drawScreenshot(imagedata));
+    socket.on('drawScreenshot', (ssdata) => this.drawScreenshot(ssdata));
     socket.on('drawWhiteboard', (wbdata) => this.drawWhiteboard(wbdata));
 
     this.handleTimeChange = this.handleTimeChange.bind(this);
     this.handlePlayerStop = this.handlePlayerStop.bind(this);
   }
   
-  drawScreenshot(imagedata) {
-    this.refs.ss.drawScreenShot(imagedata);
+  drawScreenshot(ssdata) {
+    this.refs.ss.drawScreenShot(ssdata);
   }
 
   drawWhiteboard(wbdata) {
@@ -49,11 +49,10 @@ class Home extends React.Component {
     return(
       <div className="container">
         <div className="row">
-          <div className="col-sm-12"><Video onTimeChange={this.handleTimeChange} onStop={this.handlePlayerStop}/></div>
-          <p>Home Value: {this.state.time}</p>
+          <div><Video onTimeChange={this.handleTimeChange} onStop={this.handlePlayerStop}/></div>
         </div>
         <div className="row">
-          <div className="col-sm-6"><Screenshot ref="ss" time={this.state.time}/></div>
+          <div className="col-sm-6"><Screenshot ref="ss" /></div>
           <div className="col-sm-6"><Whiteboard ref="wb" /></div>
         </div>
       </div>

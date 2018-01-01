@@ -128,7 +128,7 @@ class Whiteboard extends React.Component {
   render() {
     return (
       <div>
-        <h3>Whiteboard</h3>
+        <h4 style={{textAlign: 'right'}}>Whiteboard</h4>
         <canvas ref="mywb" width="500" height="300" style={{border:'1px solid #000000'}} />
         <canvas ref="workingwb" width="500" height="300" style={{display:'none'}} />
       </div>

@@ -1,8 +1,8 @@
 class ScreenImage {
-  constructor (row, col, imagestream) {
+  constructor (row, col, image) {
     this.row = row;
     this.col = col;
-    this.imagestream = imagestream;  
+    this.image = image;  
   }
 }
 

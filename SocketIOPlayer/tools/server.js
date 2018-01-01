@@ -4,7 +4,7 @@ import path from 'path';
 import config from '../webpack.config.dev';
 import open from 'open';
 import favicon from 'serve-favicon';
-import playerApi from '../src/api/PlayerApi';
+import courseApi from '../src/api/CourseApi';
 
 const port = 12100;
 const app = express();
@@ -33,38 +33,25 @@ const server = app.listen(port, function(err) {
 const io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
- 
-  /*
-  socket.on('current', (time) => {
-    console.log('socket.message');
-    console.log(time);
-  });*/
+  console.log('new connection established');
 
   socket.on('updateTime', function(data) {
-   // console.log('server.updateTime');
-    console.log(data);
-    
-    playerApi.getWhiteBoardData(data.time, function(wbdata) {
-      //console.log('wb'+data.second);
-      socket.emit('drawWhiteboard', {
-        wbdata:wbdata
-      });
-    });
+    console.log('server.updateTime:'+ data.time);
 
-    playerApi.getImageData(data.time, function(imagedata) {
-      console.log('server.emit.drawScreenShot');
-      socket.emit('drawScreenshot', {
-        imagedata:imagedata
-      });
-    });
+    // Screenshot
+    const ssdata = courseApi.getScreenshotData(data.time);
+    socket.emit('drawScreenshot', {ssdata:ssdata});
+
+    // Whiteboard
+    const wbdata = courseApi.getWhiteBoardData(data.time);
+    socket.emit('drawWhiteboard', {wbdata:wbdata});
+
   });
 });
 
 function tick () {
   let dt = new Date();
   dt = dt.toUTCString();
-  //console.log("current:"+ dt);
-  io.sockets.emit("current", dt);
+  io.sockets.emit("realtime", dt);
 }
 setInterval(tick, 1000);

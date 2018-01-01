@@ -12,30 +12,31 @@ class Screenshot extends React.Component {
     };
   }
 
-  drawScreenShot(imagedata) {
+  drawScreenShot(ssdata) {
     //console.log('Screenshot.drawScreenShot');
     const cellWidth = this.refs.myss.width / 8;
     const cellHeight = this.refs.myss.height / 8;
     let left, top, width, height = 0;
     const ctxss = this.refs.myss.getContext('2d');
     const ctxworkingss = this.refs.workingss.getContext('2d');
-    let imageList = JSON.parse(imagedata.imagedata);
+    let imageList = JSON.parse(ssdata.ssdata);
     for (let i = 0; i < imageList.length; i++) {
       left = cellWidth * imageList[i].col;
       top = cellHeight * imageList[i].row;
       width = cellWidth;
       height = cellHeight;
-      this.loadImageIntoCanvas(ctxworkingss, left, top, width, height, imageList[i].imagestream);
+      // use hidden canvas to avoid refreshing
+      this.drawImageOnCanvas(ctxworkingss, left, top, width, height, imageList[i].image);
     }
     ctxss.drawImage(this.refs.workingss, 0, 0);
   }
 
-  loadImageIntoCanvas(ctx, left, top, width, height, src) {
+  drawImageOnCanvas(ctx, left, top, width, height, image) {
     let img = new Image();
     img.onload = function () {
         ctx.drawImage(img, left, top, width, height);
     };
-    img.src = "data:image/png;base64," + src;
+    img.src = image;
   }
 
   clearScreenshot() {
@@ -49,10 +50,9 @@ class Screenshot extends React.Component {
   render() {
     return (
       <div>
-        <h3>Screenshot</h3>
+        <h4 style={{textAlign: 'left'}}>Screenshot</h4>
         <canvas ref="myss" width="500" height="300" style={{border:'1px solid #000000'}} />
         <canvas ref="workingss" width="500" height="300" style={{display:'none'}} />
-        <p>Value: {this.props.time}</p>
       </div>
     );
   }

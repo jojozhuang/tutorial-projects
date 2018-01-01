@@ -1,7 +1,8 @@
 import React from 'react';  
 import PropTypes from 'prop-types';
-import { Button, ButtonToolbar} from 'react-bootstrap';
+import { Button, ButtonToolbar, Grid, Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
+import dateTimeApi from '../../api/DateTimeApi';
 
 const Div = styled.div`
   width: 100%;
@@ -61,7 +62,7 @@ class RangeSlider extends React.Component {
   }
 
   timer() {
-    //console.log('timer');
+    console.log('timer');
     //console.log(this.state.value);
     this.setTimeState(parseInt(this.state.value) + 1, false);
 
@@ -90,7 +91,7 @@ class RangeSlider extends React.Component {
   }
 
   setTimeState(time, clear) {
-    //console.log('setTimeState');
+    console.log('setTimeState');
     //console.log(time);
     this.setState({value: time});
     this.props.onTimeChange(time, clear);
@@ -98,11 +99,18 @@ class RangeSlider extends React.Component {
 
   render() {
     return (
-      <Div>
-        <Button bsStyle="primary" type="button" onClick={this.handlePlay}>{this.state.buttonText}</Button>
-        <Input type="range" min={this.props.min} max={this.props.max} value={this.state.value} on onChange={this.handleChange}/>
-        <p>Value: {this.state.value}</p>
-      </Div>
+      <Grid>
+        <Row className="show-grid">
+          <Col xs={6} md={4}><p style={{textAlign: 'left'}}>Current Time: {dateTimeApi.getReadableTimeText(this.state.value)}</p></Col>
+          <Col xs={6} md={4}><p style={{textAlign: 'center'}}><Button bsStyle="primary" type="button" onClick={this.handlePlay}>{this.state.buttonText}</Button></p></Col>
+          <Col xsHidden md={4}><p style={{textAlign: 'right'}}>Total Time: {dateTimeApi.getReadableTimeText(12600)}</p></Col>
+        </Row>
+        <Row className="show-grid">
+          <Col xs={12}><Div>
+          <Input type="range" min={this.props.min} max={this.props.max} value={this.state.value} on onChange={this.handleChange}/>
+        </Div></Col>
+        </Row>
+      </Grid>      
     );
   }
 }

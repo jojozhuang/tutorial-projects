@@ -8,9 +8,9 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: "222"
+      time: 0
     };
-    socket.on('current', (time) => this.setTime(time));
+    socket.on('realtime', (time) => this.setTime(time));
   }
 
   setTime(time) {

@@ -1,6 +1,6 @@
 import React from 'react';  
 import PropTypes from 'prop-types';
-import { Button, ButtonToolbar} from 'react-bootstrap';
+import { Button, ButtonToolbar, Grid, Row} from 'react-bootstrap';
 import RangeSlider from '../controls/RangeSlider';
 import Clock from '../controls/Clock';
 
@@ -15,10 +15,7 @@ class Video extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <h3>Video</h3>        
-        <RangeSlider min={0} max={4 * 60 * 60 - 30 * 60} value={0} onTimeChange={this.props.onTimeChange} onStop={this.props.onStop}/>
-      </div>
+      <RangeSlider min={0} max={4 * 60 * 60 - 30 * 60} value={0} onTimeChange={this.props.onTimeChange} onStop={this.props.onStop}/>
     );
   }
 }
