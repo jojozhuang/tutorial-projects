@@ -1,0 +1,19 @@
+import React, { Component } from 'react';
+
+let canvasStyle = {
+  background: '#fffbf4',
+  margin: '20px auto',
+  border: '5px solid #E8E8E8',
+  width: 500,
+  height: 300,
+};
+
+class Canvas extends Component {
+  render() {
+    return(
+      <div><canvas ref={this.props.canvasRef} width="600" height="300" style={Object.assign({},canvasStyle,{display:this.props.display})}/></div>
+    );
+  }
+}
+
+export default Canvas;

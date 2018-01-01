@@ -4,6 +4,15 @@ import Video from './player/Video';
 import Screenshot from './player/Screenshot';
 import Whiteboard from './player/Whiteboard';
 
+const playerStyle = {
+  backgroundColor: '#ffe3ad',
+  border: 'thick solid #808080'
+}
+
+const videoStyle = {
+  marginTop: '10px'
+}
+
 const io = require('socket.io-client');
 const socket = io();
 
@@ -47,15 +56,15 @@ class Home extends React.Component {
 
   render() {
     return(
-      <div className="container">
-        <div className="row">
-          <div><Video onTimeChange={this.handleTimeChange} onStop={this.handlePlayerStop}/></div>
-        </div>
-        <div className="row">
-          <div className="col-sm-6"><Screenshot ref="ss" /></div>
-          <div className="col-sm-6"><Whiteboard ref="wb" /></div>
-        </div>
-      </div>
+      <Grid style={playerStyle}>
+        <Row className="show-grid" style={videoStyle}>
+          <Col><Video onTimeChange={this.handleTimeChange} onStop={this.handlePlayerStop}/></Col>
+        </Row>
+        <Row className="show-grid">
+          <Col sm={6} style={{textAlign: 'left'}}><Screenshot ref="ss" /></Col>
+          <Col sm={6} style={{textAlign: 'right'}}><Whiteboard ref="wb" /></Col>
+        </Row>
+      </Grid>
     );
   }
 }

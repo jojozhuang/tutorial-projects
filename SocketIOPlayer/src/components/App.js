@@ -4,7 +4,7 @@ import Footer from './Footer';
 import Home from './Home';
 
 const App = () => (
-  <div >
+  <div>
     <Header />
     <Home />
     <Footer />

@@ -48,6 +48,7 @@ class RangeSlider extends React.Component {
       hasError: false,
       error: {},
       buttonText: 'Play',
+      bsStyle: 'primary',
       value: 0
     };
 
@@ -62,7 +63,7 @@ class RangeSlider extends React.Component {
   }
 
   timer() {
-    console.log('timer');
+    //console.log('timer');
     //console.log(this.state.value);
     this.setTimeState(parseInt(this.state.value) + 1, false);
 
@@ -74,12 +75,13 @@ class RangeSlider extends React.Component {
   }
 
   handlePlay(event) {
-    //console.log('handlePlay');
     if (this.state.buttonText == 'Play') {
       this.setState({buttonText: 'Stop'});
+      this.setState({bsStyle: 'danger'});
       this.intervalId = setInterval(this.timer.bind(this), 1000);
     } else {
       this.setState({buttonText: 'Play'});
+      this.setState({bsStyle: 'primary'});
       clearInterval(this.intervalId);
       this.setTimeState(0, false);
       this.props.onStop();
@@ -101,9 +103,9 @@ class RangeSlider extends React.Component {
     return (
       <Grid>
         <Row className="show-grid">
-          <Col xs={6} md={4}><p style={{textAlign: 'left'}}>Current Time: {dateTimeApi.getReadableTimeText(this.state.value)}</p></Col>
-          <Col xs={6} md={4}><p style={{textAlign: 'center'}}><Button bsStyle="primary" type="button" onClick={this.handlePlay}>{this.state.buttonText}</Button></p></Col>
-          <Col xsHidden md={4}><p style={{textAlign: 'right'}}>Total Time: {dateTimeApi.getReadableTimeText(12600)}</p></Col>
+          <Col xs={6} md={4}><h5 style={{textAlign: 'left'}}>Current Time: {dateTimeApi.getReadableTimeText(this.state.value)}</h5></Col>
+          <Col xs={6} md={4}><p style={{textAlign: 'center'}}><Button bsStyle={this.state.bsStyle} type="button" onClick={this.handlePlay}>{this.state.buttonText}</Button></p></Col>
+          <Col xsHidden md={4}><h5 style={{textAlign: 'right'}}>Total Time: {dateTimeApi.getReadableTimeText(12600)}</h5></Col>
         </Row>
         <Row className="show-grid">
           <Col xs={12}><Div>

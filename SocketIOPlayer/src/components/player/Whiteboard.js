@@ -1,27 +1,25 @@
 import React from 'react';  
 import PropTypes from 'prop-types';
 import { Button, ButtonToolbar} from 'react-bootstrap';
-
-let lastPoint;
+import Canvas from '../controls/Canvas';
 
 class Whiteboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hasError: false,
-      error: {},
-      value: 0
+      // empty
     };
   }
 
   drawWhiteboard(wbdata) {
     //console.log('Whiteboard.drawWhiteboard');
+    let lastPoint;
     let currentColor = -10;
     let currentWidth = 1;
-    const ctxwb = this.refs.mywb.getContext('2d');
-    const ctxworkingwb = this.refs.workingwb.getContext('2d');
-    let xRate = this.refs.workingwb.width / 9600;
-    let yRate = this.refs.workingwb.height / 4800;
+    const ctxwb = this.mywb.getContext('2d');
+    const ctxworkingwb = this.workingwb.getContext('2d');
+    let xRate = this.workingwb.width / 9600;
+    let yRate = this.workingwb.height / 4800;
     ctxworkingwb.fillStyle = "solid";
     let data = wbdata.wbdata;
     if (data) {
@@ -31,9 +29,11 @@ class Whiteboard extends React.Component {
           let line = wbobj.wblines[i];
           this.drawline(ctxworkingwb, this.getColor(line.color), this.getWidth(line.color), line.x0, line.y0,line.x1, line.y1, xRate, yRate);
         }
-        ctxwb.drawImage(this.refs.workingwb, 0, 0);
+        ctxwb.drawImage(this.workingwb, 0, 0);
       }
       if (wbobj.wbevents) {
+        console.log(lastPoint)
+        //console.log(wbobj.wbevents);
         let endMilliseconds = wbobj.second * 1000 % 60000;
         for (let i = 0; i < endMilliseconds; i++) {
           for (let j = 0; j < wbobj.wbevents.length; j++) {
@@ -43,6 +43,7 @@ class Whiteboard extends React.Component {
                 if (!lastPoint) {
                   lastPoint = event;
                 } else {
+                  //console.log('drawevents');
                   this.drawline(ctxworkingwb, this.getColor(currentColor), currentWidth, lastPoint.x, lastPoint.y,event.x, event.y, xRate, yRate);
                   lastPoint = event;
                 }
@@ -66,7 +67,7 @@ class Whiteboard extends React.Component {
             }
           }
         }
-        ctxwb.drawImage(this.refs.workingwb, 0, 0);
+        ctxwb.drawImage(this.workingwb, 0, 0);
       }
     }
   }
@@ -120,17 +121,18 @@ class Whiteboard extends React.Component {
 
   clearWhiteboard() {
     // reset whiteboard
-    const ctxwb = this.refs.mywb.getContext('2d');
-    const ctxworkingwb = this.refs.workingwb.getContext('2d');
-    ctxwb.clearRect(0, 0, this.refs.mywb.width, this.refs.mywb.height);
-    ctxworkingwb.clearRect(0, 0, this.refs.workingwb.width, this.refs.workingwb.height);
+    const ctxwb = this.mywb.getContext('2d');
+    const ctxworkingwb = this.workingwb.getContext('2d');
+    ctxwb.clearRect(0, 0, this.mywb.width, this.mywb.height);
+    ctxworkingwb.clearRect(0, 0, this.workingwb.width, this.workingwb.height);
   }
   render() {
+    console.log('Whiteboard.render');
     return (
       <div>
-        <h4 style={{textAlign: 'right'}}>Whiteboard</h4>
-        <canvas ref="mywb" width="500" height="300" style={{border:'1px solid #000000'}} />
-        <canvas ref="workingwb" width="500" height="300" style={{display:'none'}} />
+        <Canvas canvasRef={el => this.mywb = el} display='block'/>
+        <Canvas canvasRef={el => this.workingwb = el} display='none'/>
+        <h4 style={{textAlign: 'center'}}>Whiteboard</h4>
       </div>
     );
   }
