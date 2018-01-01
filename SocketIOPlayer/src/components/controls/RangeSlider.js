@@ -46,24 +46,72 @@ class RangeSlider extends React.Component {
     this.state = {
       hasError: false,
       error: {},
-      value: 20
+      buttonText: 'Play',
+      value: 0
     };
 
+    this.handlePlay = this.handlePlay.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentWillUnmount(){
+    //console.log('componentWillUnmount')
+    clearInterval(this.intervalId);
+    this.setTimeState(0, false);
+  }
+
+  timer() {
+    //console.log('timer');
+    //console.log(this.state.value);
+    this.setTimeState(parseInt(this.state.value) + 1, false);
+
+    if(this.state.value > this.props.max) { 
+      clearInterval(this.intervalId);
+      this.setTimeState(0, false);
+      this.setState({buttonText: 'Play'});
+    }
+  }
+
+  handlePlay(event) {
+    //console.log('handlePlay');
+    if (this.state.buttonText == 'Play') {
+      this.setState({buttonText: 'Stop'});
+      this.intervalId = setInterval(this.timer.bind(this), 1000);
+    } else {
+      this.setState({buttonText: 'Play'});
+      clearInterval(this.intervalId);
+      this.setTimeState(0, false);
+      this.props.onStop();
+    }
+  }
+
   handleChange(event) {
-    this.setState({value: event.target.value});
+    this.setTimeState(event.target.value, true);
+  }
+
+  setTimeState(time, clear) {
+    //console.log('setTimeState');
+    //console.log(time);
+    this.setState({value: time});
+    this.props.onTimeChange(time, clear);
   }
 
   render() {
     return (
       <Div>
-        <Input type="range" min="1" max="100" value={this.state.value} onChange={this.handleChange}/>
+        <Button bsStyle="primary" type="button" onClick={this.handlePlay}>{this.state.buttonText}</Button>
+        <Input type="range" min={this.props.min} max={this.props.max} value={this.state.value} on onChange={this.handleChange}/>
         <p>Value: {this.state.value}</p>
       </Div>
     );
   }
 }
+
+RangeSlider.propTypes = {
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
+  onTimeChange: PropTypes.func.isRequired,
+  onStop: PropTypes.func.isRequired
+};
 
 export default RangeSlider;
