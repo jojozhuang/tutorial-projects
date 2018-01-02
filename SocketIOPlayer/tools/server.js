@@ -5,6 +5,7 @@ import config from '../webpack.config.dev';
 import open from 'open';
 import favicon from 'serve-favicon';
 import courseApi from '../src/api/CourseApi';
+import dateTimeApi from '../src/api/DateTimeApi';
 
 const port = 12100;
 const app = express();
@@ -24,7 +25,7 @@ app.get('*', function(req, res) {
 
 const server = app.listen(port, function(err) {
   if (err) {
-    console.log(err);
+    //console.log(err);
   } else {
     open(`http://localhost:${port}`);
   }
@@ -33,12 +34,12 @@ const server = app.listen(port, function(err) {
 const io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
-  console.log('new connection established');
+  //console.log('new connection established');
 
   socket.on('updateTime', function(data) {
     let second = data.time;
     if (second > 0 && second < 12600) {
-      console.log('server.updateTime:'+ second);
+     // console.log('server.updateTime:'+ second);
       // Screenshot
       const ssdata = courseApi.getScreenshotData(second);
       // Whiteboard
@@ -52,7 +53,9 @@ io.on('connection', (socket) => {
 
 function tick () {
   let dt = new Date();
-  dt = dt.toUTCString();
+  dt = dateTimeApi.dateAdd(dt, 'month', -4);
+  dt = dateTimeApi.dateAdd(dt, 'week', -1);
+  dt = dt.toLocaleString();
   io.sockets.emit("realtime", dt);
 }
 setInterval(tick, 1000);

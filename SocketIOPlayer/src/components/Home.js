@@ -7,17 +7,17 @@ import Whiteboard from './player/Whiteboard';
 const playerStyle = {
   backgroundColor: '#ffe3ad',
   border: 'thick solid #808080'
-}
+};
 
 const videoStyle = {
   marginTop: '10px'
-}
+};
 
 const io = require('socket.io-client');
 const socket = io();
 socket.on('connect_failed', function() {
   document.write("Sorry, there seems to be an issue with the connection!");
-})
+});
 
 class Home extends React.Component {
   constructor(props) {
@@ -34,14 +34,12 @@ class Home extends React.Component {
   }
   
   playCourse(data) {
-    console.log('playCourse');
+    //console.log('playCourse');
     this.refs.ss.drawScreenShot(data.ssdata);
     this.refs.wb.drawWhiteboard(data.wbdata);
   }
 
   handlePlayerStart(time) {
-    console.log('handlePlayerStart');
-    console.log(time);
     socket.emit('onStart', { time: time });
   }
 
@@ -52,10 +50,7 @@ class Home extends React.Component {
 
   handleTimeChange(time, clear) {
     this.setState({ time: time });
-    console.log('home.handleTimeChange');
-    console.log(time);
     if (clear) {
-      console.log('clearWhiteboard');
       this.refs.wb.clearWhiteboard();
     }
     socket.emit('updateTime', { time: time });

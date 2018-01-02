@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 let canvasStyle = {
   background: '#fffbf4',
@@ -17,5 +18,10 @@ class Canvas extends Component {
     );
   }
 }
+
+Canvas.propTypes = {
+  canvasRef: PropTypes.func.isRequired,
+  display: PropTypes.string.isRequired
+};
 
 export default Canvas;

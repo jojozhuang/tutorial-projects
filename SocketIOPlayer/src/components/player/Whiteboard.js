@@ -11,15 +11,14 @@ class Whiteboard extends React.Component {
     };
   }
 
-  
-  shouldComponentUpdate(nextProps, nextState) {
-    
+  shouldComponentUpdate(nextProps, nextState) {    
     //console.log(this.state);
     //console.log(nextState);
-    return this.state.canvasIsDrawing != nextState.canvasIsDrawing
+    return this.state.canvasIsDrawing != nextState.canvasIsDrawing;
   }
+
   drawWhiteboard(wbdata) {
-    console.log('Whiteboard.drawWhiteboard');
+    //console.log('Whiteboard.drawWhiteboard');
     this.setState({'canvasIsDrawing': true});
     let lastPoint; //use state to preserve the value
     let currentColor = -10;
@@ -128,7 +127,7 @@ class Whiteboard extends React.Component {
 
   clearWhiteboard() {
     // reset whiteboard
-    console.log('clearWhiteboard');
+    //console.log('clearWhiteboard');
     const ctxwb = this.mywb.getContext('2d');
     const ctxworkingwb = this.workingwb.getContext('2d');
     ctxwb.clearRect(0, 0, this.mywb.width, this.mywb.height);
@@ -136,11 +135,11 @@ class Whiteboard extends React.Component {
   }
 
   render() {
-    console.log('Whiteboard.render');
+    //console.log('Whiteboard.render');
     return (
       <div>
-        <Canvas canvasRef={el => this.mywb = el} display='block'/>
-        <Canvas canvasRef={el => this.workingwb = el} display='none'/>
+        <Canvas canvasRef={el => this.mywb = el} display="block"/>
+        <Canvas canvasRef={el => this.workingwb = el} display="none"/>
         <h4 style={{textAlign: 'center'}}>Whiteboard</h4>
       </div>
     );

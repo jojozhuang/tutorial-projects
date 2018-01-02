@@ -100,7 +100,7 @@ class RangeSlider extends React.Component {
   }
 
   setTimeState(time, clear) {
-    console.log('setTimeState');
+    //console.log('setTimeState');
     //console.log(time);
     this.setState({value: time});
     this.props.onTimeChange(time, clear);
