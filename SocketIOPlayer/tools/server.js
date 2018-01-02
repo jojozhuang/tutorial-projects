@@ -39,7 +39,7 @@ io.on('connection', (socket) => {
   socket.on('updateTime', function(data) {
     let second = data.time;
     if (second > 0 && second < 12600) {
-     // console.log('server.updateTime:'+ second);
+      console.log('server.updateTime:'+ second);
       // Screenshot
       const ssdata = courseApi.getScreenshotData(second);
       // Whiteboard
@@ -55,6 +55,7 @@ function tick () {
   let dt = new Date();
   dt = dateTimeApi.dateAdd(dt, 'month', -4);
   dt = dateTimeApi.dateAdd(dt, 'week', -1);
+  dt = dateTimeApi.dateAdd(dt, 'hour', -3);
   dt = dt.toLocaleString();
   io.sockets.emit("realtime", dt);
 }

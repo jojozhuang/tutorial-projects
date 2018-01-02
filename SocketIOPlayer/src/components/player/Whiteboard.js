@@ -1,6 +1,5 @@
 import React from 'react';  
 import PropTypes from 'prop-types';
-import { Button, ButtonToolbar} from 'react-bootstrap';
 import Canvas from '../controls/Canvas';
 
 class Whiteboard extends React.Component {
@@ -11,7 +10,7 @@ class Whiteboard extends React.Component {
     };
   }
 
-  shouldComponentUpdate(nextProps, nextState) {    
+  shouldComponentUpdate(nextProps, nextState) {
     //console.log(this.state);
     //console.log(nextState);
     return this.state.canvasIsDrawing != nextState.canvasIsDrawing;

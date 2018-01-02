@@ -1,6 +1,6 @@
 import React from 'react';  
 import PropTypes from 'prop-types';
-import { Button, ButtonToolbar, Grid, Row, Col} from 'react-bootstrap';
+import { Button, Grid, Row, Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import dateTimeApi from '../../api/DateTimeApi';
 
@@ -45,8 +45,6 @@ class RangeSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hasError: false,
-      error: {},
       buttonText: 'Play',
       bsStyle: 'primary',
       value: 0

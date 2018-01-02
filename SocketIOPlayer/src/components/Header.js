@@ -22,7 +22,7 @@ class Header extends React.Component {
       <div>
         <div className="container text-center">
           <h1>Course Player</h1>
-          <p>Built with React and Socket.IO</p>
+          <p>Built with <a href='https://reactjs.org/'>React</a> and <a href='https://socket.io/'>Socket.IO</a></p>
           <p>Current server time is: <span id="time">{this.state.time}</span></p>
         </div>
         <hr/>

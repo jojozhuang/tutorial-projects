@@ -1,6 +1,5 @@
 import React from 'react';  
 import PropTypes from 'prop-types';
-import { Button, ButtonToolbar} from 'react-bootstrap';
 import Canvas from '../controls/Canvas';
 
 class Screenshot extends React.Component {
