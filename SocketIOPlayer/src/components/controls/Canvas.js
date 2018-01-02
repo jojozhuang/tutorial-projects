@@ -11,7 +11,9 @@ let canvasStyle = {
 class Canvas extends Component {
   render() {
     return(
-      <div><canvas ref={this.props.canvasRef} width="600" height="300" style={Object.assign({},canvasStyle,{display:this.props.display})}/></div>
+      <div>
+        <canvas ref={this.props.canvasRef} width="500" height="300" style={Object.assign({},canvasStyle,{display:this.props.display})}/>
+       </div>
     );
   }
 }

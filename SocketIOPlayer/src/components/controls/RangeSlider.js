@@ -54,10 +54,10 @@ class RangeSlider extends React.Component {
 
     this.handlePlay = this.handlePlay.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
   }
 
   componentWillUnmount(){
-    //console.log('componentWillUnmount')
     clearInterval(this.intervalId);
     this.setTimeState(0, false);
   }
@@ -65,13 +65,16 @@ class RangeSlider extends React.Component {
   timer() {
     //console.log('timer');
     //console.log(this.state.value);
-    this.setTimeState(parseInt(this.state.value) + 1, false);
-
-    if(this.state.value > this.props.max) { 
+    if(this.state.value >= this.props.max) { 
       clearInterval(this.intervalId);
       this.setTimeState(0, false);
       this.setState({buttonText: 'Play'});
+      this.setState({bsStyle: 'primary'});
+      this.props.onStop();
+      return;
     }
+
+    this.setTimeState(parseInt(this.state.value) + 1, false);
   }
 
   handlePlay(event) {
@@ -89,6 +92,10 @@ class RangeSlider extends React.Component {
   }
 
   handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleMouseUp(event) {
     this.setTimeState(event.target.value, true);
   }
 
@@ -109,7 +116,7 @@ class RangeSlider extends React.Component {
         </Row>
         <Row className="show-grid">
           <Col xs={12}><Div>
-          <Input type="range" min={this.props.min} max={this.props.max} value={this.state.value} on onChange={this.handleChange}/>
+          <Input type="range" min={this.props.min} max={this.props.max} value={this.state.value} onChange={this.handleChange} onMouseUp={this.handleMouseUp}/>
         </Div></Col>
         </Row>
       </Grid>      

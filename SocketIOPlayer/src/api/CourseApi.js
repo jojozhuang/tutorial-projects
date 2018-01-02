@@ -5,7 +5,7 @@ import fileApi from './FileApi';
 
 const ssIndexFile = path.join(__dirname, '../../204304/ScreenShot/High/package.pak');
 const unzippedSsIndexFile = path.join(__dirname, '../../204304/ScreenShot/High/unzippedindex.pak');
-const ssImageDataFile = path.join(__dirname, '../../204304/ScreenShot/High/1.pak');
+const ssScreenshotDataFile = path.join(__dirname, '../../204304/ScreenShot/High/1.pak');
 const wbImageIndexFile = path.join(__dirname, '../../204304/WB/1/VectorImage/package.pak');
 const unzippedWbImageIndexFile = path.join(__dirname, '../../204304/WB/1/VectorImage/unzippedindex.pak');
 const wbImageDataFile = path.join(__dirname, '../../204304/WB/1/VectorImage/1.pak');
@@ -13,20 +13,32 @@ const wbSequenceIndexFile = path.join(__dirname, '../../204304/WB/1/VectorSequen
 const unzippedWbSequenceIndexFile = path.join(__dirname, '../../204304/WB/1/VectorSequence/unzippedindex.pak');
 const wbSequenceDataFile = path.join(__dirname, '../../204304/WB/1/VectorSequence/1.pak');
 
+// Screenshot Cache
+let ssIndexArray = null;
+let ssHashmap = [];
+// Whiteboard Cache
+let wbImageIndexArray = null;
+let wbImageIndex = null;
+let wbSequenceIndexArray = null;
+let wbSequenceIndex = null;
+
 class CourseApi {
+  
   static getScreenshotData (second) {
-    let buffer = fileApi.getIndexFile(ssIndexFile, unzippedSsIndexFile);
-    let indexList = fileApi.getIndexArray(buffer);
-    let hashmap = [];
-    for (let i = 0; i < indexList.length; i++)
-    {
-      if(!hashmap[indexList[i].timestamp]) {
-        hashmap[indexList[i].timestamp] = i;
+    if (ssIndexArray===null) {
+      let buffer = fileApi.getIndexFile(ssIndexFile, unzippedSsIndexFile);
+      ssIndexArray = fileApi.getIndexArray(buffer);
+      ssHashmap = [];
+      for (let i = 0; i < ssIndexArray.length; i++)
+      {
+        if(!ssHashmap[ssIndexArray[i].timestamp]) {
+          ssHashmap[ssIndexArray[i].timestamp] = i;
+        }
       }
     }
 
-    let imageIndex = fileApi.getImageIndex(hashmap, indexList, second);
-    return fileApi.getImageData(ssImageDataFile, imageIndex);
+    let ssIndex = fileApi.getSSIndex(ssHashmap, ssIndexArray, second);
+    return fileApi.getSSData(ssScreenshotDataFile, ssIndex);
   }
 
   static getWhiteBoardData (second) {
@@ -41,33 +53,21 @@ class CourseApi {
   }
   
   static getWBImageData(second) {
-    let buffer = fileApi.getIndexFile(wbImageIndexFile, unzippedWbImageIndexFile);
-    let indexList = fileApi.getIndexArray(buffer);
-    let hashmap = [];
-    for (let i = 0; i < indexList.length; i++)
-    {
-      if(!hashmap[indexList[i].timestamp]) {
-        hashmap[indexList[i].timestamp] = i;
-      }
+    if (wbImageIndex===null) {
+      let buffer = fileApi.getIndexFile(wbImageIndexFile, unzippedWbImageIndexFile);
+      wbImageIndexArray = fileApi.getIndexArray(buffer);
+      wbImageIndex = fileApi.getWBIndex(wbImageIndexArray);
     }
-  
-    let wbImageIndex = fileApi.getWBIndex(indexList);
-    return fileApi.getWBImageData(wbImageDataFile, wbImageIndex, indexList, second);
+    return fileApi.getWBImageData(wbImageDataFile, wbImageIndex, wbImageIndexArray, second);
   }
   
   static getWBSequenceData(second) {
-    let buffer = fileApi.getIndexFile(wbSequenceIndexFile, unzippedWbSequenceIndexFile);
-    let indexList = fileApi.getIndexArray(buffer);
-    let hashmap = [];
-    for (let i = 0; i < indexList.length; i++)
-    {
-      if(!hashmap[indexList[i].timestamp]) {
-        hashmap[indexList[i].timestamp] = i;
-      }
+    if (wbSequenceIndex===null) {
+      let buffer = fileApi.getIndexFile(wbSequenceIndexFile, unzippedWbSequenceIndexFile);
+      wbSequenceIndexArray = fileApi.getIndexArray(buffer);
+      wbSequenceIndex = fileApi.getWBIndex(wbSequenceIndexArray);
     }
-
-    let wbSequenceIndex = fileApi.getWBIndex(indexList);
-    return fileApi.getWBSequenceData(wbSequenceDataFile, wbSequenceIndex, indexList, second);  
+    return fileApi.getWBSequenceData(wbSequenceDataFile, wbSequenceIndex, wbSequenceIndexArray, second);  
   }
 }
 

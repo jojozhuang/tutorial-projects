@@ -12,13 +12,13 @@ class Screenshot extends React.Component {
   }
 
   drawScreenShot(ssdata) {
-    //console.log('Screenshot.drawScreenShot');
+    console.log('Screenshot.drawScreenShot');
     const cellWidth = this.myss.width / 8;
     const cellHeight = this.myss.height / 8;
     let left, top, width, height = 0;
     const ctxss = this.myss.getContext('2d');
     const ctxworkingss = this.workingss.getContext('2d');
-    let imageList = JSON.parse(ssdata.ssdata);
+    let imageList = JSON.parse(ssdata);
     for (let i = 0; i < imageList.length; i++) {
       left = cellWidth * imageList[i].col;
       top = cellHeight * imageList[i].row;
@@ -47,7 +47,7 @@ class Screenshot extends React.Component {
   }
 
   render() {
-    //console.log('Screenshot.render');
+    console.log('Screenshot.render');
     return (
       <div>
         <Canvas canvasRef={el => this.myss = el} display='block'/>

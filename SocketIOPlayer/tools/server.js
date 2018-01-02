@@ -36,16 +36,17 @@ io.on('connection', (socket) => {
   console.log('new connection established');
 
   socket.on('updateTime', function(data) {
-    console.log('server.updateTime:'+ data.time);
+    let second = data.time;
+    if (second > 0 && second < 12600) {
+      console.log('server.updateTime:'+ second);
+      // Screenshot
+      const ssdata = courseApi.getScreenshotData(second);
+      // Whiteboard
+      const wbdata = courseApi.getWhiteBoardData(second);
 
-    // Screenshot
-    const ssdata = courseApi.getScreenshotData(data.time);
-    socket.emit('drawScreenshot', {ssdata:ssdata});
-
-    // Whiteboard
-    const wbdata = courseApi.getWhiteBoardData(data.time);
-    socket.emit('drawWhiteboard', {wbdata:wbdata});
-
+      // Notify client through emit with data
+      io.sockets.emit('playCourse', {time: second, ssdata: ssdata, wbdata:wbdata});
+    }
   });
 });
 

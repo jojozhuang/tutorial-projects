@@ -51,7 +51,7 @@ class FileApi {
     return arr;
   }
 
-  static getImageIndex (hm, indexarr, second) {
+  static getSSIndex (hm, indexarr, second) {
     let foundset = [];
     for(let i = 0; i < MAX_ROW_NO * MAX_COL_NO; i++) {
       foundset[i] = false;
@@ -90,7 +90,7 @@ class FileApi {
     return res;
   }
 
-  static getImageData(imagedatafile, imageindex) {
+  static getSSData(imagedatafile, imageindex) {
     let res = [];
     let index = 0;
     let fd = fs.openSync(imagedatafile, 'r');
