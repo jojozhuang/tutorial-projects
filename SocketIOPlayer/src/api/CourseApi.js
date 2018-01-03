@@ -1,5 +1,4 @@
 import path from 'path';
-import Index from '../model/Index';
 import WBData from '../model/WBData';
 import fileApi from './FileApi';
 

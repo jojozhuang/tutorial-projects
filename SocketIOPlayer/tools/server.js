@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
       const wbdata = courseApi.getWhiteBoardData(second);
 
       // Notify client through emit with data
-      io.sockets.emit('playCourse', {time: second, ssdata: ssdata, wbdata:wbdata});
+      socket.emit('playCourse', {time: second, ssdata: ssdata, wbdata:wbdata});
     }
   });
 });

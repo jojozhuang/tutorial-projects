@@ -1,7 +1,7 @@
 {
   "name": "courseplayer",
   "version": "1.0.0",
-  "description": "Course Player built with Socket.IO",
+  "description": "Course Player built with React and Socket.IO",
   "main": "index.js",
   "scripts": {
     "start": "npm-run-all --parallel open:src lint:watch",
