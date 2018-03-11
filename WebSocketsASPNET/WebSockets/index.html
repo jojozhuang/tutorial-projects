@@ -1,0 +1,65 @@
+﻿<!doctype html>
+<head>
+    <script type="text/javascript">
+        var ws;
+
+        function $(id) {
+            return document.getElementById(id);
+        }
+
+        function wireEvents() {
+            $('send').addEventListener('click', function () {
+                var message = $('message');
+                ws.send(message.value);
+                message.value = '';
+            });
+
+            $('close').addEventListener('click', function () {
+                ws.close();
+            });
+        }
+
+        function createSpan(text) {
+            var span = document.createElement('span');
+            span.innerHTML = text + '<br />';
+            return span;
+        }
+
+        window.onload = function () {
+            wireEvents();
+            var conversation = $('conversation');
+            var url = 'ws://localhost:8778/WebSocketsServer2.ashx?chatName=Johnny' + Math.floor((Math.random() * 100) + 1);;
+            ws = new WebSocket(url);
+
+            ws.onerror = function (e) {
+                conversation.appendChild(createSpan('Problem with connection: ' + e.message));
+            };
+            
+            ws.onopen = function () {
+                conversation.innerHTML = 'Client connected <br/>';
+            };
+
+            ws.onmessage = function (e) {
+                conversation.insertBefore(createSpan(e.data.toString()), conversation.childNodes[0]);  // Insert <li> before the first child of <ul>
+                //conversation.appendChild(createSpan(e.data.toString()));
+            };
+
+            ws.onclose = function () {
+                conversation.innerHTML = 'Closed connection!';
+            };
+            
+        };
+        
+    </script>
+    
+
+</head>
+<body>
+    <h1>Using WebSockets</h1>
+    <div id="conversation"></div>
+    <input id="message" />
+    <input id="send" type="button" value="Send" />
+    <input id="close" type="button" value="Close Connection" />
+    <br />    
+</body>
+</html>
