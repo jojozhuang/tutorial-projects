@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Sketch Pad";
+}
+
+<h2>Sketch Pad</h2>
+<div class="chatcontainer">
+    <canvas id="mysp" width="680" height="300"></canvas>
+    <input type="hidden" id="groupName" value="grpjohnny" />
+    <!--<script type="text/javascript" src="~/scripts/draw.js"></script>-->
+</div>
+
+<style type="text/css">
+    #draw {
+	   border: 1px solid #AAA;
+	   background: #EEE;
+	   }
+</style>​
+<!--Add script to update the page and send messages.-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Declare a proxy to reference the hub.
+        var wb = $.connection.sketchpadHub;
+        // Create a function that the hub can call to broadcast messages.
+        wb.client.broadcastDraw = function (x, y, drawtype) {
+            var mysp = $('#mysp')[0].getContext('2d');
+            if (drawtype === 'dragstart') {
+                mysp.beginPath();
+                mysp.moveTo(x, y);
+            } else if (drawtype === 'drag') {
+                mysp.lineTo(x, y);
+                mysp.clearRect(0, 0, mysp.width, mysp.height);
+                mysp.stroke();
+            } else {
+                mysp.closePath();
+            }            
+        };
+        // Start the connection.
+        $.connection.hub.start().done(function () {
+            wb.server.joinGroup($("#groupName").val());
+        });
+        var mysp = $('#mysp')[0].getContext('2d');
+        mysp.fillStyle = "solid";
+        mysp.strokeStyle = "#ECD018";
+        mysp.lineCap = 'round';
+        mysp.lineWidth = 5;
+        $('#mysp')
+           .drag("start", function (ev, dd) {
+               mysp.beginPath();
+               mysp.moveTo(
+                  ev.pageX - dd.originalX,
+                  ev.pageY - dd.originalY
+               );
+               wb.server.sendDraw($("#groupName").val(), ev.pageX - dd.originalX, ev.pageY - dd.originalY, 'dragstart');
+           })
+           .drag(function (ev, dd) {
+               mysp.lineTo(
+                  ev.pageX - dd.originalX,
+                  ev.pageY - dd.originalY
+               );
+               mysp.clearRect(0, 0, mysp.width, mysp.height);
+               mysp.stroke();
+               wb.server.sendDraw($("#groupName").val(), ev.pageX - dd.originalX, ev.pageY - dd.originalY, 'drag');
+           })
+           .drag("end", function (ev, dd) {
+               mysp.closePath();
+               wb.server.sendDraw($("#groupName").val(), ev.pageX - dd.originalX, ev.pageY - dd.originalY, 'dragend');
+           });
+    });
+</script>
+

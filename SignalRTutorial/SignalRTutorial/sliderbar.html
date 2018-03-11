@@ -1,0 +1,59 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Slider - Range with fixed maximum</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script>
+      function getReadableTimeText(totalseconds) {
+        var hours, minutes, seconds = 0;
+        seconds = totalseconds % 60;
+        hours = Math.floor(totalseconds / (60 * 60));
+        minutes = Math.floor((totalseconds - hours * 60 * 60) / 60);
+
+        var outh, outm, outs = "";
+        outh = hours < 10 ? "0" + hours : hours;
+        outm = minutes < 10 ? "0" + minutes : minutes;
+        outs = seconds < 10 ? "0" + seconds: seconds;
+          
+        return outh + ":" + outm + ":" + outs;
+    }
+   $(function () {         
+        $("#processbar").slider({
+          range: "max",
+          min: 1,
+          max: 4 * 60 * 60 - 30 * 60,
+          value: 130,
+          slide: function (event, ui) {
+              //https://jqueryui.com/slider/#rangemax
+              $("#amount").val(getReadableTimeText(ui.value));
+          },
+          stop: function (event, ui) {
+              $("#amount").val(getReadableTimeText(ui.value));
+          }
+        });
+        $("#amount").val(getReadableTimeText($("#processbar").slider("value")));
+        $("#total").val(getReadableTimeText(4 * 60 * 60 - 30 * 60));
+       // play video
+        $("#btnplay").click(function () {
+            setInterval(function () {
+                $("#processbar").slider("value", $("#processbar").slider("value") + 1);
+                $("#amount").val(getReadableTimeText($("#processbar").slider("value")));
+            }, 1000);
+        });        
+  });
+  </script>
+</head>
+<body>
+<table style="width:80%" align="center">
+    <tr>
+    <td><label for="amount">Time:</label><input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"></td>
+    <td><input type="button" id="btnplay" value="Play"/></td>
+    <td align="right"><input type="text" id="total" readonly style="border:0; color:#f6931f; font-weight:bold;"></td>
+    </tr>
+    <tr><td colspan="3"><div id="processbar"></div></td></tr>
+</table> 
+</body>
+</html>
