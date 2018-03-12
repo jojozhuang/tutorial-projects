@@ -6,7 +6,7 @@ using System.Web;
 
 namespace SignalRTutorial
 {
-    public class ChatHub : Hub
+    public class ChatroomHub : Hub
     {
         public void Send(string name, string message)
         {

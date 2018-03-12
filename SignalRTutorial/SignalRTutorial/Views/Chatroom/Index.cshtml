@@ -1,9 +1,9 @@
 ﻿
 @{
-    ViewBag.Title = "Online Chat";
+    ViewBag.Title = "Chat Room";
 }
 
-<h2>Online Chat</h2>
+<h2>Online Chatting</h2>
 <div class="chatcontainer">
     <input type="text" id="message" />
     <input type="button" id="sendmessage" value="Send" />
@@ -16,9 +16,9 @@
 <script type="text/javascript">
     $(document).ready(function () {
         // Declare a proxy to reference the hub.
-        var chat = $.connection.chatHub;
+        var chatroom = $.connection.chatroomHub;
         // Create a function that the hub can call to broadcast messages.
-        chat.client.broadcastMessage = function (name, message) {
+        chatroom.client.broadcastMessage = function (name, message) {
             // Html encode display name and message.
             var encodedName = $('<div />').text(name).html();
             var encodedMsg = $('<div />').text(message).html();
@@ -35,13 +35,13 @@
         $.connection.hub.start().done(function () {
             $('#sendmessage').click(function () {
                 // Call the Send method on the hub.
-                chat.server.send($('#displayname').val(), $('#message').val());
+                chatroom.server.send($('#displayname').val(), $('#message').val());
                 // Clear text box and reset focus for next comment.
                 $('#message').val('').focus();
             });
             $('#sayalot').click(function () {
                 // Call the Send method on the hub.
-                chat.server.sayAlot($('#displayname').val());
+                chatroom.server.sayAlot($('#displayname').val());
                 // Clear text box and reset focus for next comment.
                 $('#message').val('').focus();
             });

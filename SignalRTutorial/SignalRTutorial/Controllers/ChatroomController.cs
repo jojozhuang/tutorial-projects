@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace SignalRTutorial.Controllers
 {
-    public class ChatController : Controller
+    public class ChatroomController : Controller
     {
         // GET: Chat
         public ActionResult Index()
