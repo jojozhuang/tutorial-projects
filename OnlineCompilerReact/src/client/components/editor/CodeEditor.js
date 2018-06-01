@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, FormGroup, Col, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import compilerApi from '../../api/compilerApi';
+import questionApi from '../../api/QuestionApi';
 
 class CodeEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      answer: {
+      question: {
         qid: '1',
         solution: 'aaa',
       },
@@ -16,14 +17,25 @@ class CodeEditor extends React.Component {
 
     this.handleSubmtC = this.handleSubmtC.bind(this);
     this.handleSubmtJava = this.handleSubmtJava.bind(this);
+    this.updateSolution = this.updateSolution.bind(this);
+  }
+
+  componentDidMount() {
+    questionApi
+      .getQuestion('1')
+      // .then(res => res.json())
+      .then((question) => {
+        console.log(question);
+        this.setState({ question });
+      });
   }
 
   handleSubmtC(event) {
     event.preventDefault();
-    const answer = this.state.answer;
-    console.log(answer);
+    const question = this.state.question;
+    console.log(question);
     compilerApi
-      .submitc(answer)
+      .submitc(question)
       .then((response) => {
         this.setState({ output: `${response.key} ${response.message}` });
       })
@@ -35,10 +47,10 @@ class CodeEditor extends React.Component {
 
   handleSubmtJava(event) {
     event.preventDefault();
-    const answer = this.state.answer;
-    console.log(answer);
+    const question = this.state.question;
+    console.log(question);
     compilerApi
-      .submitjava(answer)
+      .submitjava(question)
       .then((response) => {
         this.setState({ output: `${response.key} ${response.message}` });
       })
@@ -46,6 +58,15 @@ class CodeEditor extends React.Component {
         console.log(error);
         // this.handleError(error);
       });
+  }
+
+  updateSolution(event) {
+    // event.preventDefault();
+    console.log(this.state.question);
+    const field = event.target.name;
+    const question = this.state.question;
+    question[field] = event.target.value;
+    return this.setState({ question });
   }
 
   render() {
@@ -59,12 +80,13 @@ class CodeEditor extends React.Component {
             </Col>
             <Col sm={10}>
               <FormControl
-                name="code"
+                name="solution"
                 type="textarea"
                 componentClass="textarea"
                 placeholder="Enter code"
                 rows="6"
-                defaultValue={this.state.answer.solution}
+                value={this.state.question.solution}
+                onChange={this.updateSolution}
               />
             </Col>
           </FormGroup>
