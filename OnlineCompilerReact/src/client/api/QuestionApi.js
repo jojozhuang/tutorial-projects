@@ -5,8 +5,8 @@ class QuestionApi {
     return { 'Content-Type': 'application/json' };
   }
 
-  static getQuestion(id) {
-    return HttpHelper.fetch(`/api/questions/${id}`, 'GET', this.requestHeaders(), null);
+  static getTask(lang) {
+    return HttpHelper.fetch(`/api/task/${lang}`, 'GET', this.requestHeaders(), null);
   }
 }
 

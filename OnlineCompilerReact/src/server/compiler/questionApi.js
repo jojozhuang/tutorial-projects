@@ -3,9 +3,16 @@ const path = require('path');
 
 module.exports = {
   // compile the given c source file and execute it.
-  getQuestion(id, callback) {
-    const file = path.join(__dirname, 'HelloJava2.java');
-    console.log(`getQuestion:${file}`);
+  getTask(lang, callback) {
+    let file = '';
+    if (lang === 'java') {
+      file = path.join(__dirname, 'HelloJava2.java');
+    } else if (lang === 'c') {
+      file = path.join(__dirname, 'HelloC.c');
+    } else {
+      callback('');
+    }
+    console.log(`getTask:${file}`);
     fs.readFile(file, (err, data) => {
       if (err) {
         throw err;
@@ -14,9 +21,10 @@ module.exports = {
       callback(data.toString());
     });
   },
-  saveSolution(filename, solution, callback) {
+
+  saveTask(filename, code, callback) {
     const file = path.join(__dirname, filename);
-    fs.writeFile(file, solution, (err) => {
+    fs.writeFile(file, code, (err) => {
       if (err) {
         throw err;
       }
