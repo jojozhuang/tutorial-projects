@@ -1,14 +1,17 @@
 import React from 'react';
 import { Form, FormGroup, Col, ControlLabel, FormControl, Button } from 'react-bootstrap';
-import DropdownLanguage from './controls/DropdownLanguage';
+import LangSelector from './controls/LangSelector';
 import CodeEditor from './controls/CodeEditor';
 import compilerApi from '../api/compilerApi';
 import questionApi from '../api/QuestionApi';
+
+const languages = ['C', 'C++', 'Java', 'JavaScript', 'Python'];
 
 class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedLang: 2, // java
       task: {
         lang: 'java',
         code: '',
@@ -16,10 +19,9 @@ class Editor extends React.Component {
       output: '',
     };
 
-    this.handleSubmtC = this.handleSubmtC.bind(this);
-    this.handleSubmtJava = this.handleSubmtJava.bind(this);
+    this.handleRun = this.handleRun.bind(this);
     this.updateSolution = this.updateSolution.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
+    this.handleLangChange = this.handleLangChange.bind(this);
     this.handleCodeChange = this.handleCodeChange.bind(this);
   }
 
@@ -34,33 +36,18 @@ class Editor extends React.Component {
   }
 
   handleCodeChange(code) {
-    const task = this.state.task;
+    const { task } = this.state;
     task.code = code;
     console.log(code);
     return this.setState({ task });
   }
 
-  handleSubmtC(event) {
+  handleRun(event) {
     event.preventDefault();
-    const task = this.state.task;
+    const { task } = this.state;
     console.log(task);
     compilerApi
-      .submitc(task)
-      .then((response) => {
-        this.setState({ output: `${response.key} ${response.message}` });
-      })
-      .catch((error) => {
-        console.log(error);
-        // this.handleError(error);
-      });
-  }
-
-  handleSubmtJava(event) {
-    event.preventDefault();
-    const task = this.state.task;
-    console.log(task);
-    compilerApi
-      .submitjava(task)
+      .run(task)
       .then((response) => {
         this.setState({ output: `${response.key} ${response.message}` });
       })
@@ -74,17 +61,18 @@ class Editor extends React.Component {
     // event.preventDefault();
     console.log(this.state.task);
     const field = event.target.name;
-    const task = this.state.task;
+    const { task } = this.state;
     task[field] = event.target.value;
     return this.setState({ task });
   }
 
-  handleSelect(event) {
-    console.log(event.target);
-    const field = event.target.name;
-    const task = this.state.task;
-    task[field] = event.target.value;
-    return this.setState({ task });
+  handleLangChange(event) {
+    const index = parseInt(event.target.value, 10);
+    questionApi.getTask(languages[index]).then((task) => {
+      console.log(task);
+      this.setState({ task });
+    });
+    return this.setState({ selectedLang: index });
   }
 
   render() {
@@ -92,11 +80,12 @@ class Editor extends React.Component {
       <div className="container">
         <Form horizontal>
           <FormGroup controlId="code">
-            <Col componentClass={ControlLabel} sm={1}>
-              Language:
-            </Col>
-            <Col sm={11}>
-              <DropdownLanguage bsStyle="default" title="Language" onSelect={this.handleSelect} />
+            <Col sm={12}>
+              <LangSelector
+                langs={languages}
+                selectedIndex={this.state.selectedLang}
+                onChange={this.handleLangChange}
+              />
             </Col>
           </FormGroup>
           <FormGroup controlId="code">
@@ -106,7 +95,7 @@ class Editor extends React.Component {
           </FormGroup>
           <FormGroup>
             <Col sm={2}>
-              <Button bsStyle="primary" type="button" onClick={this.handleSubmtJava}>
+              <Button bsStyle="primary" type="button" onClick={this.handleRun}>
                 Run
               </Button>
             </Col>

@@ -5,12 +5,13 @@ module.exports = {
   // compile the given c source file and execute it.
   getTask(lang, callback) {
     let file = '';
-    if (lang === 'java') {
+    if (lang.toLowerCase() === 'java') {
       file = path.join(__dirname, 'HelloJava2.java');
-    } else if (lang === 'c') {
+    } else if (lang.toLowerCase() === 'c') {
       file = path.join(__dirname, 'HelloC.c');
     } else {
       callback('');
+      return;
     }
     console.log(`getTask:${file}`);
     fs.readFile(file, (err, data) => {
