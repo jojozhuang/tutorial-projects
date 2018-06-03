@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image } from 'react-bootstrap';
+import ok from '../../../../public/images/ok.png';
+import error from '../../../../public/images/error.png';
 
 class StatusImage extends React.Component {
   constructor(props, context) {
@@ -10,9 +12,9 @@ class StatusImage extends React.Component {
 
   render() {
     if (this.props.hasError) {
-      return <Image src="./public/error.png" rounded />;
+      return <Image src={error} rounded />;
     } else if (this.props.message !== '') {
-      return <Image src="./public/ok.png" rounded />;
+      return <Image src={ok} rounded />;
     }
     return '';
   }
