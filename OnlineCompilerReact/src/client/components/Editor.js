@@ -2,6 +2,9 @@ import React from 'react';
 import { Form, FormGroup, Col, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import LangSelector from './controls/LangSelector';
 import CodeEditor from './controls/CodeEditor';
+import AlertDismissable from './controls/AlertDismissable';
+import OutputBox from './controls/OutputBox';
+import StatusImage from './controls/StatusImage';
 import compilerApi from '../api/compilerApi';
 import questionApi from '../api/QuestionApi';
 
@@ -16,7 +19,10 @@ class Editor extends React.Component {
         lang: 'java',
         code: '',
       },
-      output: '',
+      response: {
+        status: '0',
+        message: '',
+      },
     };
 
     this.handleRun = this.handleRun.bind(this);
@@ -44,12 +50,16 @@ class Editor extends React.Component {
 
   handleRun(event) {
     event.preventDefault();
+
+    // const response = { status: '0', message: '' };
+    // this.setState({ response });
+
     const { task } = this.state;
     console.log(task);
     compilerApi
       .run(task)
-      .then((response) => {
-        this.setState({ output: `${response.key} ${response.message}` });
+      .then((res) => {
+        this.setState({ response: res });
       })
       .catch((error) => {
         console.log(error);
@@ -72,6 +82,8 @@ class Editor extends React.Component {
       console.log(task);
       this.setState({ task });
     });
+    const response = { status: '0', message: '' };
+    this.setState({ response });
     return this.setState({ selectedLang: index });
   }
 
@@ -98,18 +110,26 @@ class Editor extends React.Component {
               <Button bsStyle="primary" type="button" onClick={this.handleRun}>
                 Run
               </Button>
+              <StatusImage
+                hasError={this.state.response.status !== '0'}
+                message={this.state.response.message}
+              />
             </Col>
             <Col sm={10} />
           </FormGroup>
           <FormGroup>
             <Col sm={12}>
-              <FormControl
-                name="code"
-                type="textarea"
-                componentClass="textarea"
-                rows="8"
-                readOnly
-                value={this.state.output}
+              <AlertDismissable
+                show={this.state.response.status !== '0'}
+                message={this.state.response.message}
+              />
+            </Col>
+          </FormGroup>
+          <FormGroup>
+            <Col sm={12}>
+              <OutputBox
+                show={this.state.response.status === '0'}
+                message={this.state.response.message}
               />
             </Col>
           </FormGroup>

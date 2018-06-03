@@ -58,6 +58,7 @@ module.exports = {
     });
     compile.stderr.on('data', (data) => {
       console.log(`compile-stderr: ${String(data)}`);
+      callback('1', String(data)); // 1, compile error
     });
     compile.on('close', (data) => {
       if (data === 0) {
@@ -65,10 +66,11 @@ module.exports = {
         const run = spawn(cmdRun, argsRun, options);
         run.stdout.on('data', (output) => {
           console.log(String(output));
-          callback(String(output));
+          callback('0', String(output)); // 0, no error
         });
         run.stderr.on('data', (output) => {
           console.log(`stderr: ${String(output)}`);
+          callback('2', String(output)); // 2, execution error
         });
         run.on('close', (output) => {
           console.log(`stdout: ${output}`);
