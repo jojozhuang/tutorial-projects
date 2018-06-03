@@ -5,6 +5,10 @@ class CompilerApi {
     return { 'Content-Type': 'application/json' };
   }
 
+  static getTask(lang) {
+    return HttpHelper.fetch(`/api/task/${lang}`, 'GET', this.requestHeaders(), null);
+  }
+
   static run(answer) {
     return HttpHelper.fetch(
       'http://localhost:3000/api/run/',

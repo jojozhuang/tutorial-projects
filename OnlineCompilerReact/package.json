@@ -16,6 +16,7 @@
     "body-parser": "^1.18.3",
     "bootstrap-select": "^1.13.1",
     "express": "^4.16.3",
+    "mkdirp": "^0.5.1",
     "prop-types": "^15.6.1",
     "react": "^16.3.1",
     "react-ace": "^6.1.1",

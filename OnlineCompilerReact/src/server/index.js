@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const compiler = require('./compiler/compiler');
 const taskApi = require('./compiler/taskApi');
+const Runner = require('./compiler/Runner');
 
 const app = express();
 // Here we are configuring express to use body-parser as middle-ware.
@@ -26,28 +26,7 @@ app.get('/api/task/:lang', (req, res) => {
 
 app.post('/api/run', (req, res) => {
   const task = req.body;
-  console.log(`task =${task}`);
-  // compiler.java('HelloJava.java');
-  if (task.lang.toLowerCase() === 'c') {
-    taskApi.saveTask('HelloC.c', task.code, () => {
-      compiler.clang('HelloC.c', (status, message) => {
-        const result = {
-          status,
-          message,
-        };
-        res.end(JSON.stringify(result));
-      });
-    });
-  } else {
-    taskApi.saveTask('HelloJava2.java', task.code, () => {
-      compiler.java('HelloJava2.java', (status, message) => {
-        const result = {
-          status,
-          message,
-        };
-        res.end(JSON.stringify(result));
-      });
-    });
-  }
+  console.log(`task.lang: ${task.lang}`, `task.code:${task.code}`);
+  Runner.run(task.lang, task.code, res);
 });
 app.listen(8080, () => console.log('Listening on port 8080!'));

@@ -6,7 +6,6 @@ import AlertDismissable from './controls/AlertDismissable';
 import OutputBox from './controls/OutputBox';
 import StatusImage from './controls/StatusImage';
 import compilerApi from '../api/compilerApi';
-import questionApi from '../api/QuestionApi';
 
 const languages = ['C', 'C++', 'Java', 'JavaScript', 'Python'];
 
@@ -32,7 +31,7 @@ class Editor extends React.Component {
   }
 
   componentDidMount() {
-    questionApi
+    compilerApi
       .getTask('java')
       // .then(res => res.json())
       .then((task) => {
@@ -78,7 +77,7 @@ class Editor extends React.Component {
 
   handleLangChange(event) {
     const index = parseInt(event.target.value, 10);
-    questionApi.getTask(languages[index]).then((task) => {
+    compilerApi.getTask(languages[index]).then((task) => {
       console.log(task);
       this.setState({ task });
     });
