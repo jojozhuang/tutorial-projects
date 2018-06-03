@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const taskApi = require('./compiler/taskApi');
-const Runner = require('./compiler/Runner');
+const FileApi = require('./api/FileApi');
+const RunnerManager = require('./compiler/RunnerManager');
 
 const app = express();
 // Here we are configuring express to use body-parser as middle-ware.
@@ -12,21 +12,21 @@ app.use(bodyParser.json());
 // serve static files
 app.use(express.static('dist'));
 
-app.get('/api/task/:lang', (req, res) => {
+app.get('/api/file/:lang', (req, res) => {
   const language = req.params.lang;
   console.log(language);
-  taskApi.getTask(language, (content) => {
-    const task = {
+  FileApi.getFile(language, (content) => {
+    const file = {
       lang: language,
       code: content,
     };
-    res.send(JSON.stringify(task));
+    res.send(JSON.stringify(file));
   });
 });
 
 app.post('/api/run', (req, res) => {
-  const task = req.body;
-  console.log(`task.lang: ${task.lang}`, `task.code:${task.code}`);
-  Runner.run(task.lang, task.code, res);
+  const file = req.body;
+  console.log(`file.lang: ${file.lang}`, `file.code:${file.code}`);
+  RunnerManager.run(file.lang, file.code, res);
 });
 app.listen(8080, () => console.log('Listening on port 8080!'));

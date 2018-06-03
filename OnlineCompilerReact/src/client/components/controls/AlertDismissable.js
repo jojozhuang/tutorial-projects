@@ -32,7 +32,7 @@ class AlertDismissable extends React.Component {
       return (
         <Alert bsStyle="danger" onDismiss={this.handleDismiss}>
           <h4>Oh snap! You got an error!</h4>
-          <p>{this.props.message}</p>
+          <p style={{ whiteSpace: 'pre-wrap' }}>{this.props.message}</p>
         </Alert>
       );
     }

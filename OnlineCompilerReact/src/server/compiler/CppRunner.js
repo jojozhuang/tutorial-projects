@@ -1,31 +1,38 @@
 const { spawn } = require('child_process');
-const RunnerBase = require('./RunnerBase');
+const Runner = require('./Runner');
+const path = require('path');
 
-class RunnerJava extends RunnerBase {
+class CppRunner extends Runner {
   defaultFile() {
     return this.defaultfile;
   }
 
   constructor() {
     super();
-    this.defaultfile = 'Hello.java';
+    this.defaultfile = 'Hello.cpp';
   }
 
   run(file, directory, filename, extension, callback) {
-    if (extension.toLowerCase() !== '.java') {
-      console.log(`${file} is not a java file.`);
+    if (extension.toLowerCase() !== '.cpp') {
+      console.log(`${file} is not a cpp file.`);
+      return;
     }
     this.compile(file, directory, filename, callback);
   }
 
-  // compile java source file
+  // compile a c file
   compile(file, directory, filename, callback) {
     // set working directory for child_process
     const options = { cwd: directory };
-    // var compiler = spawn('javac', ['CodeJava.java']);
+    // ['codec.c', '-o','codec.out']
     const argsCompile = [];
     argsCompile[0] = file;
-    const compiler = spawn('javac', argsCompile);
+    argsCompile[1] = '-o';
+    argsCompile[2] = path.join(directory, `${filename}.out`);
+    console.log(`argsCompile:${argsCompile}`);
+
+    // const compile = spawn('g++', ['Hello.cpp', '-o','Hello.out']);
+    const compiler = spawn('g++', argsCompile);
     compiler.stdout.on('data', (data) => {
       console.log(`stdout: ${data}`);
     });
@@ -35,16 +42,17 @@ class RunnerJava extends RunnerBase {
     });
     compiler.on('close', (data) => {
       if (data === 0) {
-        this.execute(filename, options, callback);
+        this.execute(directory, filename, options, callback);
       }
     });
   }
 
-  // execute the compiled class file
-  execute(filename, options, callback) {
-    const argsRun = [];
-    argsRun[0] = filename;
-    const executor = spawn('java', argsRun, options);
+  // execute the compiled file
+  execute(directory, filename, options, callback) {
+    const cmdRun = path.join(directory, `${filename}.out`);
+
+    // const executor = spawn('./Hello.out', [], options);
+    const executor = spawn(cmdRun, [], options);
     executor.stdout.on('data', (output) => {
       console.log(String(output));
       callback('0', String(output)); // 0, no error
@@ -63,4 +71,4 @@ class RunnerJava extends RunnerBase {
   }
 }
 
-module.exports = RunnerJava;
+module.exports = CppRunner;

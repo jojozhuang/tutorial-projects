@@ -49,10 +49,6 @@ class Editor extends React.Component {
 
   handleRun(event) {
     event.preventDefault();
-
-    // const response = { status: '0', message: '' };
-    // this.setState({ response });
-
     const { task } = this.state;
     console.log(task);
     compilerApi

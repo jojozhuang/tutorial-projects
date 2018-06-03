@@ -1,8 +1,8 @@
 const { spawn } = require('child_process');
-const RunnerBase = require('./RunnerBase');
+const Runner = require('./Runner');
 const path = require('path');
 
-class RunnerC extends RunnerBase {
+class CRunner extends Runner {
   defaultFile() {
     return this.defaultfile;
   }
@@ -71,4 +71,4 @@ class RunnerC extends RunnerBase {
   }
 }
 
-module.exports = RunnerC;
+module.exports = CRunner;
