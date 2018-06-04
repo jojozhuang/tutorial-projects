@@ -1,11 +1,11 @@
 import React from 'react';
-import { Form, FormGroup, Col, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { Form, FormGroup, Col, Button } from 'react-bootstrap';
 import LangSelector from './controls/LangSelector';
 import CodeEditor from './controls/CodeEditor';
 import AlertDismissable from './controls/AlertDismissable';
 import OutputBox from './controls/OutputBox';
 import StatusImage from './controls/StatusImage';
-import compilerApi from '../api/compilerApi';
+import CompilerApi from '../api/CompilerApi';
 
 const languages = ['C', 'C++', 'Java', 'JavaScript', 'Python'];
 
@@ -31,8 +31,7 @@ class Editor extends React.Component {
   }
 
   componentDidMount() {
-    compilerApi
-      .getTask('java')
+    CompilerApi.getTask('java')
       // .then(res => res.json())
       .then((task) => {
         console.log(task);
@@ -51,8 +50,7 @@ class Editor extends React.Component {
     event.preventDefault();
     const { task } = this.state;
     console.log(task);
-    compilerApi
-      .run(task)
+    CompilerApi.run(task)
       .then((res) => {
         this.setState({ response: res });
       })
@@ -73,7 +71,7 @@ class Editor extends React.Component {
 
   handleLangChange(event) {
     const index = parseInt(event.target.value, 10);
-    compilerApi.getTask(languages[index]).then((task) => {
+    CompilerApi.getTask(languages[index]).then((task) => {
       console.log(task);
       this.setState({ task });
     });
