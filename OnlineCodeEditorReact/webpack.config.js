@@ -40,9 +40,10 @@ const commonConfig = merge([
         template: './public/index.html',
         favicon: './public/favicon.ico',
       }),
+
       new webpack.DefinePlugin({
         'process.env': {
-          API_HOST: JSON.stringify('http://localhost:8080'),
+          API_HOST: JSON.stringify(process.env.API_HOST || 'http://localhost:8080'),
           PUBLIC_URL: JSON.stringify('./public'),
         },
       }),
@@ -51,6 +52,7 @@ const commonConfig = merge([
 ]);
 
 const productionConfig = merge([
+  // parts.loadEnv('https://online-code-editor-api.herokuapp.com'),
   parts.extractCSS({
     use: 'css-loader',
   }),
@@ -75,10 +77,11 @@ const productionConfig = merge([
 ]);
 
 const developmentConfig = merge([
+  // parts.loadEnv('http://localhost:8080'),
   parts.devServer({
     // Customize host/port here if needed
     host: process.env.HOST,
-    port: 3000, // process.env.PORT,
+    port: process.env.PORT,
   }),
   parts.loadCSS(),
   parts.loadImages(),
@@ -86,11 +89,14 @@ const developmentConfig = merge([
 ]);
 
 module.exports = (mode) => {
+  console.log(`mode:${mode}`);
   if (mode === 'production') {
     return merge(commonConfig, productionConfig, { mode });
   }
 
-  return merge(commonConfig, developmentConfig, { mode });
+  const dev = merge(commonConfig, developmentConfig, { mode });
+  console.log(dev);
+  return dev;
 };
 
 /*

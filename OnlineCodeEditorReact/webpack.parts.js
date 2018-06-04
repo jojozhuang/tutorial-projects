@@ -87,3 +87,16 @@ exports.loadFonts = ({ include, exclude, options } = {}) => ({
     ],
   },
 });
+
+const webpack = require('webpack');
+
+exports.loadEnv = ({ url }) => ({
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        API_HOST: JSON.stringify(url),
+        PUBLIC_URL: JSON.stringify('./public'),
+      },
+    }),
+  ],
+});
