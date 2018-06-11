@@ -1,0 +1,15 @@
+{
+  "name": "expresstutorial",
+  "version": "1.0.0",
+  "description": "Express Tutorial",
+  "main": "server.js",
+  "scripts": {
+    "start": "node helloworld.js"
+  },
+  "keywords": ["express"],
+  "author": "Johnny",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
