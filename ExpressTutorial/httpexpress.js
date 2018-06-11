@@ -8,5 +8,5 @@ app.use(function(request, response) {
 });
 
 http.createServer(app).listen(3000, function() {
-  console.log("http server started on port 3000.");
+  console.log("Web server(http+express) started on port 3000.");
 });

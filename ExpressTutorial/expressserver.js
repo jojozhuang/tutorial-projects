@@ -7,5 +7,5 @@ app.use(function(request, response) {
 });
 
 app.listen(3000, function() {
-  console.log("http server started on port 3000.");
+  console.log("Web server(express) started on port 3000.");
 });
