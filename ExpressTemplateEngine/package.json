@@ -1,0 +1,16 @@
+{
+  "name": "expresstemplateengine",
+  "version": "1.0.0",
+  "description": "Express Tempalte Engine",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["express"],
+  "author": "Johnny",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3"
+  }
+}
