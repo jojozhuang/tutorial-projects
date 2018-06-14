@@ -4,7 +4,8 @@
   "description": "Express Tutorial",
   "main": "server.js",
   "scripts": {
-    "start": "node helloworld.js"
+    "start": "node helloworld.js",
+    "debug": "DEBUG=express:* node helloworld.js"
   },
   "keywords": ["express"],
   "author": "Johnny",

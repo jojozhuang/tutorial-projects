@@ -1,18 +1,16 @@
+// logging.js
 var express = require("express");
-var morgan = require("morgan");
-var path = require("path");
 var app = express();
 
-app.use(morgan("short"));
+app.use(function(request, response, next) {
+  console.log("In comes a " + request.method + " to " + request.url);
+  next();
+});
 
-var staticPath = path.join(__dirname, "static");
-app.use(express.static(staticPath));
-
-app.use(function(req, res) {
-  res.status(404);
-  res.send("File not found!");
+app.get("/", function(request, response) {
+  response.send("Hello, world!");
 });
 
 app.listen(3000, function() {
-  console.log("Web Server started on port 3000");
+  console.log("Web server started on port 3000.");
 });

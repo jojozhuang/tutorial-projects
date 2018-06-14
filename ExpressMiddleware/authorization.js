@@ -1,3 +1,4 @@
+// authorization.js
 var express = require("express");
 var app = express();
 
@@ -7,7 +8,7 @@ app.use(function(request, response, next) {
   next();
 });
 
-// authentication
+// authorization
 app.use(function(request, response, next) {
   if (request.url.startsWith("/hello")) {
     next();

@@ -4,11 +4,9 @@
   "description": "Express Middle",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node static.js"
   },
-  "keywords": [
-    "express"
-  ],
+  "keywords": ["express"],
   "author": "Johnny",
   "license": "MIT",
   "dependencies": {

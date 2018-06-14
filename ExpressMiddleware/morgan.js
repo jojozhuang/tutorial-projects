@@ -1,10 +1,13 @@
-// static.js
+// morgan.js
 var express = require("express");
+var morgan = require("morgan");
 var path = require("path");
 var app = express();
 
-var publicPath = path.resolve(__dirname, "static");
-app.use(express.static(publicPath)); // serve static folder
+app.use(morgan("short"));
+
+var staticPath = path.join(__dirname, "static");
+app.use(express.static(staticPath));
 
 app.use(function(req, res) {
   res.status(404);
