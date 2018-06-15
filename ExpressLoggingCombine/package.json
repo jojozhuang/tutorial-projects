@@ -1,0 +1,23 @@
+{
+  "name": "expresslogging",
+  "version": "1.0.0",
+  "description": "Express Logging",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "keywords": [
+    "express"
+  ],
+  "author": "Johnny",
+  "license": "MIT",
+  "dependencies": {
+    "app-root-path": "^2.0.1",
+    "clf-date": "^0.1.0",
+    "express": "^4.16.3",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.17.5",
+    "winston": "^3.0.0",
+    "winston-daily-rotate-file": "^3.2.1"
+  }
+}
