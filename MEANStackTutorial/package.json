@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "client": "ng serve",
-    "server": "node ./server/server",
+    "server": "nodemon ./server/server",
     "dev": "concurrently \"npm run client\" \"npm run server \""
   },
   "private": true,
@@ -33,6 +33,7 @@
     "mongoose": "^5.1.5",
     "morgan": "^1.9.0",
     "ngx-bootstrap": "^3.0.0",
+    "nodemon": "^1.17.5",
     "rxjs": "^5.5.6",
     "winston": "^3.0.0",
     "winston-daily-rotate-file": "^3.2.1",

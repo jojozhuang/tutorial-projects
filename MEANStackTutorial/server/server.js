@@ -1,8 +1,8 @@
 // ./server/server.js
 var express = require("express");
-var morgan = require("morgan");
 var bodyParser = require("body-parser");
 var mongoconfig = require("./config/mongodb-config");
+var morgan = require("morgan");
 var winston = require("./config/winston-config-rotate");
 var product = require("./routers/product"); // Imports routes for the products
 

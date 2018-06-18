@@ -1,4 +1,4 @@
-//winston-config-rotate.js
+// ./server/config/winston-config-rotate.js
 var path = require("path");
 var fs = require("fs");
 var appRoot = require("app-root-path");
@@ -14,7 +14,7 @@ var infofile = new winston.transports.DailyRotateFile({
   level: "info",
   filename: path.resolve(logDirectory, "application-%DATE%-info.log"),
   datePattern: "YYYY-MM-DD-HH",
-  zippedArchive: true,
+  zippedArchive: false,
   maxSize: "100m",
   maxFiles: "14d" // keep logs for 14 days
 });
