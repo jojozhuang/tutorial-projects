@@ -1,16 +1,16 @@
 {
-  "name": "angular-fullstack",
+  "name": "mean-tutorial",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "client": "ng serve",
     "server": "node ./server/server",
-    "dev": "concurrently \"npm start\" \"npm run server \""
+    "dev": "concurrently \"npm run client\" \"npm run server \""
   },
   "private": true,
   "dependencies": {

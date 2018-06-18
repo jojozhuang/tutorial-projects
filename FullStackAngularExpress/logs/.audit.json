@@ -1,0 +1,74 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "/Users/i857285/Johnny/GitHub/Tutorials/FullStackAngularExpress/logs/.audit.json",
+    "files": [
+        {
+            "date": 1529277214538,
+            "name": "/Users/i857285/Johnny/GitHub/Tutorials/FullStackAngularExpress/logs/application-2018-06-17-16-info.log",
+            "hash": "8427864dc3ef4f3f38429252a8322f87"
+        },
+        {
+            "date": 1529277214544,
+            "name": "/Users/i857285/Johnny/GitHub/Tutorials/FullStackAngularExpress/logs/application-2018-06-17-16-error.log",
+            "hash": "962320688411ec84d4906e7a14218344"
+        },
+        {
+            "date": 1529277236623,
+            "name": "/Users/i857285/Johnny/GitHub/Tutorials/FullStackAngularExpress/logs/application-2018-06-17-16-info.log",
+            "hash": "63af195627a95360ceeede230a7424e3"
+        },
+        {
+            "date": 1529277236631,
+            "name": "/Users/i857285/Johnny/GitHub/Tutorials/FullStackAngularExpress/logs/application-2018-06-17-16-error.log",
+            "hash": "e07cf58dad3c0779ab7f225715f30210"
+        },
+        {
+            "date": 1529277245747,
+            "name": "/Users/i857285/Johnny/GitHub/Tutorials/FullStackAngularExpress/logs/application-2018-06-17-16-info.log",
+            "hash": "94306b236dd2d3a61aabedfde95a4dce"
+        },
+        {
+            "date": 1529277245752,
+            "name": "/Users/i857285/Johnny/GitHub/Tutorials/FullStackAngularExpress/logs/application-2018-06-17-16-error.log",
+            "hash": "124f3bb2b7cbdc2c257e9c9f10d82bc0"
+        },
+        {
+            "date": 1529277264864,
+            "name": "/Users/i857285/Johnny/GitHub/Tutorials/FullStackAngularExpress/logs/application-2018-06-17-16-info.log",
+            "hash": "f0ef9ddf3d227dce0d80523f228c7c25"
+        },
+        {
+            "date": 1529277264872,
+            "name": "/Users/i857285/Johnny/GitHub/Tutorials/FullStackAngularExpress/logs/application-2018-06-17-16-error.log",
+            "hash": "1f037ebbba05da6fecac1402df6b3de8"
+        },
+        {
+            "date": 1529288937541,
+            "name": "/Users/i857285/Johnny/GitHub/Tutorials/FullStackAngularExpress/logs/application-2018-06-17-19-info.log",
+            "hash": "dff9fedaf769291507eaa3505ef029ad"
+        },
+        {
+            "date": 1529301621688,
+            "name": "/Users/i857285/Johnny/GitHub/Tutorials/FullStackAngularExpress/logs/application-2018-06-17-23-info.log",
+            "hash": "d662f75bab6f4f2172b7e973d2c0f254"
+        },
+        {
+            "date": 1529301621694,
+            "name": "/Users/i857285/Johnny/GitHub/Tutorials/FullStackAngularExpress/logs/application-2018-06-17-23-error.log",
+            "hash": "d0888b6701a6063de0e06a3619d35f85"
+        },
+        {
+            "date": 1529337930781,
+            "name": "/Users/i857285/Johnny/GitHub/Tutorials/MEANStackTutorial/logs/application-2018-06-18-09-info.log",
+            "hash": "eb671f529a5ec5a5b8c00364e57e8929"
+        },
+        {
+            "date": 1529337930789,
+            "name": "/Users/i857285/Johnny/GitHub/Tutorials/MEANStackTutorial/logs/application-2018-06-18-09-error.log",
+            "hash": "5fdd8e9764a948177a4587e1476ccac7"
+        }
+    ]
+}
