@@ -1,9 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-//import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { AlertService, AuthenticationService } from "../../services/";
-import { first } from "rxjs/operators";
+import {
+  AlertService,
+  AuthenticationService,
+  TokenPayload
+} from "../../services/";
 
 @Component({
   selector: "app-signup",
@@ -11,6 +13,12 @@ import { first } from "rxjs/operators";
   styleUrls: ["./signup.component.css"]
 })
 export class SignupComponent implements OnInit {
+  credentials: TokenPayload = {
+    email: "",
+    username: "",
+    password: ""
+  };
+
   signupForm: FormGroup;
   loading = false;
   submitted = false;
@@ -48,6 +56,20 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
+    let user = this.signupForm.value;
+    this.credentials.username = user.username;
+    this.credentials.password = user.password;
+    this.credentials.email = user.email;
+    this.authService.signup(this.credentials).subscribe(
+      () => {
+        this.router.navigate(["/profile"]);
+      },
+      err => {
+        console.error(err);
+      }
+    );
+
+    /*
     this.submitted = true;
 
     if (this.signupForm.invalid) {
@@ -71,6 +93,6 @@ export class SignupComponent implements OnInit {
         //this.message = error.message;
         this.loading = false;
       }
-    );
+    );*/
   }
 }

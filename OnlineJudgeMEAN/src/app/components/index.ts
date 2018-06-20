@@ -10,3 +10,4 @@ export * from "./questionpage/questionpage.component";
 export * from "./signup/signup.component";
 export * from "./userlist/userlist.component";
 export * from "./userpage/userpage.component";
+export * from "./profile/profile.component";

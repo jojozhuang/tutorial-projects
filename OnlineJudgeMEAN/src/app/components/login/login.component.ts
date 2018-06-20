@@ -1,7 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AlertService, AuthenticationService } from "../../services/";
+import {
+  AlertService,
+  AuthenticationService,
+  TokenPayload
+} from "../../services/";
 
 @Component({
   selector: "app-login",
@@ -9,6 +13,11 @@ import { AlertService, AuthenticationService } from "../../services/";
   styleUrls: ["./login.component.css"]
 })
 export class LoginComponent implements OnInit {
+  credentials: TokenPayload = {
+    email: "",
+    password: ""
+  };
+
   loginForm: FormGroup;
   loading = false;
   submitted = false;
@@ -44,6 +53,20 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    let user = this.loginForm.value;
+    this.credentials.username = user.username;
+    this.credentials.password = user.password;
+
+    this.authService.login(this.credentials).subscribe(
+      () => {
+        this.router.navigate(["/profile"]);
+      },
+      err => {
+        console.error(err);
+      }
+    );
+
+    /*
     this.submitted = true;
 
     if (this.loginForm.invalid) {
@@ -61,6 +84,6 @@ export class LoginComponent implements OnInit {
       error => {
         this.loading = false;
       }
-    );
+    );*/
   }
 }

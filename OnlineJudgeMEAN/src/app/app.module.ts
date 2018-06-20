@@ -2,6 +2,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { AlertModule } from "ngx-bootstrap";
 import { HttpClientModule } from "@angular/common/http";
@@ -18,7 +19,8 @@ import {
   UserpageComponent,
   SignupComponent,
   LoginComponent,
-  AlertComponent
+  AlertComponent,
+  ProfileComponent
 } from "./components/";
 
 // services
@@ -26,7 +28,8 @@ import {
   QuestionService,
   UserService,
   AlertService,
-  AuthenticationService
+  AuthenticationService,
+  AuthGuardService
 } from "./services/";
 import { ErrorInterceptorProvider } from "./http.interceptor";
 
@@ -47,13 +50,15 @@ import { FieldErrorDisplayComponent } from "./components/field-error-display/fie
     SignupComponent,
     LoginComponent,
     FieldErrorDisplayComponent,
-    AlertComponent
+    AlertComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     AlertModule.forRoot(),
+    FormsModule,
     HttpClientModule
   ],
   providers: [
@@ -61,6 +66,7 @@ import { FieldErrorDisplayComponent } from "./components/field-error-display/fie
     UserService,
     AlertService,
     AuthenticationService,
+    AuthGuardService,
     ErrorInterceptorProvider
   ],
   bootstrap: [AppComponent]

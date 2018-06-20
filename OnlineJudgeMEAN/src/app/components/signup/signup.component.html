@@ -6,7 +6,7 @@
     <div class="form-group" [ngClass]="displayFieldCss('username')">
       <label class="control-label col-sm-2 required" for="username">User Name:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="username" placeholder="Enter user name" formControlName="username">
+        <input type="text" class="form-control" name="username" placeholder="Enter user name" formControlName="username">
         <app-field-error-display [displayError]="isFieldValid('username')" errorMsg="Please enter user name">
         </app-field-error-display>
       </div>
@@ -14,7 +14,7 @@
     <div class="form-group" [ngClass]="displayFieldCss('password')">
       <label class="control-label col-sm-2 required" for="password">Password:</label>
       <div class="col-sm-4">
-        <input type="password" class="form-control" id="password" placeholder="Enter password" formControlName="password">
+        <input type="password" class="form-control" name="password" placeholder="Enter password" formControlName="password">
         <app-field-error-display [displayError]="isFieldValid('password')" errorMsg="Please enter password">
         </app-field-error-display>
       </div>
@@ -22,7 +22,7 @@
     <div class="form-group" [ngClass]="displayFieldCss('email')">
       <label class="control-label col-sm-2 required" for="email">Email:</label>
       <div class="col-sm-4">
-        <input type="email" class="form-control" id="email" placeholder="Enter email" formControlName="email">
+        <input type="email" class="form-control" name="email" placeholder="Enter email" formControlName="email">
         <app-field-error-display [displayError]="isFieldValid('email')" errorMsg="Please enter a valid email">
         </app-field-error-display>
       </div>

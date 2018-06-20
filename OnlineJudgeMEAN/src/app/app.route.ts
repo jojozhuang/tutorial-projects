@@ -12,8 +12,12 @@ import {
   UserpageComponent,
   SignupComponent,
   LoginComponent,
-  AlertComponent
+  AlertComponent,
+  ProfileComponent
 } from "./components/";
+
+// services
+import { AuthGuardService } from "./services/";
 
 export const appRoutes: Routes = [
   { path: "", component: MainpageComponent },
@@ -26,6 +30,11 @@ export const appRoutes: Routes = [
   { path: "userpage/:_id", component: UserpageComponent },
   { path: "signup", component: SignupComponent },
   { path: "login", component: LoginComponent },
+  {
+    path: "profile",
+    component: ProfileComponent,
+    canActivate: [AuthGuardService]
+  },
   // otherwise redirect to home
   { path: "**", redirectTo: "" }
 ];
