@@ -53,7 +53,16 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (response instanceof HttpErrorResponse) {
           if (response.status == 422) {
             console.log("422");
-            this.alertService.error(response.error);
+            // 422 error is returned by express-validator
+            var errors = response.error.errors;
+            console.log(errors);
+            var message = "<ul>";
+            for (var i = 0; i < errors.length; i++) {
+              message += "<li>" + errors[i].msg + "</li>";
+            }
+            message += "</ul>";
+            console.log(message);
+            this.alertService.error(message);
           }
           // validation error
           console.log("HttpErrorResponse:" + response.status);

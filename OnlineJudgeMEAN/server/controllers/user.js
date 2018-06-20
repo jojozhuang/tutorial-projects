@@ -1,7 +1,9 @@
 const moment = require("moment");
 const User = require("../models/user");
+const ValidationError = require("../models/validationerror");
 const Ctypto = require("../utils/").Ctypto;
 const { check, validationResult } = require("express-validator/check");
+const sleep = require("sleep");
 
 exports.user_create = function(req, res, next) {
   var user = new User({
@@ -54,7 +56,7 @@ exports.user_all = function(req, res, next) {
 };
 
 exports.user_signup = function(req, res, next) {
-  var user = new User({
+  var newuser = new User({
     username: req.body.username,
     password: req.body.password,
     email: req.body.email
@@ -65,19 +67,31 @@ exports.user_signup = function(req, res, next) {
     return res.status(422).json({ errors: errors.array() });
   }
 
-  User.findOne({ username: user.username }, function(err, user) {
+  User.findOne({ username: newuser.username }, function(err, user) {
     if (user) {
-      res.status(422).send("User Name is existed!");
+      var error = new ValidationError(
+        "body",
+        "username",
+        newuser.username,
+        "User Name is existed!"
+      );
+      res.status(422).json({ errors: [error] });
     } else {
-      User.findOne({ email: user.email }, function(err, user) {
+      User.findOne({ email: newuser.email }, function(err, user) {
         if (user) {
-          res.status(422).send("Email is existed!");
+          var error = new ValidationError(
+            "body",
+            "username",
+            newuser.email,
+            "Email is existed!"
+          );
+          res.status(422).json({ errors: [error] });
         } else {
-          Ctypto.saltAndHash(user.password, function(hash) {
-            user.password = hash;
+          Ctypto.saltAndHash(newuser.password, function(hash) {
+            newuser.password = hash;
             // append date stamp when record was created //
-            user.timecreated = moment().format("MMMM Do YYYY, h:mm:ss a");
-            user.save({ new: true }, function(err, user) {
+            newuser.timecreated = moment(new Date(Date.now()));
+            newuser.save({ new: true }, function(err, user) {
               if (err) {
                 return next(err);
               }
@@ -94,15 +108,29 @@ exports.user_login = function(req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
 
+  //sleep.sleep(3); //sleep for 3 seconds
+
   User.findOne({ username: username }, function(err, user) {
-    if (err == null) {
-      res.status(200).send("User not found!");
+    if (user == null) {
+      var error = new ValidationError(
+        "body",
+        "username",
+        username,
+        "User not found!"
+      );
+      res.status(422).json({ errors: [error] });
     } else {
-      Ctypto.validatePassword(password, user.password, function(err, res) {
-        if (res) {
+      Ctypto.validatePassword(password, user.password, function(err, same) {
+        if (same) {
           res.status(200).send(user);
         } else {
-          res.status(200).send("Invalid password!");
+          var error = new ValidationError(
+            "body",
+            "password",
+            password,
+            "Invalid password!"
+          );
+          res.status(422).json({ errors: [error] });
         }
       });
     }

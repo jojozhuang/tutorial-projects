@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AlertService, UserService } from "../../services/";
+import { AlertService, AuthenticationService } from "../../services/";
 
 @Component({
   selector: "app-login",
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private userService: UserService,
+    private authService: AuthenticationService,
     private alertService: AlertService
   ) {}
 
@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
     };
   }
 
-  //Handle create and update user
   onSubmit() {
     this.submitted = true;
 
@@ -54,16 +53,12 @@ export class LoginComponent implements OnInit {
     let user = this.loginForm.value;
 
     this.loading = true;
-    this.userService.createUser(user).subscribe(
+    this.authService.login(user.username, user.password).subscribe(
       status => {
-        this.status = status;
-        this.alertService.success("Registration successful", true);
-        this.router.navigate(["/login"]);
+        this.alertService.success("Login successful!", true);
+        this.router.navigate(["/questionslist"]);
       },
       error => {
-        this.status = error.status;
-        this.alertService.error(error);
-        this.message = error.message;
         this.loading = false;
       }
     );

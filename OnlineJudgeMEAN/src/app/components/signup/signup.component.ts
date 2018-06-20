@@ -26,9 +26,9 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
-      username: ["jojozhuang", Validators.required],
-      password: ["111", Validators.required],
-      email: ["jojozhuangssss", [Validators.required]]
+      username: [null, Validators.required],
+      password: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]]
     });
   }
 
@@ -47,7 +47,6 @@ export class SignupComponent implements OnInit {
     };
   }
 
-  //Handle create and update user
   onSubmit() {
     this.submitted = true;
 
@@ -60,16 +59,16 @@ export class SignupComponent implements OnInit {
     this.loading = true;
     this.authService.signup(user).subscribe(
       status => {
-        this.status = status;
-        this.alertService.success("Registration successful", true);
+        //this.status = status;
+        this.alertService.success("Registration successful!", true);
         this.router.navigate(["/login"]);
       },
       error => {
-        this.status = error.status;
+        //this.status = error.status;
         console.log("error");
         //console.log(error);
         //this.alertService.error(error);
-        this.message = error.message;
+        //this.message = error.message;
         this.loading = false;
       }
     );
