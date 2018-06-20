@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
 
-import { Question, ResponseResult } from "./models";
+import { Question, ResponseResult } from "./../models";
 
 @Injectable()
 export class QuestionService {

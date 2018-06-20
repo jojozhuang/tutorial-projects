@@ -25,11 +25,13 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
-    "bootstrap": "^4.1.1",
+    "bootstrap": "^3.3.7",
     "clf-date": "^0.1.0",
     "concurrently": "^3.5.1",
     "core-js": "^2.4.1",
     "eslint": "^4.19.1",
+    "express-validator": "^5.2.0",
+    "moment": "^2.22.2",
     "mongoose": "^5.1.5",
     "morgan": "^1.9.0",
     "ngx-bootstrap": "^3.0.0",
@@ -40,7 +42,7 @@
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
-    "@angular/cli": "~1.7.4",
+    "@angular/cli": "^1.7.4",
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
     "@types/jasmine": "~2.8.3",

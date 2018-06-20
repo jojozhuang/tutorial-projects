@@ -1,0 +1,39 @@
+<div class="container">
+  <h2>Register</h2>
+  <form class="form-horizontal" [formGroup]="signupForm">
+    <h4>Create a new account</h4>
+    <hr />
+    <div class="form-group" [ngClass]="displayFieldCss('username')">
+      <label class="control-label col-sm-2 required" for="username">User Name:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="username" placeholder="Enter user name" formControlName="username">
+        <app-field-error-display [displayError]="isFieldValid('username')" errorMsg="Please enter user name">
+        </app-field-error-display>
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="displayFieldCss('password')">
+      <label class="control-label col-sm-2 required" for="password">Password:</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" id="password" placeholder="Enter password" formControlName="password">
+        <app-field-error-display [displayError]="isFieldValid('password')" errorMsg="Please enter password">
+        </app-field-error-display>
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="displayFieldCss('email')">
+      <label class="control-label col-sm-2 required" for="email">Email:</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" id="email" placeholder="Enter email" formControlName="email">
+        <app-field-error-display [displayError]="isFieldValid('email')" errorMsg="Please enter your email">
+        </app-field-error-display>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-offset-2 col-md-10">
+        <button [disabled]="loading" class="btn btn-primary" (click)="onSubmit()">Register</button>
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+        />
+        <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
+      </div>
+    </div>
+  </form>
+</div>
