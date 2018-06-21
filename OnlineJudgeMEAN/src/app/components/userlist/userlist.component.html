@@ -1,5 +1,7 @@
 <div class="container">
   <h2>Users</h2>
+  <button type="button" class="btn btn-info" routerLink="../userpage">Create User</button>
+  <hr/>
   <div *ngIf="status || errmsg">
     <alert *ngIf="status != 200" type="danger"></alert>
     <alert *ngIf="status === 200" type="success">User has been deleted successfully.</alert>

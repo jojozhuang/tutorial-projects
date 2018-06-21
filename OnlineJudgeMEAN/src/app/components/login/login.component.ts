@@ -20,9 +20,11 @@ export class LoginComponent implements OnInit {
   submitted = false;
   status: number;
   message: string;
+  returnUrl: string;
 
   constructor(
     private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
     private router: Router,
     private authService: AuthenticationService,
     private alertService: AlertService
@@ -33,6 +35,11 @@ export class LoginComponent implements OnInit {
       username: [null, Validators.required],
       password: [null, Validators.required]
     });
+    // reset login status
+    this.authService.logout();
+
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
   }
 
   isFieldValid(field: string) {
@@ -63,7 +70,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.credentials).subscribe(
       () => {
         this.alertService.success("Login successful!", true);
-        this.router.navigate(["/profile"]);
+        this.router.navigate([this.returnUrl]);
       },
       err => {
         console.error(err);

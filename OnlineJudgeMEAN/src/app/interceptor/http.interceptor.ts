@@ -12,7 +12,7 @@ import { Observable } from "rxjs/Observable";
 import { _throw } from "rxjs/observable/throw";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/catch";
-import { ResponseResult } from "./../models";
+import { ResponseResult, AlertMessage, AlertMessageList } from "./../models";
 import { AlertService } from "./../services/";
 
 /**
@@ -22,6 +22,7 @@ import { AlertService } from "./../services/";
 @Injectable()
 export class ErrorHttpInterceptor implements HttpInterceptor {
   constructor(private alertService: AlertService) {}
+  messages: AlertMessageList = new Array();
 
   /**
      * Intercepts an outgoing HTTP request, executes it and handles any error that could be triggered in execution.
@@ -55,14 +56,16 @@ export class ErrorHttpInterceptor implements HttpInterceptor {
             //console.log("422");
             // 422 error is returned by express-validator
             var errors = response.error.errors;
+            console.log("raw error:");
             console.log(errors);
-            var message = "<ul>";
+
             for (var i = 0; i < errors.length; i++) {
-              message += "<li>" + errors[i].msg + "</li>";
+              let am = new AlertMessage("error", errors[i].msg);
+              this.messages[i] = am;
             }
-            message += "</ul>";
-            console.log(message);
-            this.alertService.error(message);
+            console.log("alert messages:");
+            console.log(this.messages);
+            this.alertService.error(this.messages);
           } else {
             // validation error
             console.log("HttpErrorResponse:" + response.status);

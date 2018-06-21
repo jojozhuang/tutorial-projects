@@ -80,9 +80,11 @@ export class AuthenticationService {
     });*/
   }
 
-  public logout(): void {
+  public logout(redirect?): void {
     AuthUtils.clearToken();
-    this.router.navigate(["/login"]);
+    if (redirect) {
+      this.router.navigate(["/login"]);
+    }
   }
 
   /*

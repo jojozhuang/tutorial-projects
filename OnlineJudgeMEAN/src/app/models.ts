@@ -11,6 +11,20 @@ export interface TokenResponse {
   username: string;
 }
 
+/*
+export interface ValidationError {
+  location: string;
+  param: string;
+  value: string;
+  msg: string;
+}*/
+
+export class AlertMessage {
+  constructor(public type: string, public text: string) {}
+}
+
+export interface AlertMessageList extends Array<AlertMessage> {}
+
 export interface TokenPayload {
   username: string;
   password: string;
