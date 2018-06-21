@@ -3,7 +3,7 @@ const User = require("../models/user");
 const ValidationError = require("../models/validationerror");
 const Ctypto = require("../utils/").Ctypto;
 const { check, validationResult } = require("express-validator/check");
-const sleep = require("sleep");
+//const sleep = require("sleep");
 
 exports.user_create = function(req, res, next) {
   var user = new User({
@@ -55,6 +55,7 @@ exports.user_all = function(req, res, next) {
   });
 };
 
+/*
 exports.user_signup = function(req, res, next) {
   var newuser = new User({
     username: req.body.username,
@@ -136,3 +137,4 @@ exports.user_login = function(req, res, next) {
     }
   });
 };
+*/

@@ -1,11 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { TokenPayload } from "../../models";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import {
-  AlertService,
-  AuthenticationService,
-  TokenPayload
-} from "../../services/";
+import { AlertService, AuthenticationService } from "../../services/";
 
 @Component({
   selector: "app-signup",
@@ -56,16 +53,26 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submitted = true;
+
+    if (this.signupForm.invalid) {
+      return; //Validation failed, exit from method.
+    }
+
+    this.loading = true;
+
     let user = this.signupForm.value;
     this.credentials.username = user.username;
     this.credentials.password = user.password;
     this.credentials.email = user.email;
     this.authService.signup(this.credentials).subscribe(
       () => {
+        this.alertService.success("Registration successful!", true);
         this.router.navigate(["/profile"]);
       },
-      err => {
-        console.error(err);
+      error => {
+        console.error(error);
+        this.loading = false;
       }
     );
 

@@ -31,7 +31,9 @@ import {
   AuthenticationService,
   AuthGuardService
 } from "./services/";
-import { ErrorInterceptorProvider } from "./http.interceptor";
+
+// Interceptor
+import { ErrorInterceptor, JwtInterceptor } from "./interceptor";
 
 // routes
 import { appRoutes } from "./app.route";
@@ -67,7 +69,8 @@ import { FieldErrorDisplayComponent } from "./components/field-error-display/fie
     AlertService,
     AuthenticationService,
     AuthGuardService,
-    ErrorInterceptorProvider
+    ErrorInterceptor,
+    JwtInterceptor
   ],
   bootstrap: [AppComponent]
 })

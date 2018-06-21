@@ -12,15 +12,15 @@ import { Observable } from "rxjs/Observable";
 import { _throw } from "rxjs/observable/throw";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/catch";
-import { ResponseResult } from "./models";
-import { AlertService } from "./services/";
+import { ResponseResult } from "./../models";
+import { AlertService } from "./../services/";
 
 /**
  * Intercepts the HTTP responses, and in case that an error/exception is thrown, handles it
  * and extract the relevant information of it.
  */
 @Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
+export class ErrorHttpInterceptor implements HttpInterceptor {
   constructor(private alertService: AlertService) {}
 
   /**
@@ -49,10 +49,10 @@ export class ErrorInterceptor implements HttpInterceptor {
       })
       .catch(response => {
         let respResult = new ResponseResult(200, "");
-        console.error(response);
+        //console.error(response);
         if (response instanceof HttpErrorResponse) {
           if (response.status == 422) {
-            console.log("422");
+            //console.log("422");
             // 422 error is returned by express-validator
             var errors = response.error.errors;
             console.log(errors);
@@ -63,20 +63,24 @@ export class ErrorInterceptor implements HttpInterceptor {
             message += "</ul>";
             console.log(message);
             this.alertService.error(message);
+          } else {
+            // validation error
+            console.log("HttpErrorResponse:" + response.status);
+            const err = response.message || JSON.stringify(response.error);
+            respResult.status = response.status;
+            respResult.message = `${response.statusText || ""} Details: ${err}`;
+            this.alertService.error(response.message);
           }
-          // validation error
-          console.log("HttpErrorResponse:" + response.status);
-          const err = response.message || JSON.stringify(response.error);
-          respResult.status = response.status;
-          respResult.message = `${response.statusText || ""} Details: ${err}`;
         } else {
           respResult.status = 400;
           respResult.message = response.message
             ? response.message
             : response.toString();
+          this.alertService.error(response.message);
         }
-        console.error(respResult.message);
-        return _throw(respResult);
+        //console.error(respResult.message);
+        // return _throw(respResult);
+        return next.handle(request);
       });
   }
 }
@@ -84,8 +88,8 @@ export class ErrorInterceptor implements HttpInterceptor {
 /**
  * Provider POJO for the interceptor
  */
-export const ErrorInterceptorProvider = {
+export const ErrorInterceptor = {
   provide: HTTP_INTERCEPTORS,
-  useClass: ErrorInterceptor,
+  useClass: ErrorHttpInterceptor,
   multi: true
 };

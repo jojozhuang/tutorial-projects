@@ -19,7 +19,7 @@
       <li *ngIf="!auth.isLoggedIn()"><a routerLink="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
       <li *ngIf="!auth.isLoggedIn()"><a routerLink="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       <li *ngIf="auth.isLoggedIn()" class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> {{ details?.username }}
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> {{ this.auth.getUserDetails().username }}
           <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a routerLink="profile">Profile</a></li>
@@ -28,7 +28,7 @@
         </ul>
       </li>
       <li *ngIf="auth.isLoggedIn()">
-        <a href='' (click)="auth.logout() "><span class="glyphicon glyphicon-log-out "></span> Log off</a></li>
+        <a (click)="auth.logout()" style="cursor: pointer;"><span class="glyphicon glyphicon-log-out "></span> Log off</a></li>
     </ul>
   </div>
 </nav>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthenticationService, UserDetails } from "../../services";
+import { UserDetails } from "../../models";
+import { AuthenticationService } from "../../services";
+import { AuthUtils } from "../../utils";
 
 @Component({
   selector: "app-header",
@@ -7,11 +9,14 @@ import { AuthenticationService, UserDetails } from "../../services";
   styleUrls: ["./header.component.css"]
 })
 export class HeaderComponent implements OnInit {
-  details: UserDetails;
+  //  details: UserDetails;
 
-  constructor(public auth: AuthenticationService) {}
+  constructor(private auth: AuthenticationService) {}
 
   ngOnInit() {
+    //this.details = this.auth.getUserDetails();
+    //this.isLoggedIn = AuthUtils.isLoggedIn();
+    /*
     this.auth.profile().subscribe(
       user => {
         this.details = user;
@@ -19,6 +24,6 @@ export class HeaderComponent implements OnInit {
       err => {
         console.error(err);
       }
-    );
+    );*/
   }
 }

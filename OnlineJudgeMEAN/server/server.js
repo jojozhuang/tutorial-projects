@@ -6,7 +6,7 @@ var morgan = require("morgan");
 var winston = require("./config/winston-config-rotate");
 var question = require("./routers/question"); // Imports routes for the question
 var user = require("./routers/user"); // Imports routes for the user
-var authenticate = require("./routers/authenticate"); // Imports routes for the user
+var authentication = require("./routers/authentication"); // Imports routes for the user
 var cors = require("cors");
 
 // [SH] Require Passport
@@ -45,7 +45,7 @@ router.get("/", function(req, res) {
 // all of the routers will be prefixed with /api
 router.use("/question", question); // /api/question
 router.use("/user", user); // /api/user
-router.use("/authenticate", authenticate); // /api/authenticate/login
+router.use("/authentication", authentication); // /api/authenticate/login
 
 // Register the 'root' router
 //app.use("/api", router);

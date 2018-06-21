@@ -15,15 +15,11 @@ passport.use(
         }
         // Return if user not found in database
         if (!user) {
-          return done(null, false, {
-            message: "User not found"
-          });
+          return done(null, false, "User not found");
         }
         // Return if password is wrong
         if (!user.validPassword(password)) {
-          return done(null, false, {
-            message: "Password is wrong"
-          });
+          return done(null, false, "Password is not match");
         }
         // If credentials are correct, return the user object
         return done(null, user);

@@ -1,11 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import {
-  AlertService,
-  AuthenticationService,
-  TokenPayload
-} from "../../services/";
+import { TokenPayload } from "../../models";
+import { AlertService, AuthenticationService } from "../../services/";
 
 @Component({
   selector: "app-login",
@@ -14,7 +11,7 @@ import {
 })
 export class LoginComponent implements OnInit {
   credentials: TokenPayload = {
-    email: "",
+    username: "",
     password: ""
   };
 
@@ -53,16 +50,24 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submitted = true;
+
+    if (this.loginForm.invalid) {
+      return; //Validation failed, exit from method.
+    }
+    this.loading = true;
     let user = this.loginForm.value;
     this.credentials.username = user.username;
     this.credentials.password = user.password;
 
     this.authService.login(this.credentials).subscribe(
       () => {
+        this.alertService.success("Login successful!", true);
         this.router.navigate(["/profile"]);
       },
       err => {
         console.error(err);
+        this.loading = false;
       }
     );
 

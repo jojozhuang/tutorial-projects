@@ -1,7 +1,10 @@
 var passport = require("passport");
 var mongoose = require("mongoose");
 var moment = require("moment");
+//const sleep = require("sleep");
 var User = mongoose.model("User");
+const { validationResult } = require("express-validator/check");
+const ValidationError = require("../models/validationerror");
 
 var sendJSONresponse = function(res, status, content) {
   res.status(status);
@@ -9,58 +12,92 @@ var sendJSONresponse = function(res, status, content) {
 };
 
 module.exports.register = function(req, res) {
-  // if(!req.body.name || !req.body.email || !req.body.password) {
-  //   sendJSONresponse(res, 400, {
-  //     "message": "All fields required"
-  //   });
-  //   return;
-  // }
+  //sleep.sleep(3); //sleep for 3 seconds
+  // get the validation result which is defined in router
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    // return if validation fails
+    return res.status(422).json({ errors: errors.array() });
+  }
 
-  var user = new User();
+  var newuser = new User({
+    username: req.body.username,
+    email: req.body.email
+  });
 
-  user.username = req.body.username;
-  user.email = req.body.email;
-  user.timecreated = moment(new Date(Date.now()));
-  user.setPassword(req.body.password);
+  User.findOne({ username: newuser.username }, function(err, user) {
+    if (user) {
+      var error = new ValidationError(
+        "body",
+        "username",
+        newuser.username,
+        "User Name is existed!"
+      );
+      res.status(422).json({ errors: [error] });
+    } else {
+      User.findOne({ email: newuser.email }, function(err, user) {
+        if (user) {
+          var error = new ValidationError(
+            "body",
+            "username",
+            newuser.email,
+            "Email is existed!"
+          );
+          res.status(422).json({ errors: [error] });
+        } else {
+          //set creation time
+          newuser.timecreated = moment(new Date(Date.now()));
+          // set hash and salt
+          newuser.setPassword(req.body.password);
 
-  console.log(user);
-  user.save(function(err) {
-    var token;
-    token = user.generateJwt();
-    res.status(200);
-    res.json({
-      token: token
-    });
+          console.log(newuser);
+          newuser.save(function(err) {
+            var token;
+            token = newuser.generateJwt();
+            res.status(200);
+            res.json({
+              token: token
+            });
+          });
+        }
+      });
+    }
   });
 };
 
 module.exports.login = function(req, res) {
-  // if(!req.body.email || !req.body.password) {
-  //   sendJSONresponse(res, 400, {
-  //     "message": "All fields required"
-  //   });
-  //   return;
-  // }
+  //sleep.sleep(3); //sleep for 3 seconds
+  // get the validation result which is defined in router
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    // return if validation fails
+    return res.status(422).json({ errors: errors.array() });
+  }
 
+  const username = req.body.username;
+  const password = req.body.password;
+
+  // check with passport
   passport.authenticate("local", function(err, user, info) {
-    var token;
-
     // If Passport throws/catches an error
     if (err) {
-      res.status(404).json(err);
+      var error = new ValidationError("body", "password", password, err);
+      res.status(422).json({ errors: [error] });
       return;
+    }
+    // if no user found, meaning validation fails
+    if (!user) {
+      var error = new ValidationError("body", "username", username, info);
+      return res.status(422).json({ errors: [error] });
     }
 
     // If a user is found
     if (user) {
-      token = user.generateJwt();
+      var token = user.generateJwt();
       res.status(200);
       res.json({
         token: token
       });
-    } else {
-      // If user is not found
-      res.status(401).json(info);
     }
   })(req, res);
 };

@@ -4,53 +4,28 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 
-import { User, ResponseResult } from "./../models";
-
-export interface UserDetails {
-  _id: string;
-  email: string;
-  username: string;
-  exp: number;
-  iat: number;
-}
-
-interface TokenResponse {
-  token: string;
-}
-
-export interface TokenPayload {
-  email: string;
-  password: string;
-  username?: string;
-}
+import {
+  User,
+  TokenPayload,
+  TokenResponse,
+  ResponseResult,
+  UserDetails
+} from "./../models";
+import { AuthUtils } from "../utils";
 
 @Injectable()
 export class AuthenticationService {
-  private token: string;
-
   //URL for CRUD operations
   baseUrl = "http://localhost:5000/";
   //signupUrl = this.baseUrl + "api/authenticate/signup";
   //loginUrl = this.baseUrl + "api/authenticate/login";
-  signupUrl = this.baseUrl + "api/signup";
-  loginUrl = this.baseUrl + "api/login";
+  signupUrl = this.baseUrl + "api/authentication/signup";
+  loginUrl = this.baseUrl + "api/authentication/login";
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  private saveToken(token: string): void {
-    localStorage.setItem("onlinejudge-token", token);
-    this.token = token;
-  }
-
-  private getToken(): string {
-    if (!this.token) {
-      this.token = localStorage.getItem("onlinejudge-token");
-    }
-    return this.token;
-  }
-
   public getUserDetails(): UserDetails {
-    const token = this.getToken();
+    let token = AuthUtils.getToken();
     let payload;
     if (token) {
       payload = token.split(".")[1];
@@ -71,26 +46,19 @@ export class AuthenticationService {
   }
 
   private request(
-    method: "post" | "get",
-    type: "login" | "signup" | "profile",
-    user?: TokenPayload
+    type: "login" | "signup",
+    user: TokenPayload
   ): Observable<any> {
     let base;
 
-    if (method === "post") {
-      base = this.http.post(this.baseUrl + `api/${type}`, user);
-    } else {
-      base = this.http.get(this.baseUrl + `api/${type}`, {
-        headers: { Authorization: `Bearer ${this.getToken()}` }
-      });
-    }
+    base = this.http.post(this.baseUrl + `api/authentication/${type}`, user);
 
     const request = base.pipe(
       map((data: TokenResponse) => {
         if (data.token) {
-          this.saveToken(data.token);
+          AuthUtils.saveToken(data.token);
         }
-        return data;
+        return data.token;
       })
     );
 
@@ -98,20 +66,22 @@ export class AuthenticationService {
   }
 
   public signup(user: TokenPayload): Observable<any> {
-    return this.request("post", "signup", user);
+    return this.request("signup", user);
   }
 
   public login(user: TokenPayload): Observable<any> {
-    return this.request("post", "login", user);
+    return this.request("login", user);
   }
 
   public profile(): Observable<any> {
-    return this.request("get", "profile");
+    return this.http.get(this.baseUrl + `api/profile/read`);
+    /*return this.http.get(this.baseUrl + `api/profile/read`, {
+      headers: { Authorization: `Bearer ${AuthUtils.getToken()}` }
+    });*/
   }
 
   public logout(): void {
-    this.token = "";
-    localStorage.removeItem("onlinejudge-token");
+    AuthUtils.clearToken();
     this.router.navigate(["/login"]);
   }
 
