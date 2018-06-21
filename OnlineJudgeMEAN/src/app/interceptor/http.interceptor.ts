@@ -12,7 +12,7 @@ import { Observable } from "rxjs/Observable";
 import { _throw } from "rxjs/observable/throw";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/catch";
-import { ResponseResult, AlertMessage, AlertMessageList } from "./../models";
+import { AlertMessage, AlertMessageList } from "./../models";
 import { AlertService } from "./../services/";
 
 /**
@@ -49,36 +49,33 @@ export class ErrorHttpInterceptor implements HttpInterceptor {
         }
       })
       .catch(response => {
-        let respResult = new ResponseResult(200, "");
         //console.error(response);
         if (response instanceof HttpErrorResponse) {
+          console.log("HttpErrorResponse:" + response.status);
           if (response.status == 422) {
             //console.log("422");
             // 422 error is returned by express-validator
             var errors = response.error.errors;
-            console.log("raw error:");
             console.log(errors);
 
             for (var i = 0; i < errors.length; i++) {
               let am = new AlertMessage("error", errors[i].msg);
               this.messages[i] = am;
             }
-            console.log("alert messages:");
             console.log(this.messages);
             this.alertService.error(this.messages);
-          } else {
+          } else if (response.status < 500) {
             // validation error
-            console.log("HttpErrorResponse:" + response.status);
-            const err = response.message || JSON.stringify(response.error);
-            respResult.status = response.status;
-            respResult.message = `${response.statusText || ""} Details: ${err}`;
+            this.alertService.error(response.message);
+          } else if (response.status == 500) {
+            // internal server error
+            let message = `${response.message || ""}: ${response.error
+              .message}`;
+            this.alertService.error(message);
+          } else {
             this.alertService.error(response.message);
           }
         } else {
-          respResult.status = 400;
-          respResult.message = response.message
-            ? response.message
-            : response.toString();
           this.alertService.error(response.message);
         }
         //console.error(respResult.message);

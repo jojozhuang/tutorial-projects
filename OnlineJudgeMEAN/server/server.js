@@ -61,10 +61,13 @@ app.use(function(err, req, res, next) {
   winston.error(winston.combinedFormat(err, req, res));
   winston.writeError(err);
 
+  //console.log(err);
   if (err.name === "UnauthorizedError") {
     res.status(401);
     res.json({ message: err.name + ": " + err.message });
   }
+
+  next(err, req, res, next);
 
   //res.status(err.status || 500).send("Internal server error.");
 });
@@ -73,23 +76,31 @@ app.use(function(err, req, res, next) {
 // will print stacktrace
 if (app.get("env") === "development") {
   app.use(function(err, req, res, next) {
+    console.log(app.get("env"));
     res.status(err.status || 500);
-    res.render("error", {
+    res.json({
       message: err.message,
       error: err
     });
+    /*
+    res.render("error", {
+      message: err.message,
+      error: err
+    });*/
   });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render("error", {
-    message: err.message,
-    error: {}
+if (app.get("env") === "production") {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render("error", {
+      message: err.message,
+      error: {}
+    });
   });
-});
+}
 
 app.listen(port, () => {
   console.log("Server is up and running on port numner " + port);

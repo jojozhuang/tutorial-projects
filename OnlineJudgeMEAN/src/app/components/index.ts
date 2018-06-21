@@ -1,13 +1,16 @@
-export * from "./alert/alert.component";
-export * from "./app/app.component";
-export * from "./field-error-display/field-error-display.component";
-export * from "./footer/footer.component";
-export * from "./header/header.component";
-export * from "./login/login.component";
-export * from "./mainpage/mainpage.component";
-export * from "./questionlist/questionlist.component";
-export * from "./questionpage/questionpage.component";
-export * from "./signup/signup.component";
-export * from "./userlist/userlist.component";
-export * from "./userpage/userpage.component";
-export * from "./profile/profile.component";
+export * from "./widgets/alert/alert.component";
+export * from "./widgets/validationmessage/validationmessage.component";
+
+export * from "./authentication/signup.component";
+export * from "./authentication/login.component";
+export * from "./authentication/profile.component";
+
+export * from "./pages/app.component";
+export * from "./pages/homepage.component";
+export * from "./pages/header.component";
+export * from "./pages/footer.component";
+
+export * from "./question/questionlist.component";
+export * from "./question/questionpage.component";
+export * from "./user/userlist.component";
+export * from "./user/userpage.component";

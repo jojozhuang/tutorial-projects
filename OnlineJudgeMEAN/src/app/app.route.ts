@@ -5,7 +5,7 @@ import {
   AppComponent,
   HeaderComponent,
   FooterComponent,
-  MainpageComponent,
+  HomepageComponent,
   QuestionlistComponent,
   QuestionpageComponent,
   UserlistComponent,
@@ -20,8 +20,8 @@ import {
 import { AuthGuardService } from "./services/";
 
 export const appRoutes: Routes = [
-  { path: "", component: MainpageComponent },
-  { path: "mainpage", component: MainpageComponent },
+  { path: "", component: HomepageComponent },
+  { path: "homepage", component: HomepageComponent },
   {
     path: "questionlist",
     component: QuestionlistComponent,

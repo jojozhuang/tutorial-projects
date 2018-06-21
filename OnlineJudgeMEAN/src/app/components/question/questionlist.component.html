@@ -1,0 +1,28 @@
+<div class="container">
+  <h2>Questions</h2>
+  <button type="button" class="btn btn-info" routerLink="../questionpage">Create Question</button>
+  <hr/>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Question ID</th>
+        <th>Sequence</th>
+        <th>Title</th>
+        <th>Difficulty</th>
+        <th>Operations</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let question of questions">
+      <tr>
+        <td>{{question._id}}</td>
+        <td>{{question.sequence}}</td>
+        <td>{{question.title}}</td>
+        <td>{{question.difficulty}}</td>
+        <td>
+          <button type="button" class="btn btn-success" [routerLink]="['/questionpage', question._id ]">Edit</button>
+          <button type="button" class="btn btn-danger" (click)="deleteQuestion({ event:$event, id: question._id })">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

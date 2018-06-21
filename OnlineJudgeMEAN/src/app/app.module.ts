@@ -9,17 +9,18 @@ import { HttpClientModule } from "@angular/common/http";
 
 // components
 import {
+  AlertComponent,
+  ValidationMessageComponent,
   AppComponent,
   HeaderComponent,
   FooterComponent,
-  MainpageComponent,
+  HomepageComponent,
   QuestionlistComponent,
   QuestionpageComponent,
   UserlistComponent,
   UserpageComponent,
   SignupComponent,
   LoginComponent,
-  AlertComponent,
   ProfileComponent
 } from "./components/";
 
@@ -37,22 +38,22 @@ import { ErrorInterceptor, JwtInterceptor } from "./interceptor";
 
 // routes
 import { appRoutes } from "./app.route";
-import { FieldErrorDisplayComponent } from "./components/field-error-display/field-error-display.component";
 
 @NgModule({
   declarations: [
+    AlertComponent,
+    ValidationMessageComponent,
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    MainpageComponent,
+    HomepageComponent,
     QuestionlistComponent,
     QuestionpageComponent,
     UserpageComponent,
     UserlistComponent,
     SignupComponent,
     LoginComponent,
-    FieldErrorDisplayComponent,
-    AlertComponent,
+
     ProfileComponent
   ],
   imports: [
