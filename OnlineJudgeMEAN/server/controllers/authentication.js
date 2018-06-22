@@ -137,27 +137,39 @@ module.exports.update = function(req, res) {
         res.status(422).json({ errors: [error] });
       }*/
       //
-      User.findOne({ email: upduser.email }, function(err, user2) {
+      User.findOne({ username: upduser.username }, function(err, user2) {
         if (user2 && !user2._id.equals(upduser._id)) {
           var error = new ValidationError(
             "body",
             "username",
-            upduser.email,
-            "Email is existed!"
+            upduser.username,
+            "Username is existed!"
           );
           res.status(422).json({ errors: [error] });
         } else {
-          //update username and email
-          user.username = upduser.username;
-          user.email = upduser.email;
-          //console.log(user);
-          user.save(function(err) {
-            var token;
-            token = user.generateJwt();
-            res.status(200);
-            res.json({
-              token: token
-            });
+          User.findOne({ email: upduser.email }, function(err, user3) {
+            if (user3 && !user3._id.equals(upduser._id)) {
+              var error = new ValidationError(
+                "body",
+                "email",
+                upduser.email,
+                "Email is existed!"
+              );
+              res.status(422).json({ errors: [error] });
+            } else {
+              //update username and email
+              user.username = upduser.username;
+              user.email = upduser.email;
+              //console.log(user);
+              user.save(function(err) {
+                var token;
+                token = user.generateJwt();
+                res.status(200);
+                res.json({
+                  token: token
+                });
+              });
+            }
           });
         }
       });

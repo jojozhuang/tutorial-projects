@@ -1,19 +1,36 @@
 <div class="container">
   <h2>Profile</h2>
   <hr />
-  <div class="panel-group">
-    <div class="panel panel-info">
-      <div class="panel-heading">My Profile</div>
-      <div class="panel-body">
-        <div class="form-group">
-          <label class="col-sm-3 control-label">Full name</label>
-          <p class="form-control-static">{{ details?.username }}</p>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3 control-label">Email</label>
-          <p class="form-control-static">{{ details?.email }}</p>
+  <form class="form-horizontal" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="panel-group">
+      <div class="panel panel-info">
+        <div class="panel-heading">My Profile</div>
+        <div class="panel-body">
+          <div class="form-group" [ngClass]="displayFieldCss('username')">
+            <label class="control-label col-sm-2 required" for="username">User Name:</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" name="username" placeholder="Enter user name" formControlName="username">
+              <app-validationmessage [displayError]="isFieldValid('username')" errorMsg="Please enter a user name with at least 3 characters">
+              </app-validationmessage>
+            </div>
+          </div>
+          <div class="form-group" [ngClass]="displayFieldCss('email')">
+            <label class="control-label col-sm-2 required" for="email">Email:</label>
+            <div class="col-sm-4">
+              <input type="email" class="form-control" name="email" placeholder="Enter email" formControlName="email">
+              <app-validationmessage [displayError]="isFieldValid('email')" errorMsg="Please enter a valid email address">
+              </app-validationmessage>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+              <button type="submit" [disabled]="loading" class="btn btn-success">Save</button>
+              <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </form>
 </div>
