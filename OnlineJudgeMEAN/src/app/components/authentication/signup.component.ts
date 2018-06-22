@@ -62,7 +62,7 @@ export class SignupComponent implements OnInit {
     this.credentials.username = user.username;
     this.credentials.password = user.password;
     this.credentials.email = user.email;
-    this.authService.signup(this.credentials).subscribe(
+    this.authService.signup(this.credentials, true).subscribe(
       () => {
         this.alertService.success("Registration successful!", true);
         this.router.navigate(["/profile"]);

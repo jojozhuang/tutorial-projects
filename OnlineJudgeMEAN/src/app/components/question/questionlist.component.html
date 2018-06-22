@@ -2,7 +2,7 @@
   <h2>Questions</h2>
   <button type="button" class="btn btn-info" routerLink="../questionpage">Create Question</button>
   <hr/>
-  <table class="table">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>Question ID</th>
@@ -12,8 +12,8 @@
         <th>Operations</th>
       </tr>
     </thead>
-    <tbody *ngFor="let question of questions">
-      <tr>
+    <tbody>
+      <tr *ngFor="let question of questions">
         <td>{{question._id}}</td>
         <td>{{question.sequence}}</td>
         <td>{{question.title}}</td>

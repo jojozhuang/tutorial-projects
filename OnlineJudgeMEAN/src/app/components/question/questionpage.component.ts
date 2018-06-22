@@ -69,7 +69,7 @@ export class QuestionpageComponent implements OnInit {
   }
 
   //Handle create and update question
-  onClickSubmit() {
+  onSubmit() {
     if (this.questionForm.invalid) {
       return; //Validation failed, exit from method.
     }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Router, ActivatedRoute, Params } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
+import { TokenPayload } from "../../models";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AlertService, AuthenticationService } from "../../services/";
 
 import { UserService } from "./../../services/user.service";
 
@@ -9,85 +11,123 @@ import { UserService } from "./../../services/user.service";
   templateUrl: "./userpage.component.html"
 })
 export class UserpageComponent implements OnInit {
-  status: number;
-  message: string;
   _id;
+  credentials: TokenPayload = {
+    username: "",
+    password: "",
+    email: "",
+    _id: ""
+  };
 
-  //Create form
-  userForm = new FormGroup({
-    _id: new FormControl(""),
-    username: new FormControl(
-      "",
-      Validators.compose([Validators.required, Validators.minLength(5)])
-    ),
-    password: new FormControl(
-      "",
-      Validators.compose([Validators.required, Validators.minLength(5)])
-    ),
-    email: new FormControl(
-      "",
-      Validators.compose([Validators.required, Validators.minLength(5)])
-    )
-  });
+  userForm: FormGroup;
+  loading = false;
+  submitted = false;
 
   constructor(
-    private service: UserService,
+    private formBuilder: FormBuilder,
     private router: Router,
+    private authService: AuthenticationService,
+    private userService: UserService,
+    private alertService: AlertService,
     private route: ActivatedRoute
   ) {}
+
   ngOnInit() {
     this._id = this.route.snapshot.paramMap.get("_id");
-    //console.log(this._id);
+    if (this._id == null || this._id == "") {
+      // create
+      this.userForm = this.formBuilder.group({
+        username: [null, [Validators.required, Validators.minLength(3)]],
+        password: [null, [Validators.required, Validators.minLength(6)]],
+        email: [null, [Validators.required, Validators.email]]
+      });
+    } else {
+      // update, no need to check password
+      this.userForm = this.formBuilder.group({
+        _id: [null, [Validators.required]],
+        username: [null, [Validators.required, Validators.minLength(3)]],
+        email: [null, [Validators.required, Validators.email]]
+      });
+    }
+
     if (this._id != null) {
-      this.service.getUserById(this._id).subscribe(
+      this.userService.getUserById(this._id).subscribe(
         user => {
           //console.log(user);
           this.userForm.setValue({
             _id: user._id,
             username: user.username,
-            password: user.password,
             email: user.email
           });
         },
         error => {
-          this.status = error.status;
-          this.message = error.message;
+          console.error(error);
         }
       );
     }
   }
 
-  //Handle create and update user
-  onClickSubmit() {
+  isFieldValid(field: string) {
+    //console.log(field);
+    return (
+      (!this.userForm.get(field).valid && this.userForm.get(field).touched) ||
+      (this.userForm.get(field).untouched && this.submitted)
+    );
+  }
+
+  displayFieldCss(field: string) {
+    return {
+      "has-error": this.isFieldValid(field),
+      "has-feedback": this.isFieldValid(field)
+    };
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
     if (this.userForm.invalid) {
       return; //Validation failed, exit from method.
     }
-    //Form is valid, now perform create or update
+
+    this.loading = true;
+
     let user = this.userForm.value;
     //console.log(user);
     if (user._id == null || user._id == "") {
       //Create user
-      user._id = "";
-      this.service.createUser(user).subscribe(
-        status => {
-          this.status = status;
+      this.credentials._id = "";
+      this.credentials.username = user.username;
+      this.credentials.password = user.password;
+      this.credentials.email = user.email;
+      this.authService.signup(this.credentials, false).subscribe(
+        () => {
+          this.alertService.success(
+            "User has been created successfully!",
+            true
+          );
           this.router.navigate(["userlist"]);
         },
         error => {
-          this.status = error.status;
-          this.message = error.message;
+          console.error(error);
+          this.loading = false;
         }
       );
     } else {
       //Update user
-      this.service.updateUser(user).subscribe(
-        status => {
-          this.status = status;
+      this.credentials._id = this._id;
+      this.credentials.username = user.username;
+      this.credentials.email = user.email;
+      this.authService.update(this.credentials, false).subscribe(
+        () => {
+          this.alertService.success(
+            "User has been updated successfully!",
+            true
+          );
           this.router.navigate(["userlist"]);
         },
         error => {
-          this.status = error.statusCode;
-          this.message = error.message;
+          console.error(error);
+          this.loading = false;
         }
       );
     }

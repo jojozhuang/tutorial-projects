@@ -15,6 +15,7 @@ export interface TokenPayload {
   username: string;
   password: string;
   email?: string;
+  _id?: string; // for update
 }
 
 export interface ResetPassword {

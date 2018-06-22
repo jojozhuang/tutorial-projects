@@ -6,23 +6,25 @@
     <alert *ngIf="status != 200" type="danger"></alert>
     <alert *ngIf="status === 200" type="success">User has been deleted successfully.</alert>
   </div>
-  <table class="table">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>User ID</th>
         <th>User Name</th>
-        <th>Password</th>
         <th>Email</th>
+        <th>Time Created</th>
+        <th>Operations</th>
       </tr>
     </thead>
-    <tbody *ngFor="let user of users">
-      <tr>
+    <tbody>
+      <tr *ngFor="let user of users">
         <td>{{user._id}}</td>
         <td>{{user.username}}</td>
-        <td>{{user.password}}</td>
         <td>{{user.email}}</td>
+        <td>{{user.timecreated | date : "yyyy/MM/dd hh:mm:ss" }}</td>
         <td>
           <button type="button" class="btn btn-success" [routerLink]="['/userpage', user._id ]">Edit</button>
+          <button type="button" class="btn btn-primary" [routerLink]="['/userpage', user._id ]">Reset Password</button>
           <button type="button" class="btn btn-danger" (click)="deleteUser({ event:$event, id: user._id })">Delete</button>
         </td>
       </tr>

@@ -7,7 +7,7 @@
     <alert *ngIf="status === 200 && !_id" type="success">200: Question has been created successfully.</alert>
     <alert *ngIf="status === 200 && _id" type="success">200: Question has been updated successfully.</alert>
   </div>
-  <form *ngIf="status != 404" class="form-horizontal" [formGroup]="questionForm" (ngSubmit)="onClickSubmit()">
+  <form *ngIf="status != 404" class="form-horizontal" [formGroup]="questionForm" (ngSubmit)="onSubmit()">
     <div *ngIf="_id" class="form-group">
       <label class="control-label col-sm-2" for="_id">Question ID:</label>
       <div class="col-sm-10">

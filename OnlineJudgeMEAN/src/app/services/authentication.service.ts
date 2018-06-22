@@ -46,8 +46,9 @@ export class AuthenticationService {
   }
 
   private request(
-    type: "login" | "signup" | "resetpwd",
-    user: TokenPayload
+    type: "login" | "signup" | "update" | "resetpwd",
+    user: TokenPayload,
+    refresh: boolean
   ): Observable<any> {
     let base;
 
@@ -55,7 +56,7 @@ export class AuthenticationService {
 
     const request = base.pipe(
       map((data: TokenResponse) => {
-        if (data.token) {
+        if (refresh && data.token) {
           AuthUtils.saveToken(data.token);
         }
         return data.token;
@@ -65,16 +66,20 @@ export class AuthenticationService {
     return request;
   }
 
-  public signup(user: TokenPayload): Observable<any> {
-    return this.request("signup", user);
+  public signup(user: TokenPayload, refresh: boolean): Observable<any> {
+    return this.request("signup", user, refresh);
   }
 
   public login(user: TokenPayload): Observable<any> {
-    return this.request("login", user);
+    return this.request("login", user, true);
+  }
+
+  public update(user: TokenPayload, refresh: boolean): Observable<any> {
+    return this.request("update", user, refresh);
   }
 
   public resetPassword(user: ResetPassword): Observable<any> {
-    return this.request("resetpwd", user);
+    return this.request("resetpwd", user, true);
   }
 
   public profile(): Observable<any> {

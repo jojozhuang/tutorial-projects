@@ -44,6 +44,26 @@ router.post(
 );
 
 router.post(
+  "/update",
+  [
+    // check _id
+    check("_id")
+      .not()
+      .isEmpty()
+      .withMessage("User Id is empty"),
+    // check username
+    check("username")
+      .isLength({ min: 4 })
+      .withMessage("User name must be at least 4 chars long"),
+    // check email
+    check("email")
+      .isEmail()
+      .withMessage("Email address is invalid")
+  ],
+  authentication_controller.update
+);
+
+router.post(
   "/resetpwd",
   [
     // check username

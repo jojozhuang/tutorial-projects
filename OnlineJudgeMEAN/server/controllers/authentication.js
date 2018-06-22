@@ -82,8 +82,7 @@ module.exports.login = function(req, res) {
     // If Passport throws/catches an error
     if (err) {
       var error = new ValidationError("body", "password", password, err);
-      res.status(422).json({ errors: [error] });
-      return;
+      return res.status(422).json({ errors: [error] });
     }
     // if no user found, meaning validation fails
     if (!user) {
@@ -100,6 +99,70 @@ module.exports.login = function(req, res) {
       });
     }
   })(req, res);
+};
+
+module.exports.update = function(req, res) {
+  // get the validation result which is defined in router
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    // return if validation fails
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+  var upduser = new User({
+    _id: req.body._id,
+    username: req.body.username,
+    email: req.body.email
+  });
+
+  User.findById(upduser._id, function(err, user) {
+    if (!user) {
+      var error = new ValidationError(
+        "body",
+        "username",
+        upduser.username,
+        "User doesn't exist!"
+      );
+      res.status(422).json({ errors: [error] });
+    } else {
+      /*
+      // Return if password is wrong
+      if (!user.validPassword(upduser.password)) {
+        var error = new ValidationError(
+          "body",
+          "password",
+          upduser.password,
+          "Password is not match"
+        );
+        res.status(422).json({ errors: [error] });
+      }*/
+      //
+      User.findOne({ email: upduser.email }, function(err, user2) {
+        if (user2 && !user2._id.equals(upduser._id)) {
+          var error = new ValidationError(
+            "body",
+            "username",
+            upduser.email,
+            "Email is existed!"
+          );
+          res.status(422).json({ errors: [error] });
+        } else {
+          //update username and email
+          user.username = upduser.username;
+          user.email = upduser.email;
+          //console.log(user);
+          user.save(function(err) {
+            var token;
+            token = user.generateJwt();
+            res.status(200);
+            res.json({
+              token: token
+            });
+          });
+        }
+      });
+    }
+  });
 };
 
 module.exports.resetpwd = function(req, res) {
