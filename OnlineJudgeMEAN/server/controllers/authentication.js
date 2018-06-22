@@ -101,3 +101,55 @@ module.exports.login = function(req, res) {
     }
   })(req, res);
 };
+
+module.exports.resetpwd = function(req, res) {
+  // get the validation result which is defined in router
+  console.log("resetpwd");
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    // return if validation fails
+    console.log("haserror");
+    console.log(errors);
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+  const username = req.body.username;
+  const password = req.body.password;
+
+  console.log("before passport.authenticate");
+  // check with passport
+  passport.authenticate("local", function(err, user, info) {
+    console.log("after passport.authenticate");
+    // If Passport throws/catches an error
+    if (err) {
+      var error = new ValidationError("body", "password", password, err);
+      res.status(422).json({ errors: [error] });
+      return;
+    }
+    // if no user found, meaning validation fails
+    if (!user) {
+      var error = new ValidationError("body", "username", username, info);
+      return res.status(422).json({ errors: [error] });
+    }
+
+    // If a user is found
+    if (user) {
+      // set hash and salt
+      user.setPassword(req.body.newpwd);
+
+      console.log(user);
+      user.save(function(err) {
+        if (err) {
+          var error = new ValidationError("body", "password", password, err);
+          return res.status(422).json({ errors: [error] });
+        }
+        var token;
+        token = user.generateJwt();
+        res.status(200);
+        res.json({
+          token: token
+        });
+      });
+    }
+  })(req, res);
+};

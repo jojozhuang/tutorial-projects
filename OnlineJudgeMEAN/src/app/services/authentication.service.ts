@@ -8,8 +8,8 @@ import {
   User,
   TokenPayload,
   TokenResponse,
-  ResponseResult,
-  UserDetails
+  UserDetails,
+  ResetPassword
 } from "./../models";
 import { AuthUtils } from "../utils";
 
@@ -46,7 +46,7 @@ export class AuthenticationService {
   }
 
   private request(
-    type: "login" | "signup",
+    type: "login" | "signup" | "resetpwd",
     user: TokenPayload
   ): Observable<any> {
     let base;
@@ -73,11 +73,12 @@ export class AuthenticationService {
     return this.request("login", user);
   }
 
+  public resetPassword(user: ResetPassword): Observable<any> {
+    return this.request("resetpwd", user);
+  }
+
   public profile(): Observable<any> {
     return this.http.get(this.baseUrl + `api/profile/read`);
-    /*return this.http.get(this.baseUrl + `api/profile/read`, {
-      headers: { Authorization: `Bearer ${AuthUtils.getToken()}` }
-    });*/
   }
 
   public logout(redirect?): void {
@@ -86,6 +87,8 @@ export class AuthenticationService {
       this.router.navigate(["/login"]);
     }
   }
+
+  public getUserName() {}
 
   /*
   // Sign up

@@ -58,6 +58,9 @@ export class ErrorHttpInterceptor implements HttpInterceptor {
             var errors = response.error.errors;
             console.log(errors);
 
+            // clear
+            this.messages.length = 0;
+            // build error list
             for (var i = 0; i < errors.length; i++) {
               let am = new AlertMessage("error", errors[i].msg);
               this.messages[i] = am;

@@ -21,6 +21,7 @@ import {
   UserpageComponent,
   SignupComponent,
   LoginComponent,
+  ResetpwdComponent,
   ProfileComponent
 } from "./components/";
 
@@ -53,7 +54,7 @@ import { appRoutes } from "./app.route";
     UserlistComponent,
     SignupComponent,
     LoginComponent,
-
+    ResetpwdComponent,
     ProfileComponent
   ],
   imports: [

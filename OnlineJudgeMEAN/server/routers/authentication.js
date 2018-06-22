@@ -25,6 +25,7 @@ router.post(
   ],
   authentication_controller.register
 );
+
 router.post(
   "/login",
   [
@@ -40,6 +41,44 @@ router.post(
       .withMessage("Password can't be empty")
   ],
   authentication_controller.login
+);
+
+router.post(
+  "/resetpwd",
+  [
+    // check username
+    check("username")
+      .not()
+      .isEmpty()
+      .withMessage("User name can't be empty"),
+    // check current password
+    check("password")
+      .not()
+      .isEmpty()
+      .withMessage("Password can't be empty"),
+    // check new password
+    check("newpwd")
+      .not()
+      .isEmpty()
+      .withMessage("New password can't be empty")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 chars long")
+      .matches(/\d/)
+      .withMessage("Password must contain a number"),
+    // check confirm password
+    check("confirmpwd")
+      .not()
+      .isEmpty()
+      .withMessage("Confirm password can't be empty"),
+    // check confirm password
+    check("confirmpwd").custom((value, { req }) => {
+      if (value !== req.body.newpwd) {
+        throw new Error("Confirm password is not same with new password");
+      }
+      return true;
+    })
+  ],
+  authentication_controller.resetpwd
 );
 
 module.exports = router;

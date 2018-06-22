@@ -7,7 +7,7 @@
       <label class="control-label col-sm-2 required" for="username">User Name:</label>
       <div class="col-sm-4">
         <input type="text" class="form-control" name="username" placeholder="Enter user name" formControlName="username">
-        <app-validationmessage [displayError]="isFieldValid('username')" errorMsg="Please enter user name">
+        <app-validationmessage [displayError]="isFieldValid('username')" errorMsg="Please enter a user name with at least 3 characters">
         </app-validationmessage>
       </div>
     </div>
@@ -15,7 +15,7 @@
       <label class="control-label col-sm-2 required" for="password">Password:</label>
       <div class="col-sm-4">
         <input type="password" class="form-control" name="password" placeholder="Enter password" formControlName="password">
-        <app-validationmessage [displayError]="isFieldValid('password')" errorMsg="Please enter password">
+        <app-validationmessage [displayError]="isFieldValid('password')" errorMsg="Please enter a password with at least 6 characters">
         </app-validationmessage>
       </div>
     </div>
@@ -23,7 +23,7 @@
       <label class="control-label col-sm-2 required" for="email">Email:</label>
       <div class="col-sm-4">
         <input type="email" class="form-control" name="email" placeholder="Enter email" formControlName="email">
-        <app-validationmessage [displayError]="isFieldValid('email')" errorMsg="Please enter a valid email">
+        <app-validationmessage [displayError]="isFieldValid('email')" errorMsg="Please enter a valid email address">
         </app-validationmessage>
       </div>
     </div>

@@ -2,18 +2,19 @@ import { RouterModule, Routes } from "@angular/router";
 
 // components
 import {
+  AlertComponent,
   AppComponent,
   HeaderComponent,
   FooterComponent,
   HomepageComponent,
+  SignupComponent,
+  LoginComponent,
+  ResetpwdComponent,
+  ProfileComponent,
   QuestionlistComponent,
   QuestionpageComponent,
   UserlistComponent,
-  UserpageComponent,
-  SignupComponent,
-  LoginComponent,
-  AlertComponent,
-  ProfileComponent
+  UserpageComponent
 } from "./components/";
 
 // services
@@ -54,6 +55,11 @@ export const appRoutes: Routes = [
   },
   { path: "signup", component: SignupComponent },
   { path: "login", component: LoginComponent },
+  {
+    path: "resetpwd",
+    component: ResetpwdComponent,
+    canActivate: [AuthGuardService]
+  },
   {
     path: "profile",
     component: ProfileComponent,

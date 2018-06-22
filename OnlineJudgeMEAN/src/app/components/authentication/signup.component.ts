@@ -18,8 +18,6 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   loading = false;
   submitted = false;
-  status: number;
-  message: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,8 +28,8 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
-      username: [null, Validators.required],
-      password: [null, Validators.required],
+      username: [null, [Validators.required, Validators.minLength(3)]],
+      password: [null, [Validators.required, Validators.minLength(6)]],
       email: [null, [Validators.required, Validators.email]]
     });
   }
