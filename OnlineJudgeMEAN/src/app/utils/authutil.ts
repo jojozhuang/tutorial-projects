@@ -1,12 +1,18 @@
 import { UserDetails } from "./../models";
-const STORAGE_TOKEN = "currentToken";
+import { CookieUtil } from "./cookieutil";
+const STORAGE_TOKEN = "storageToken";
+const COOKIE_TOKEN = "cookieToken";
+const COOKIE_EXPIREDAYS = 1; // Cookie expire days
 
-export class AuthUtils {
+export class AuthUtil {
   static user: any;
   static token: string;
-  static saveToken(token: string): void {
+  static saveToken(token: string, savetocookie?: boolean): void {
     localStorage.setItem(STORAGE_TOKEN, token);
     this.token = token;
+    if (savetocookie) {
+      CookieUtil.setCookie(COOKIE_TOKEN, token, COOKIE_EXPIREDAYS);
+    }
   }
 
   static getToken(): string {
@@ -32,6 +38,9 @@ export class AuthUtils {
       localStorage.removeItem(STORAGE_TOKEN);
     }
     this.token = "";
+
+    // delete cookie if exits
+    CookieUtil.deleteCookie(COOKIE_TOKEN);
   }
 
   static getUserDetails(): UserDetails {
@@ -44,5 +53,9 @@ export class AuthUtils {
     } else {
       return null;
     }
+  }
+
+  static getCookieToken() {
+    return CookieUtil.getCookie(COOKIE_TOKEN);
   }
 }

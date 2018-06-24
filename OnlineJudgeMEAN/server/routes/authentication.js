@@ -23,9 +23,13 @@ router.post(
       .isEmail()
       .withMessage("Email address is invalid")
   ],
-  authentication_controller.register
+  authentication_controller.signup
 );
 
+// auto login, remember me function
+router.post("/autologin", authentication_controller.autologin);
+
+// manual login
 router.post(
   "/login",
   [
@@ -42,6 +46,9 @@ router.post(
   ],
   authentication_controller.login
 );
+
+// logout
+router.post("/logout", authentication_controller.logout);
 
 router.post(
   "/update",

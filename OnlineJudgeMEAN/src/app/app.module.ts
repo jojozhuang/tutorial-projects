@@ -35,7 +35,11 @@ import {
 } from "./services/";
 
 // Interceptor
-import { ErrorInterceptor, JwtInterceptor } from "./interceptor";
+import {
+  ErrorInterceptor,
+  JwtInterceptor,
+  CookieInterceptor
+} from "./interceptor";
 
 // routes
 import { appRoutes } from "./app.route";
@@ -72,7 +76,8 @@ import { appRoutes } from "./app.route";
     AuthenticationService,
     AuthGuardService,
     ErrorInterceptor,
-    JwtInterceptor
+    JwtInterceptor,
+    CookieInterceptor
   ],
   bootstrap: [AppComponent]
 })

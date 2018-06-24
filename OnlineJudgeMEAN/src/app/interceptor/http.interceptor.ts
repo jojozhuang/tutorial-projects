@@ -67,7 +67,12 @@ export class ErrorHttpInterceptor implements HttpInterceptor {
             }
             console.log(this.messages);
             this.alertService.error(this.messages);
-          } else if (response.status < 500) {
+          } else if (response.status == 401) {
+            // 401 Unauthorized
+            let message = `${response.message || ""}, ${response.error
+              .message}`;
+            this.alertService.error(message);
+          } else if (response.status < 500 && response.status >= 400) {
             // validation error
             this.alertService.error(response.message);
           } else if (response.status == 500) {
@@ -76,10 +81,12 @@ export class ErrorHttpInterceptor implements HttpInterceptor {
               .message}`;
             this.alertService.error(message);
           } else {
-            this.alertService.error(response.message);
+            console.log("else");
+            let message = `${response.message || response}`;
+            this.alertService.error(message);
           }
         } else {
-          this.alertService.error(response.message);
+          this.alertService.error(response.message || response);
         }
         //console.error(respResult.message);
         // return _throw(respResult);

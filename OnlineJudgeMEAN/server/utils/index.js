@@ -1,5 +1,7 @@
-var ctyptoUtil = require("./lib/crypto");
-var textUtil = require("./lib/text");
+var ctyptoUtil = require("./crypto");
+var textUtil = require("./text");
+var tokenUtil = require("./token");
 
-exports.Ctypto = ctyptoUtil;
-exports.Text = textUtil;
+exports.CtyptoUtil = ctyptoUtil;
+exports.TextUtil = textUtil;
+exports.TokenUtil = tokenUtil;

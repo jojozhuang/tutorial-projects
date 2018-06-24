@@ -5,13 +5,14 @@ var moment = require("moment");
 var User = mongoose.model("User");
 const { validationResult } = require("express-validator/check");
 const ValidationError = require("../models/validationerror");
+const TokenUtil = require("../utils/").TokenUtil;
 
 var sendJSONresponse = function(res, status, content) {
   res.status(status);
   res.json(content);
 };
 
-module.exports.register = function(req, res) {
+module.exports.signup = function(req, res) {
   //sleep.sleep(3); //sleep for 3 seconds
   // get the validation result which is defined in router
   const errors = validationResult(req);
@@ -65,6 +66,46 @@ module.exports.register = function(req, res) {
   });
 };
 
+module.exports.autologin = function(req, res) {
+  // check if the user's credentials are saved in a cookie //
+  console.log("autologin");
+  console.log(req.cookies);
+  const token = req.cookies.cookieToken;
+  console.log(token);
+  if (token) {
+    const userDetails = TokenUtil.decodeToken(token);
+    console.log(userDetails);
+    if (userDetails) {
+      User.findOne({ username: userDetails.username }, function(err, user) {
+        if (err) {
+          res.status(200).send(err);
+        }
+        // Return if user not found in database
+        if (!user) {
+          res.status(200).send("User not found");
+        }
+        // Return if password is wrong
+        if (user.hash != userDetails.hash) {
+          res.status(200).send("Password is invalid");
+        }
+        // If credentials are correct, return the user object
+        // If a user is found
+        if (user) {
+          var token = user.generateJwt();
+          res.status(200);
+          res.json({
+            token: token
+          });
+        }
+      });
+    } else {
+      res.status(200).send();
+    }
+  } else {
+    res.status(401).send();
+  }
+};
+
 module.exports.login = function(req, res) {
   //sleep.sleep(3); //sleep for 3 seconds
   // get the validation result which is defined in router
@@ -93,12 +134,25 @@ module.exports.login = function(req, res) {
     // If a user is found
     if (user) {
       var token = user.generateJwt();
+      if (req.body.remember == true) {
+        console.log("remember me, save cookie");
+
+        res.cookie("cookieToken", token, { maxAge: 900000 }); //expires after 900000 ms = 15 minutes
+      }
       res.status(200);
       res.json({
         token: token
       });
     }
   })(req, res);
+};
+
+module.exports.logout = function(req, res) {
+  console.log(req.cookies);
+  res.clearCookie("cookieToken");
+  console.log(req.cookies);
+
+  res.status(200).send();
 };
 
 module.exports.update = function(req, res) {
@@ -165,6 +219,7 @@ module.exports.update = function(req, res) {
                 var token;
                 token = user.generateJwt();
                 res.status(200);
+                res.cookie("token", token, { maxAge: 60000 }); //expires after 60000 ms = 1 minute
                 res.json({
                   token: token
                 });
@@ -221,6 +276,7 @@ module.exports.resetpwd = function(req, res) {
         var token;
         token = user.generateJwt();
         res.status(200);
+        res.cookie("token", token, { maxAge: 60000 }); //expires after 60000 ms = 1 minute
         res.json({
           token: token
         });

@@ -33,6 +33,7 @@ UserSchema.methods.generateJwt = function() {
       _id: this._id,
       username: this.username,
       email: this.email,
+      hash: this.hash, // include hash in token for 'remember me' function.
       exp: parseInt(expiry.getTime() / 1000)
     },
     "MY_SECRET"

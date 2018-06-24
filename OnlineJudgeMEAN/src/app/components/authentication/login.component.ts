@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { TokenPayload } from "../../models";
 import { AlertService, AuthenticationService } from "../../services/";
+import { CookieUtil, AuthUtil } from "../../utils";
 
 @Component({
   selector: "app-login",
@@ -11,7 +12,8 @@ import { AlertService, AuthenticationService } from "../../services/";
 export class LoginComponent implements OnInit {
   credentials: TokenPayload = {
     username: "",
-    password: ""
+    password: "",
+    remember: false
   };
 
   loginForm: FormGroup;
@@ -30,13 +32,34 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: [null, Validators.required],
-      password: [null, Validators.required]
+      password: [null, Validators.required],
+      remember: [null, []]
     });
-    // reset login status
-    this.authService.logout();
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+
+    // auto login with cookie
+    const cookieToken = AuthUtil.getCookieToken();
+    console.log(cookieToken);
+
+    if (cookieToken) {
+      this.authService.autologin().subscribe(
+        () => {
+          //this.alertService.success("Login successful!", true);
+          console.log(document.cookie);
+          this.router.navigate([this.returnUrl]);
+        },
+        err => {
+          console.error(err);
+          // reset login status
+          this.authService.logout(false);
+        }
+      );
+    } else {
+      // reset login status
+      this.authService.logout(false);
+    }
   }
 
   isFieldValid(field: string) {
@@ -54,6 +77,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    //CookieUtil.deleteAllCookies();
     this.submitted = true;
 
     if (this.loginForm.invalid) {
@@ -63,36 +87,21 @@ export class LoginComponent implements OnInit {
     let user = this.loginForm.value;
     this.credentials.username = user.username;
     this.credentials.password = user.password;
+    this.credentials.remember = user.remember;
 
-    this.authService.login(this.credentials).subscribe(
-      () => {
+    console.log(this.credentials);
+    console.log("Your Cookie : " + document.cookie);
+    this.authService.login(this.credentials, user.remember).subscribe(
+      response => {
+        console.log("Your Cookie : " + document.cookie);
         this.alertService.success("Login successful!", true);
         this.router.navigate([this.returnUrl]);
+        this.loading = false;
       },
       err => {
         console.error(err);
         this.loading = false;
       }
     );
-
-    /*
-    this.submitted = true;
-
-    if (this.loginForm.invalid) {
-      return; //Validation failed, exit from method.
-    }
-
-    let user = this.loginForm.value;
-
-    this.loading = true;
-    this.authService.login(user.username, user.password).subscribe(
-      status => {
-        this.alertService.success("Login successful!", true);
-        this.router.navigate(["/questionslist"]);
-      },
-      error => {
-        this.loading = false;
-      }
-    );*/
   }
 }

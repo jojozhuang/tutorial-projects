@@ -1,4 +1,4 @@
-export default class TextUtils {
+export class TextUtil {
   static isJson(val: any) {
     if (val) {
       if (

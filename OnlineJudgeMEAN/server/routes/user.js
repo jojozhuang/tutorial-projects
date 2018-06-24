@@ -3,11 +3,11 @@ var router = express.Router();
 
 var user_controller = require("../controllers/user");
 
-router.post("/", user_controller.user_create);
+//router.post("/", user_controller.user_create);
 
 router.get("/:id", user_controller.user_readone);
 
-router.put("/:id", user_controller.user_update);
+//router.put("/:id", user_controller.user_update);
 
 router.delete("/:id", user_controller.user_delete);
 

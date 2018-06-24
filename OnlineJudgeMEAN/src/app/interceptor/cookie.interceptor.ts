@@ -10,24 +10,15 @@ import { Observable } from "rxjs";
 import { AuthUtil } from "../utils";
 
 @Injectable()
-export class JwtHttpInterceptor implements HttpInterceptor {
+export class CookieHttpInterceptor implements HttpInterceptor {
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // add authorization header with jwt token if available
-    let token = AuthUtil.getToken();
-    if (token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-    }
-    /*
-    return this.http.get(this.baseUrl + `api/profile/read`, {
-      headers: { Authorization: `Bearer ${AuthUtils.getToken()}` }
-    });*/
+    request = request.clone({
+      //withCredentials: true
+    });
     return next.handle(request);
   }
 }
@@ -35,8 +26,8 @@ export class JwtHttpInterceptor implements HttpInterceptor {
 /**
  * Provider POJO for the interceptor
  */
-export const JwtInterceptor = {
+export const CookieInterceptor = {
   provide: HTTP_INTERCEPTORS,
-  useClass: JwtHttpInterceptor,
+  useClass: CookieHttpInterceptor,
   multi: true
 };

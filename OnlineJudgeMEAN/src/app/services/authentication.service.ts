@@ -11,7 +11,7 @@ import {
   UserDetails,
   ResetPassword
 } from "./../models";
-import { AuthUtils } from "../utils";
+import { AuthUtil } from "../utils";
 
 @Injectable()
 export class AuthenticationService {
@@ -25,7 +25,7 @@ export class AuthenticationService {
   constructor(private http: HttpClient, private router: Router) {}
 
   public getUserDetails(): UserDetails {
-    let token = AuthUtils.getToken();
+    let token = AuthUtil.getToken();
     let payload;
     if (token) {
       payload = token.split(".")[1];
@@ -48,7 +48,8 @@ export class AuthenticationService {
   private request(
     type: "login" | "signup" | "update" | "resetpwd",
     user: TokenPayload,
-    refresh: boolean
+    refresh: boolean,
+    savecookie?: boolean
   ): Observable<any> {
     let base;
 
@@ -57,7 +58,7 @@ export class AuthenticationService {
     const request = base.pipe(
       map((data: TokenResponse) => {
         if (refresh && data.token) {
-          AuthUtils.saveToken(data.token);
+          AuthUtil.saveToken(data.token, savecookie);
         }
         return data.token;
       })
@@ -70,8 +71,8 @@ export class AuthenticationService {
     return this.request("signup", user, refresh);
   }
 
-  public login(user: TokenPayload): Observable<any> {
-    return this.request("login", user, true);
+  public login(user: TokenPayload, savecookie): Observable<any> {
+    return this.request("login", user, true, savecookie);
   }
 
   public update(user: TokenPayload, refresh: boolean): Observable<any> {
@@ -82,15 +83,41 @@ export class AuthenticationService {
     return this.request("resetpwd", user, true);
   }
 
+  /*
   public profile(): Observable<any> {
     return this.http.get(this.baseUrl + `api/profile/read`);
+  }*/
+
+  public autologin(): Observable<any> {
+    let base;
+    base = this.http.post(this.baseUrl + `api/authentication/autologin`, "", {
+      withCredentials: true // make request send cookie to server
+    });
+    const request = base.pipe(
+      map((data: TokenResponse) => {
+        if (data && data.token) {
+          AuthUtil.saveToken(data.token, true);
+        }
+        if (data) {
+          return data.token;
+        } else {
+          return data;
+        }
+      })
+    );
+
+    return request;
   }
 
   public logout(redirect?): void {
-    AuthUtils.clearToken();
-    if (redirect) {
-      this.router.navigate(["/login"]);
-    }
+    AuthUtil.clearToken();
+    this.http
+      .post(this.baseUrl + `api/authentication/logout`, "")
+      .subscribe(res => {
+        if (redirect) {
+          this.router.navigate(["/login"]);
+        }
+      });
   }
 
   public getUserName() {}

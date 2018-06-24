@@ -16,6 +16,7 @@ export interface TokenPayload {
   password: string;
   email?: string;
   _id?: string; // for update
+  remember?: boolean;
 }
 
 export interface ResetPassword {
