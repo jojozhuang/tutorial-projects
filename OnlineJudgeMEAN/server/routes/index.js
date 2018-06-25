@@ -18,8 +18,8 @@ router.get("/", function(req, res) {
 // authentication, url: /api/authentication/login
 router.use("/authentication", authentication);
 // question, url: /api/question
-router.use("/question", auth, question);
+router.use("/admin/question", auth, question);
 // user, url: /api/user
-router.use("/user", auth, user);
+router.use("/admin/user", auth, user);
 
 module.exports = router;

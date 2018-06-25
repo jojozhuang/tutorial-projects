@@ -1,11 +1,7 @@
 <div class="container">
   <h2>Users</h2>
-  <button type="button" class="btn btn-info" routerLink="../userpage">Create User</button>
+  <button type="button" class="btn btn-info" routerLink="/admin/userpage">Create User</button>
   <hr/>
-  <div *ngIf="status || errmsg">
-    <alert *ngIf="status != 200" type="danger"></alert>
-    <alert *ngIf="status === 200" type="success">User has been deleted successfully.</alert>
-  </div>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -23,7 +19,7 @@
         <td>{{user.email}}</td>
         <td>{{user.timecreated | date : "yyyy/MM/dd hh:mm:ss" }}</td>
         <td>
-          <button type="button" class="btn btn-primary" [routerLink]="['/userpage', user._id ]">Edit</button>
+          <button type="button" class="btn btn-primary" [routerLink]="['/admin/userpage', user._id ]">Edit</button>
           <button type="button" class="btn btn-warning" [routerLink]="['/userpage', user._id ]">Reset Password</button>
           <button type="button" class="btn btn-danger" (click)="deleteUser({ event:$event, id: user._id })">Delete</button>
         </td>

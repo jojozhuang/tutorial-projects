@@ -26,17 +26,32 @@ export const appRoutes: Routes = [
   { path: "", component: HomepageComponent },
   { path: "homepage", component: HomepageComponent },
   {
-    path: "questionlist",
+    path: "admin/userlist",
+    component: UserlistComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "admin/userpage",
+    component: UserpageComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "admin/userpage/:_id",
+    component: UserpageComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "admin/questionlist",
     component: QuestionlistComponent,
     canActivate: [AuthGuardService]
   },
   {
-    path: "questionpage",
+    path: "admin/questionpage",
     component: QuestionpageComponent,
     canActivate: [AuthGuardService]
   },
   {
-    path: "questionpage/:_id",
+    path: "admin/questionpage/:_id",
     component: QuestionpageComponent,
     canActivate: [AuthGuardService]
   },
@@ -47,21 +62,6 @@ export const appRoutes: Routes = [
   {
     path: "wysiwyg",
     component: WysiwygComponent
-  },
-  {
-    path: "userlist",
-    component: UserlistComponent,
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: "userpage",
-    component: UserpageComponent,
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: "userpage/:_id",
-    component: UserpageComponent,
-    canActivate: [AuthGuardService]
   },
   { path: "signup", component: SignupComponent },
   { path: "login", component: LoginComponent },

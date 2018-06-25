@@ -11,10 +11,11 @@ export * from "./pages/homepage.component";
 export * from "./pages/header.component";
 export * from "./pages/footer.component";
 
-export * from "./question/questionlist.component";
-export * from "./question/questionpage.component";
-export * from "./question/editor.component";
-export * from "./user/userlist.component";
-export * from "./user/userpage.component";
+export * from "./admin/questionlist.component";
+export * from "./admin/userlist.component";
+export * from "./admin/userpage.component";
+export * from "./admin/questionpage.component";
 
+// testing editor controls
+export * from "./question/editor.component";
 export * from "./wysiwyg/wysiwyg.component";

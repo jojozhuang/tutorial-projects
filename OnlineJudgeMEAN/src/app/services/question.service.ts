@@ -16,7 +16,7 @@ import { Question } from "./../models";
 export class QuestionService {
   //URL for CRUD operations
   baseUrl = "http://localhost:5000/";
-  apiUrl = this.baseUrl + "api/question";
+  apiUrl = this.baseUrl + "api/admin/question";
 
   //Create constructor to get Http instance
   constructor(private http: HttpClient) {}

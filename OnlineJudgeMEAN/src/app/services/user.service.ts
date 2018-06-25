@@ -16,7 +16,7 @@ import { User } from "./../models";
 export class UserService {
   //URL for CRUD operations
   baseUrl = "http://localhost:5000/";
-  apiUrl = this.baseUrl + "api/user";
+  apiUrl = this.baseUrl + "api/admin/user";
 
   //Create constructor to get Http instance
   constructor(private http: HttpClient) {}

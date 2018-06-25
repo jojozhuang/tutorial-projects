@@ -105,7 +105,7 @@ export class UserpageComponent implements OnInit {
             "User has been created successfully!",
             true
           );
-          this.router.navigate(["userlist"]);
+          this.router.navigate(["/admin/userlist"]);
         },
         error => {
           console.error(error);
@@ -123,7 +123,7 @@ export class UserpageComponent implements OnInit {
             "User has been updated successfully!",
             true
           );
-          this.router.navigate(["userlist"]);
+          this.router.navigate(["/admin/userlist"]);
         },
         error => {
           console.error(error);

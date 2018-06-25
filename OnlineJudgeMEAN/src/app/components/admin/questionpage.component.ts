@@ -149,7 +149,7 @@ export class QuestionpageComponent implements OnInit {
             true
           );
           this.status = status;
-          this.router.navigate(["questionlist"]);
+          this.router.navigate(["/admin/questionlist"]);
         },
         error => {
           this.status = error.status;
@@ -165,7 +165,7 @@ export class QuestionpageComponent implements OnInit {
             true
           );
           this.status = status;
-          this.router.navigate(["questionlist"]);
+          this.router.navigate(["/admin/questionlist"]);
         },
         error => {
           this.status = error.statusCode;
