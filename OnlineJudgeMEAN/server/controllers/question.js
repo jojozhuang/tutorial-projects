@@ -6,7 +6,8 @@ exports.question_create = function(req, res, next) {
     title: req.body.title,
     description: req.body.description,
     mainfunction: req.body.mainfunction,
-    difficulty: req.body.difficulty
+    difficulty: req.body.difficulty,
+    frequency: req.body.frequency
   });
 
   question.save({ new: true }, function(err, question) {

@@ -16,7 +16,8 @@ import {
   EditorComponent,
   UserlistComponent,
   UserpageComponent,
-  WysiwygComponent
+  WysiwygComponent,
+  QuestionComponent
 } from "./components/";
 
 // services
@@ -25,6 +26,7 @@ import { AuthGuardService } from "./services/";
 export const appRoutes: Routes = [
   { path: "", component: HomepageComponent },
   { path: "homepage", component: HomepageComponent },
+  { path: "questions", component: QuestionComponent },
   {
     path: "admin/userlist",
     component: UserlistComponent,

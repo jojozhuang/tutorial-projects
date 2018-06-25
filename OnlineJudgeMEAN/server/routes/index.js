@@ -3,6 +3,7 @@ var router = express.Router();
 var authentication = require("./authentication");
 var question = require("./question");
 var user = require("./user");
+var onlinejudge = require("./onlinejudge");
 
 var jwt = require("express-jwt");
 var auth = jwt({
@@ -21,5 +22,8 @@ router.use("/authentication", authentication);
 router.use("/admin/question", auth, question);
 // user, url: /api/user
 router.use("/admin/user", auth, user);
+
+// online judge, url: /api/onlinejudge
+router.use("/onlinejudge", onlinejudge);
 
 module.exports = router;

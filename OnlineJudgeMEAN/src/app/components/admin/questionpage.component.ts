@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from "@angular/core";
+import { Component, ViewChild, Input, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 
@@ -53,9 +53,26 @@ export class QuestionpageComponent implements OnInit {
     ]
   };
 
+  @Input()
+  options = [
+    {
+      value: 10,
+      name: "Easy"
+    },
+    {
+      value: 20,
+      name: "Medium"
+    },
+    {
+      value: 30,
+      name: "Hard"
+    }
+  ];
+
   status: number;
   message: string;
   _id;
+  public selectedValue;
 
   //Create form
   questionForm = new FormGroup({
@@ -78,9 +95,15 @@ export class QuestionpageComponent implements OnInit {
       "",
       Validators.compose([Validators.required])
     ),
-    difficulty: new FormControl(
+    difficulty: new FormControl(10, Validators.compose([Validators.required])),
+    frequency: new FormControl(
       "",
-      Validators.compose([Validators.required, Validators.minLength(3)])
+      Validators.compose([
+        Validators.required,
+        Validators.pattern("[0-9]+"),
+        Validators.min(0),
+        Validators.max(100)
+      ])
     )
   });
 
@@ -120,7 +143,8 @@ export class QuestionpageComponent implements OnInit {
             title: question.title,
             description: question.description,
             mainfunction: question.mainfunction,
-            difficulty: question.difficulty
+            difficulty: question.difficulty,
+            frequency: question.frequency
           });
         },
         error => {

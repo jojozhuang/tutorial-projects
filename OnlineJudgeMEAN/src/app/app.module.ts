@@ -26,7 +26,10 @@ import {
   LoginComponent,
   ResetpwdComponent,
   ProfileComponent,
-  WysiwygComponent
+  WysiwygComponent,
+  QuestionComponent,
+  ContextualLabelComponent,
+  ProgressBarComponent
 } from "./components/";
 
 // services
@@ -35,7 +38,8 @@ import {
   UserService,
   AlertService,
   AuthenticationService,
-  AuthGuardService
+  AuthGuardService,
+  OnlineJudgeService
 } from "./services/";
 
 // Interceptor
@@ -65,7 +69,10 @@ import { appRoutes } from "./app.route";
     ResetpwdComponent,
     ProfileComponent,
     EditorComponent,
-    WysiwygComponent
+    WysiwygComponent,
+    QuestionComponent,
+    ContextualLabelComponent,
+    ProgressBarComponent
   ],
   imports: [
     BrowserModule,
@@ -79,6 +86,7 @@ import { appRoutes } from "./app.route";
   ],
   providers: [
     QuestionService,
+    OnlineJudgeService,
     UserService,
     AlertService,
     AuthenticationService,

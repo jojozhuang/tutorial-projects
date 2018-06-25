@@ -1,5 +1,7 @@
 export * from "./widgets/alert/alert.component";
 export * from "./widgets/validationmessage/validationmessage.component";
+export * from "./widgets/contextual-label/contextual-label.component";
+export * from "./widgets/progress-bar/progress-bar.component";
 
 export * from "./authentication/signup.component";
 export * from "./authentication/login.component";
@@ -17,5 +19,7 @@ export * from "./admin/userpage.component";
 export * from "./admin/questionpage.component";
 
 // testing editor controls
-export * from "./question/editor.component";
+export * from "./codeeditor/editor.component";
 export * from "./wysiwyg/wysiwyg.component";
+
+export * from "./question/question.component";
