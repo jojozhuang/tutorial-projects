@@ -13,8 +13,10 @@ import {
   ProfileComponent,
   QuestionlistComponent,
   QuestionpageComponent,
+  EditorComponent,
   UserlistComponent,
-  UserpageComponent
+  UserpageComponent,
+  WysiwygComponent
 } from "./components/";
 
 // services
@@ -37,6 +39,14 @@ export const appRoutes: Routes = [
     path: "questionpage/:_id",
     component: QuestionpageComponent,
     canActivate: [AuthGuardService]
+  },
+  {
+    path: "editor",
+    component: EditorComponent
+  },
+  {
+    path: "wysiwyg",
+    component: WysiwygComponent
   },
   {
     path: "userlist",

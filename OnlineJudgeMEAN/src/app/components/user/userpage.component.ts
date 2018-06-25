@@ -132,4 +132,8 @@ export class UserpageComponent implements OnInit {
       );
     }
   }
+
+  back(url) {
+    this.router.navigate([url]);
+  }
 }

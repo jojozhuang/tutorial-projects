@@ -1,6 +1,8 @@
 <div class="container">
   <h2>Questions</h2>
   <button type="button" class="btn btn-info" routerLink="../questionpage">Create Question</button>
+  <button type="button" class="btn btn-info" routerLink="../editor">Code Editor</button>
+  <button type="button" class="btn btn-info" routerLink="../wysiwyg">Rich Text Editor</button>
   <hr/>
   <table class="table table-striped">
     <thead>
@@ -19,7 +21,7 @@
         <td>{{question.title}}</td>
         <td>{{question.difficulty}}</td>
         <td>
-          <button type="button" class="btn btn-success" [routerLink]="['/questionpage', question._id ]">Edit</button>
+          <button type="button" class="btn btn-primary" [routerLink]="['/questionpage', question._id ]">Edit</button>
           <button type="button" class="btn btn-danger" (click)="deleteQuestion({ event:$event, id: question._id })">Delete</button>
         </td>
       </tr>

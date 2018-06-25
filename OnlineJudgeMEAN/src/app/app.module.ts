@@ -6,6 +6,8 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { AlertModule } from "ngx-bootstrap";
 import { HttpClientModule } from "@angular/common/http";
+import { AceEditorModule } from "ng2-ace-editor";
+import { NgxEditorModule } from "ngx-editor";
 
 // components
 import {
@@ -17,12 +19,14 @@ import {
   HomepageComponent,
   QuestionlistComponent,
   QuestionpageComponent,
+  EditorComponent,
   UserlistComponent,
   UserpageComponent,
   SignupComponent,
   LoginComponent,
   ResetpwdComponent,
-  ProfileComponent
+  ProfileComponent,
+  WysiwygComponent
 } from "./components/";
 
 // services
@@ -59,7 +63,9 @@ import { appRoutes } from "./app.route";
     SignupComponent,
     LoginComponent,
     ResetpwdComponent,
-    ProfileComponent
+    ProfileComponent,
+    EditorComponent,
+    WysiwygComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +73,9 @@ import { appRoutes } from "./app.route";
     RouterModule.forRoot(appRoutes),
     AlertModule.forRoot(),
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AceEditorModule,
+    NgxEditorModule
   ],
   providers: [
     QuestionService,

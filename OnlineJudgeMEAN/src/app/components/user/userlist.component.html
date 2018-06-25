@@ -23,8 +23,8 @@
         <td>{{user.email}}</td>
         <td>{{user.timecreated | date : "yyyy/MM/dd hh:mm:ss" }}</td>
         <td>
-          <button type="button" class="btn btn-success" [routerLink]="['/userpage', user._id ]">Edit</button>
-          <button type="button" class="btn btn-primary" [routerLink]="['/userpage', user._id ]">Reset Password</button>
+          <button type="button" class="btn btn-primary" [routerLink]="['/userpage', user._id ]">Edit</button>
+          <button type="button" class="btn btn-warning" [routerLink]="['/userpage', user._id ]">Reset Password</button>
           <button type="button" class="btn btn-danger" (click)="deleteUser({ event:$event, id: user._id })">Delete</button>
         </td>
       </tr>

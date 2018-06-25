@@ -4,6 +4,7 @@ export class Question {
     public sequence: number,
     public title: string,
     public description: string,
+    public mainfunction: string,
     public difficulty: string
   ) {}
 }

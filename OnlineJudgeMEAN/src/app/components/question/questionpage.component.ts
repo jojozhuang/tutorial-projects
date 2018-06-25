@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ViewChild, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 
@@ -9,6 +9,50 @@ import { AlertService, QuestionService } from "./../../services";
   templateUrl: "./questionpage.component.html"
 })
 export class QuestionpageComponent implements OnInit {
+  // configuration of rich text editor(ngx-editor)
+  editorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: "10rem",
+    minHeight: "5rem",
+    width: "auto",
+    minWidth: "0",
+    translate: "no",
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: "Enter text here...",
+    imageEndPoint: "",
+    toolbar: [
+      [
+        "bold",
+        "italic",
+        "underline",
+        "strikeThrough",
+        "superscript",
+        "subscript"
+      ],
+      ["fontName", "fontSize", "color"],
+      [
+        "justifyLeft",
+        "justifyCenter",
+        "justifyRight",
+        "justifyFull",
+        "indent",
+        "outdent"
+      ],
+      ["cut", "copy", "delete", "removeFormat", "undo", "redo"],
+      [
+        "paragraph",
+        "blockquote",
+        "removeBlockquote",
+        "horizontalLine",
+        "orderedList",
+        "unorderedList"
+      ],
+      ["link", "unlink", "image", "video"]
+    ]
+  };
+
   status: number;
   message: string;
   _id;
@@ -29,15 +73,33 @@ export class QuestionpageComponent implements OnInit {
       "",
       Validators.compose([Validators.required, Validators.minLength(5)])
     ),
-    description: new FormControl(
+    description: new FormControl("", Validators.compose([Validators.required])),
+    mainfunction: new FormControl(
       "",
-      Validators.compose([Validators.required, Validators.minLength(5)])
+      Validators.compose([Validators.required])
     ),
     difficulty: new FormControl(
       "",
       Validators.compose([Validators.required, Validators.minLength(3)])
     )
   });
+
+  @ViewChild("editor") editor;
+  text: string = "";
+
+  ngAfterViewInit() {
+    this.editor.setTheme("eclipse");
+
+    this.editor.getEditor().setOptions({
+      enableBasicAutocompletion: true
+    });
+
+    this.editor.getEditor().commands.addCommand({
+      name: "showOtherCompletions",
+      bindKey: "Ctrl-.",
+      exec: function(editor) {}
+    });
+  }
 
   constructor(
     private alertService: AlertService,
@@ -57,6 +119,7 @@ export class QuestionpageComponent implements OnInit {
             sequence: question.sequence,
             title: question.title,
             description: question.description,
+            mainfunction: question.mainfunction,
             difficulty: question.difficulty
           });
         },
@@ -75,7 +138,7 @@ export class QuestionpageComponent implements OnInit {
     }
     //Form is valid, now perform create or update
     let question = this.questionForm.value;
-    //console.log(question);
+    console.log(question);
     if (question._id == null || question._id == "") {
       //Create question
       question._id = "";
@@ -110,5 +173,9 @@ export class QuestionpageComponent implements OnInit {
         }
       );
     }
+  }
+
+  back(url) {
+    this.router.navigate([url]);
   }
 }
