@@ -22,4 +22,5 @@ export * from "./admin/questionpage.component";
 export * from "./codeeditor/editor.component";
 export * from "./wysiwyg/wysiwyg.component";
 
+export * from "./questions/questions.component";
 export * from "./question/question.component";

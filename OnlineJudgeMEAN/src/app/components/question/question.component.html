@@ -1,28 +1,26 @@
 <div class="container">
-  <h2>Questions</h2>
-  <hr/>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th style="display:none;"></th>
-        <th>#</th>
-        <th>Title</th>
-        <th>Difficulty</th>
-        <th>Frequency</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let question of questions">
-        <td style="display:none;">{{question._id}}</td>
-        <td>{{question.sequence}}</td>
-        <td><a type="button" [routerLink]="['/problem/', question.title]">{{question.title}}</a></td>
-        <td>
-          <app-widget-contextual-label [difficulty]="[question.difficulty]"></app-widget-contextual-label>
-        </td>
-        <td>
-          <app-widget-progress-bar [frequency]="[question.frequency]"></app-widget-progress-bar>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <h3>{{sequence}}. {{title}}</h3>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#">Descripton</a></li>
+    <li><a href="#">Submissions</a></li>
+  </ul>
+  <br>
+  <div innerHTML={{description}}></div>
+  <hr />
+  <div>
+    <form class="form-horizontal" [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <div class="col-sm-12">
+          <ace-editor [(text)]="text" #editor style="height:250px;border:1px solid lightgray" name="solution" formControlName="solution"></ace-editor>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12">
+          <input type="submit" class="btn btn-success" value="Save">
+          <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+          />
+          <button type="button" class="btn btn-info" (click)="back('/questions')">Back</button>
+        </div>
+      </div>
+    </form>
+  </div>

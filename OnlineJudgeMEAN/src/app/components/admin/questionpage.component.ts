@@ -90,6 +90,7 @@ export class QuestionpageComponent implements OnInit {
       "",
       Validators.compose([Validators.required, Validators.minLength(5)])
     ),
+    uniquename: new FormControl("", Validators.required),
     description: new FormControl("", Validators.compose([Validators.required])),
     mainfunction: new FormControl(
       "",
@@ -141,6 +142,7 @@ export class QuestionpageComponent implements OnInit {
             _id: question._id,
             sequence: question.sequence,
             title: question.title,
+            uniquename: question.uniquename,
             description: question.description,
             mainfunction: question.mainfunction,
             difficulty: question.difficulty,
@@ -155,6 +157,19 @@ export class QuestionpageComponent implements OnInit {
     }
   }
 
+  onTitleChange(value) {
+    if (value) {
+      let words = value.split(" ");
+      let name = "";
+      for (let i = 0; i < words.length; i++) {
+        name += words[i].toLowerCase();
+        name += "-";
+      }
+      this.questionForm
+        .get("uniquename")
+        .setValue(name.slice(0, name.length - 1));
+    }
+  }
   //Handle create and update question
   onSubmit() {
     if (this.questionForm.invalid) {

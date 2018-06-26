@@ -2,7 +2,7 @@
   <h2 *ngIf="!_id">Create New Question</h2>
   <h2 *ngIf="_id">Edit Question</h2>
   <hr/>
-  <form *ngIf="status != 404" class="form-horizontal" [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+  <form class="form-horizontal" [formGroup]="questionForm" (ngSubmit)="onSubmit()">
     <div *ngIf="_id" class="form-group">
       <label class="control-label col-sm-2" for="_id">Question ID:</label>
       <div class="col-sm-3">
@@ -18,7 +18,14 @@
     <div class="form-group">
       <label class="control-label col-sm-2" for="title">Title:</label>
       <div class="col-sm-4">
-        <input class="form-control" placeholder="Enter title" type="text" name="title" formControlName="title" />
+        <input class="form-control" placeholder="Enter title" type="text" name="title" formControlName="title" (ngModelChange)="onTitleChange($event)"
+        />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="uniquename">Unique Name:</label>
+      <div class="col-sm-5">
+        <input class="form-control" readonly=true type="text" name="uniquename" formControlName="uniquename" />
       </div>
     </div>
     <div class="form-group">
@@ -37,13 +44,13 @@
       <label class="control-label col-sm-2" for="difficulty">Difficulty:</label>
       <div class="col-sm-2">
         <select [(ngModel)]="selectedValue" class="form-control" name="difficulty" formControlName="difficulty">
-              <option *ngFor="let option of options" [value]="option.value">{{option.name}}</option>
-            </select> select value: {{selectedValue}}
+          <option *ngFor="let option of options" [value]="option.value">{{option.name}}</option>
+        </select>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-2" for="frequency">Frequency:</label>
-      <div class="col-sm-4">
+      <div class="col-sm-2">
         <input class="form-control" placeholder="Enter frequency" type="text" name="frequency" formControlName="frequency" />
       </div>
     </div>

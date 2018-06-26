@@ -120,7 +120,14 @@ export class AuthenticationService {
       });
   }
 
-  public getUserName() {}
+  public getUserName() {
+    let userInfo = this.getUserDetails();
+    if (userInfo) {
+      return userInfo.username;
+    } else {
+      return "";
+    }
+  }
 
   /*
   // Sign up

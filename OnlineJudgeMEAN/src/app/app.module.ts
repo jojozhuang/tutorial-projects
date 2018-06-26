@@ -28,6 +28,7 @@ import {
   ProfileComponent,
   WysiwygComponent,
   QuestionComponent,
+  QuestionsComponent,
   ContextualLabelComponent,
   ProgressBarComponent
 } from "./components/";
@@ -72,7 +73,8 @@ import { appRoutes } from "./app.route";
     WysiwygComponent,
     QuestionComponent,
     ContextualLabelComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    QuestionsComponent
   ],
   imports: [
     BrowserModule,
