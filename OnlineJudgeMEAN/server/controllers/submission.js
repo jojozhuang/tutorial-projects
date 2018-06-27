@@ -1,6 +1,7 @@
 var Submission = require("../models/submission");
 const ValidationError = require("../models/validationerror");
 const ErrorUtil = require("../utils/").ErrorUtil;
+const RunnerManager = require("../compiler/RunnerManager");
 
 exports.submission_create = function(req, res, next) {
   var submission = new Submission({
@@ -81,5 +82,27 @@ exports.submission_findbyname = function(req, res, next) {
     } else {
       res.status(200).send();
     }
+  });
+};
+
+exports.submission_execute = function(req, res, next) {
+  var submission = new Submission({
+    username: req.body.username,
+    questionname: req.body.questionname,
+    solution: req.body.solution,
+    language: req.body.language,
+    status: req.body.language
+  });
+
+  console.log(submission);
+  RunnerManager.run(submission.language, submission.solution, function(
+    status,
+    message
+  ) {
+    const result = {
+      status,
+      message
+    };
+    res.end(JSON.stringify(result));
   });
 };

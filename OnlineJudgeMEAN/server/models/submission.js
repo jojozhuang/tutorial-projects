@@ -5,6 +5,7 @@ var SubmissionSchema = new Schema({
   username: { type: String, required: true, max: 100 },
   questionname: { type: String, required: true, max: 100 },
   solution: { type: String, required: true },
+  language: { type: String, required: true }, // java, c, c++, javascript, python
   status: { type: Number, required: true } // -1: not submitted, 0: pass, 1: fail, 2: partially pass
 });
 

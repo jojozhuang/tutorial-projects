@@ -67,4 +67,9 @@ export class OnlineJudgeService {
       })
       .map(res => res.body);
   }
+
+  //Submit solution
+  submitSolution(submission: Submission): Observable<any> {
+    return this.http.post(this.apiUrl + "/run", submission);
+  }
 }

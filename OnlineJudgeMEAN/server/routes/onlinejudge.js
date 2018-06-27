@@ -18,4 +18,6 @@ router.get("/:names", submission_controller.submission_findbyname);
 
 //router.put("/:names", submission_controller.submission_update);
 
+router.post("/run", submission_controller.submission_execute);
+
 module.exports = router;

@@ -19,12 +19,40 @@ export class QuestionComponent implements OnInit {
   uniquename;
   //Create form
   questionForm = new FormGroup({
-    solution: new FormControl("", Validators.compose([Validators.required]))
+    language: new FormControl(
+      "java",
+      Validators.compose([Validators.required])
+    ),
+    solution: new FormControl("", Validators.compose([Validators.required])),
+    output: new FormControl("", null)
   });
 
   @Input() sequence: number;
   @Input() title: string;
   @Input() description: string;
+  @Input()
+  options = [
+    {
+      value: "java",
+      name: "Java"
+    },
+    {
+      value: "c",
+      name: "C"
+    },
+    {
+      value: "c++",
+      name: "C++"
+    },
+    {
+      value: "javascript",
+      name: "JavaScript"
+    },
+    {
+      value: "python",
+      name: "Python"
+    }
+  ];
 
   @ViewChild("editor") editor;
   text: string = "";
@@ -63,7 +91,9 @@ export class QuestionComponent implements OnInit {
           this.title = question.title;
           this.description = question.description;
           this.questionForm.setValue({
-            solution: question.mainfunction
+            language: "java",
+            solution: question.mainfunction,
+            output: ""
           });
           // get submission
           this.ojService
@@ -74,7 +104,10 @@ export class QuestionComponent implements OnInit {
                 if (submission) {
                   this._id = submission._id;
                   this.questionForm.setValue({
-                    solution: submission.solution
+                    language: submission.language,
+                    solution: submission.solution,
+                    output: ""
+                    //status: submission.status
                   });
                 }
               },
@@ -90,6 +123,10 @@ export class QuestionComponent implements OnInit {
     }
   }
 
+  back(url) {
+    this.router.navigate([url]);
+  }
+
   onSubmit() {
     if (this.questionForm.invalid) {
       return; //Validation failed, exit from method.
@@ -101,6 +138,7 @@ export class QuestionComponent implements OnInit {
       this._id,
       this.username,
       this.uniquename,
+      question.language,
       question.solution,
       -1
     );
@@ -140,7 +178,43 @@ export class QuestionComponent implements OnInit {
     }
   }
 
-  back(url) {
-    this.router.navigate([url]);
+  onSubmitSolution() {
+    console.log("onSubmitSolution");
+    if (this.questionForm.invalid) {
+      return; //Validation failed, exit from method.
+    }
+    //Form is valid, now perform create or update
+    let question = this.questionForm.value;
+    console.log(question);
+    let submission = new Submission(
+      this._id,
+      this.username,
+      this.uniquename,
+      question.language,
+      question.solution,
+      -1
+    );
+    console.log(this._id);
+    console.log(submission);
+    //Create question
+    this.ojService.submitSolution(submission).subscribe(
+      response => {
+        console.log(response);
+        this.questionForm.setValue({
+          language: submission.language,
+          solution: submission.solution,
+          output: response.message
+          //status: submission.status
+        });
+        if (response.status === "0") {
+          this.alertService.success(response.message);
+        } else {
+          this.alertService.error(response.message);
+        }
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 }
