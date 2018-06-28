@@ -24,7 +24,7 @@ public class SolutionDynamicTest {
     }
 
     @TestFactory
-    public Collection<DynamicTest> translateDynamicTests() {
+    public Collection<DynamicTest> testTwoSum() {
 
         Collection<DynamicTest> dynamicTests = new ArrayList<>();
 
@@ -41,8 +41,6 @@ public class SolutionDynamicTest {
                     // create an test execution
                     int[] ret = solution.twoSum(nums, target);
                     Executable exec = () -> assertArrayEquals(expected, ret);
-
-                    //String out = ParserUtil.integerArrayToString(ret);
 
                     // create a test display name
                     String testCase = "Test Two Sum: Input: " + Arrays.toString(nums) + ", " + target + "; Your answer:" + Arrays.toString(ret) + "; Expected answer: " + Arrays.toString(expected);
