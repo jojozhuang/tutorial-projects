@@ -53,7 +53,7 @@ public class SolutionDynamicTest {
                 }
             }
             catch (Exception io) {
-            	System.out.println(io.getMessage());
+                System.out.println(io.getMessage());
             }
             finally {
                 br.close();
