@@ -52,12 +52,6 @@ var routes = require("./routes");
 // Use the API routes when path starts with /api
 app.use("/api", routes);
 
-app.post("/api/run", (req, res) => {
-  const file = req.body;
-  console.log(`file.lang: ${file.lang}`, `file.code:${file.code}`);
-  RunnerManager.run(file.lang, file.code, res);
-});
-
 // Error handling
 app.use(function(err, req, res, next) {
   // error level logging

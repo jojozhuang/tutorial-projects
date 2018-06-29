@@ -156,6 +156,7 @@ export class QuestionComponent implements OnInit {
             "Your solution has been saved successfully.",
             true
           );
+          this.router.navigate(["/questions"]);
         },
         error => {
           console.log(error);
@@ -170,6 +171,7 @@ export class QuestionComponent implements OnInit {
             "Your solution has been updated successfully.",
             true
           );
+          this.router.navigate(["/questions"]);
         },
         error => {
           console.log(error);

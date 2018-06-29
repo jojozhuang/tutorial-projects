@@ -95,14 +95,16 @@ exports.submission_execute = function(req, res, next) {
   });
 
   console.log(submission);
-  RunnerManager.run(submission.language, submission.solution, function(
-    status,
-    message
-  ) {
-    const result = {
-      status,
-      message
-    };
-    res.end(JSON.stringify(result));
-  });
+  RunnerManager.run(
+    submission.questionname,
+    submission.language,
+    submission.solution,
+    function(status, message) {
+      const result = {
+        status,
+        message
+      };
+      res.end(JSON.stringify(result));
+    }
+  );
 };

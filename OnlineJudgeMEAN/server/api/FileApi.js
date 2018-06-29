@@ -2,6 +2,9 @@ const mkdirp = require("mkdirp");
 const fs = require("fs");
 const getDirName = require("path").dirname;
 const path = require("path");
+const ncp = require("ncp").ncp;
+
+ncp.limit = 16;
 
 module.exports = {
   getFile(lang, callback) {
@@ -31,18 +34,65 @@ module.exports = {
     });
   },
 
-  saveFile(file, code, callback) {
+  saveFile(file, content, callback) {
     // create parent directories if they doesn't exist.
     mkdirp(getDirName(file), err => {
       if (err) return callback(err);
 
-      return fs.writeFile(file, code, err2 => {
+      return fs.writeFile(file, content, err2 => {
         if (err2) {
           throw err2;
         }
 
         callback();
       });
+    });
+  },
+
+  copyFile(source, target, callback) {
+    var isCalled = false;
+
+    var rd = fs.createReadStream(source);
+    rd.on("error", function(err) {
+      done(err);
+    });
+    var wr = fs.createWriteStream(target);
+    wr.on("error", function(err) {
+      done(err);
+    });
+    wr.on("close", function(ex) {
+      done();
+    });
+    rd.pipe(wr);
+
+    function done(err) {
+      if (!isCalled) {
+        callback(err);
+        isCalled = true;
+      }
+    }
+  },
+
+  copyDirectory(source, target, callback) {
+    // create target directory if it doesn't exist.
+    mkdirp(target, err => {
+      if (err) return callback(err);
+
+      ncp(source, target, function(err) {
+        if (err) {
+          return callback(err);
+        }
+        callback();
+      });
+    });
+  },
+
+  readFile(file, callback) {
+    fs.readFile(file, function(err, data) {
+      if (err) {
+        return callback(err);
+      }
+      callback(data);
     });
   }
 };

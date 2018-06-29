@@ -1,5 +1,5 @@
-const { spawn } = require('child_process');
-const Runner = require('./Runner');
+const { spawn } = require("child_process");
+const Runner = require("./Runner");
 
 class JavaScriptRunner extends Runner {
   defaultFile() {
@@ -8,11 +8,11 @@ class JavaScriptRunner extends Runner {
 
   constructor() {
     super();
-    this.defaultfile = 'Hello.js';
+    this.defaultfile = "Hello.js";
   }
 
   run(file, directory, filename, extension, callback) {
-    if (extension.toLowerCase() !== '.js') {
+    if (extension.toLowerCase() !== ".js") {
       console.log(`${file} is not a javascript file.`);
     }
     this.execute(file, directory, callback);
@@ -26,16 +26,16 @@ class JavaScriptRunner extends Runner {
     console.log(`options: ${options}`);
     console.log(`argsRun: ${argsRun}`);
 
-    const executor = spawn('node', argsRun, options);
-    executor.stdout.on('data', (output) => {
+    const executor = spawn("node", argsRun, options);
+    executor.stdout.on("data", output => {
       console.log(String(output));
-      callback('0', String(output)); // 0, no error
+      callback("0", String(output)); // 0, no error
     });
-    executor.stderr.on('data', (output) => {
+    executor.stderr.on("data", output => {
       console.log(`stderr: ${String(output)}`);
-      callback('2', String(output)); // 2, execution failure
+      callback("2", String(output)); // 2, execution failure
     });
-    executor.on('close', (output) => {
+    executor.on("close", output => {
       this.log(`stdout: ${output}`);
     });
   }

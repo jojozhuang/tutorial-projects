@@ -23,8 +23,8 @@ public class SolutionDynamicTest {
 
     @TestFactory
     public Collection<DynamicTest> testTwoSum() {
+        System.out.println("testTwoSum");
 
-System.out.println("testTwoSum");
         Collection<DynamicTest> dynamicTests = new ArrayList<>();
 
         try {
