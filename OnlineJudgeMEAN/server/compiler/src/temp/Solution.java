@@ -27,7 +27,7 @@ public class Solution {
         for (int i = 0; i < nums.length; i++) {
             if(map.containsKey(nums[i])) {
                 res[0] = map.get(nums[i]);
-                res[1] = i + 1+100;
+                res[1] = i;
                 return res;
             } else {
                 map.put(target - nums[i], i);

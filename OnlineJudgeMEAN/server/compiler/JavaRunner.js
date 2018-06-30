@@ -13,14 +13,15 @@ class JavaRunner extends Runner {
   constructor() {
     super();
     this.sourcefile = "Solution.java";
-    this.testfile = "compile.sh";
+    //this.testfile = "compile.sh";
+    this.testfile = "SolutionTester.java";
   }
 
   run(file, directory, filename, extension, callback) {
     /*if (extension.toLowerCase() !== ".java") {
       console.log(`${file} is not a java file.`);
     }*/
-    this.runtest(file, directory, filename, callback);
+    this.compile(file, directory, filename, callback);
   }
 
   // compile java source file
@@ -61,12 +62,17 @@ class JavaRunner extends Runner {
   compile(file, directory, filename, callback) {
     // set working directory for child_process
     const options = { cwd: directory };
+    const options2 = { classpath: directory };
     // var compiler = spawn('javac', ['CodeJava.java']);
     const argsCompile = [];
-    argsCompile[0] = "-sourcepath";
-    argsCompile[1] = ".";
+    //argsCompile[0] = "-sourcepath";
+    //argsCompile[1] = directory;
+    //argsCompile[2] = file;
+    argsCompile[0] = directory + "/ParserUtil.java";
+    argsCompile[1] = directory + "/Solution.java";
     argsCompile[2] = file;
-    const compiler = spawn("javac", argsCompile);
+    console.log(argsCompile);
+    const compiler = spawn("javac", argsCompile, options2);
     compiler.stdout.on("data", data => {
       console.log(`stdout: ${data}`);
     });
@@ -87,7 +93,7 @@ class JavaRunner extends Runner {
     argsRun[0] = filename;
     const executor = spawn("java", argsRun, options);
     executor.stdout.on("data", output => {
-      console.log(String(output));
+      console.log(`data: ${String(output)}`);
       callback("0", String(output)); // 0, no error
     });
     executor.stderr.on("data", output => {

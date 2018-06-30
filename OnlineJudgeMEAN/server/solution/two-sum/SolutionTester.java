@@ -15,7 +15,7 @@ public class SolutionTester {
     public static void main(String[] args) {
         Solution solution = new Solution();
 
-        System.out.println("testTwoSum");
+        //System.out.println("testTwoSum");
         
         boolean testResult = false;
         try {
@@ -43,11 +43,13 @@ public class SolutionTester {
                     
                     if (!testResult) {
                         String content = "[Fail]Failed at: Input: " + Arrays.toString(nums) + ", " + target + "; Your answer:" + Arrays.toString(ret) + "; Expected answer: " + Arrays.toString(expected);
+                        System.out.println(content);
                         saveTestResult(content);
                         break;
                     }
                 }
                 if (testResult) {
+                    System.out.println("[Success]Your solution passed all " + count +" test cases!");
                     saveTestResult("[Success]Your solution passed all " + count +" test cases!");
                 }
             }
