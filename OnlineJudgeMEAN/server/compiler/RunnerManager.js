@@ -69,7 +69,15 @@ module.exports = {
           status,
           message
         ) {
-          callback(status, message);
+          if (status == "0") {
+            if (message.startsWith("[Success]")) {
+              callback("0", message.slice(9)); // 10, pass
+            } else {
+              callback("1", message.slice(6)); // 11, fail
+            }
+          } else {
+            callback(status, message);
+          }
           /*
           // compiled and executed successfully
           if (status == "0") {

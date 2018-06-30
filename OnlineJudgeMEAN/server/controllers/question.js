@@ -5,6 +5,7 @@ exports.question_create = function(req, res, next) {
   var question = new Question({
     sequence: req.body.sequence,
     title: req.body.title,
+    uniquename: req.body.uniquename,
     description: req.body.description,
     mainfunction: req.body.mainfunction,
     difficulty: req.body.difficulty,

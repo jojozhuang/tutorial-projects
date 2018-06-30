@@ -7,6 +7,7 @@ exports.submission_create = function(req, res, next) {
   var submission = new Submission({
     username: req.body.username,
     questionname: req.body.questionname,
+    language: req.body.language,
     solution: req.body.solution,
     status: -1 // not submitted -> just created
   });
@@ -89,8 +90,8 @@ exports.submission_execute = function(req, res, next) {
   var submission = new Submission({
     username: req.body.username,
     questionname: req.body.questionname,
-    solution: req.body.solution,
     language: req.body.language,
+    solution: req.body.solution,
     status: req.body.language
   });
 
