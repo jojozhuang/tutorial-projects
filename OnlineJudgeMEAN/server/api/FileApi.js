@@ -88,11 +88,14 @@ module.exports = {
   },
 
   readFile(file, callback) {
+    console.log("FileApi.readFile(), file:" + file);
     fs.readFile(file, function(err, data) {
+      console.log("FileApi.readFile(), err:" + err);
       if (err) {
-        return callback(err);
+        throw err;
       }
-      callback(data);
+      console.log("FileApi.readFile(), data:" + data);
+      callback(data + "");
     });
   }
 };

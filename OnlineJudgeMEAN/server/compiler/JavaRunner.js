@@ -1,5 +1,6 @@
 const { spawn } = require("child_process");
 const Runner = require("./Runner");
+const exec = require("child_process").exec;
 
 class JavaRunner extends Runner {
   sourceFile() {
@@ -24,9 +25,25 @@ class JavaRunner extends Runner {
 
   // compile java source file
   runtest(file, directory, filename, callback) {
+    /*
+    var yourscript = exec(
+      "sh " + file,
+      { shell: true },
+      (error, stdout, stderr) => {
+        console.log(`${stdout}`);
+        console.log(`${stderr}`);
+        if (error !== null) {
+          console.log(`exec error: ${error}`);
+          callback("15", String(error)); // 15, error
+        } else {
+          callback("0", "Success");
+        }
+      }
+    );*/
+
     const argsCompile = [];
     argsCompile[0] = file;
-    const runner = spawn("sh", argsCompile);
+    const runner = spawn("sh", argsCompile, { shell: true });
     runner.stdout.on("data", data => {
       console.log(`stdout: ${data}`);
       callback("0", String(data)); // 0, no error
