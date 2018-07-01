@@ -2,11 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { OnlineJudgeService } from "./../../services";
 
 @Component({
-  selector: "app-questions",
-  templateUrl: "./questions.component.html",
-  styleUrls: ["./questions.component.css"]
+  selector: "app-algorithm-questions",
+  templateUrl: "./algorithm-questions.component.html"
 })
-export class QuestionsComponent implements OnInit {
+export class AlgorithmQuestionsComponent implements OnInit {
   constructor(private ojService: OnlineJudgeService) {}
   questions;
 

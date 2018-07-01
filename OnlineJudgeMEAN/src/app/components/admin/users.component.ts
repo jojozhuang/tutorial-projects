@@ -2,10 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { UserService } from "./../../services/user.service";
 
 @Component({
-  selector: "app-userlist",
-  templateUrl: "./userlist.component.html"
+  selector: "app-users",
+  templateUrl: "./users.component.html"
 })
-export class UserlistComponent implements OnInit {
+export class UsersComponent implements OnInit {
   constructor(private service: UserService) {}
   users;
   status: number;

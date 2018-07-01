@@ -9,11 +9,10 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Question, Submission } from "../../models";
 
 @Component({
-  selector: "app-question",
-  templateUrl: "./question.component.html",
-  styleUrls: ["./question.component.css"]
+  selector: "app-algorithm-question",
+  templateUrl: "./algorithm-question.component.html"
 })
-export class QuestionComponent implements OnInit {
+export class AlgorithmQuestionComponent implements OnInit {
   _id;
   username;
   uniquename;

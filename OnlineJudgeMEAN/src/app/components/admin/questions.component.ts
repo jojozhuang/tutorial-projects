@@ -2,10 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { AlertService, QuestionService } from "./../../services";
 
 @Component({
-  selector: "app-questionlist",
-  templateUrl: "./questionlist.component.html"
+  selector: "app-questions",
+  templateUrl: "./questions.component.html"
 })
-export class QuestionlistComponent implements OnInit {
+export class QuestionsComponent implements OnInit {
   constructor(
     private alertService: AlertService,
     private questionService: QuestionService

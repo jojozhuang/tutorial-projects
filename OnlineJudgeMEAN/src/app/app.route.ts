@@ -11,14 +11,14 @@ import {
   LoginComponent,
   ResetpwdComponent,
   ProfileComponent,
-  QuestionlistComponent,
-  QuestionpageComponent,
-  EditorComponent,
-  UserlistComponent,
-  UserpageComponent,
-  WysiwygComponent,
+  QuestionsComponent,
   QuestionComponent,
-  QuestionsComponent
+  EditorComponent,
+  UsersComponent,
+  UserComponent,
+  WysiwygComponent,
+  AlgorithmQuestionComponent,
+  AlgorithmQuestionsComponent
 } from "./components/";
 
 // services
@@ -27,36 +27,36 @@ import { AuthGuardService } from "./services/";
 export const appRoutes: Routes = [
   { path: "", component: HomepageComponent },
   { path: "homepage", component: HomepageComponent },
-  { path: "questions", component: QuestionsComponent },
-  { path: "question/:uniquename", component: QuestionComponent },
+  { path: "questions", component: AlgorithmQuestionsComponent },
+  { path: "question/:uniquename", component: AlgorithmQuestionComponent },
   {
-    path: "admin/userlist",
-    component: UserlistComponent,
+    path: "admin/users",
+    component: UsersComponent,
     canActivate: [AuthGuardService]
   },
   {
-    path: "admin/userpage",
-    component: UserpageComponent,
+    path: "admin/user",
+    component: UserComponent,
     canActivate: [AuthGuardService]
   },
   {
-    path: "admin/userpage/:_id",
-    component: UserpageComponent,
+    path: "admin/user/:_id",
+    component: UserComponent,
     canActivate: [AuthGuardService]
   },
   {
-    path: "admin/questionlist",
-    component: QuestionlistComponent,
+    path: "admin/questions",
+    component: QuestionsComponent,
     canActivate: [AuthGuardService]
   },
   {
-    path: "admin/questionpage",
-    component: QuestionpageComponent,
+    path: "admin/question",
+    component: QuestionComponent,
     canActivate: [AuthGuardService]
   },
   {
-    path: "admin/questionpage/:_id",
-    component: QuestionpageComponent,
+    path: "admin/question/:_id",
+    component: QuestionComponent,
     canActivate: [AuthGuardService]
   },
   {

@@ -5,10 +5,10 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { AlertService, QuestionService } from "./../../services";
 
 @Component({
-  selector: "app-questionpage",
-  templateUrl: "./questionpage.component.html"
+  selector: "app-question",
+  templateUrl: "./question.component.html"
 })
-export class QuestionpageComponent implements OnInit {
+export class QuestionComponent implements OnInit {
   // configuration of rich text editor(ngx-editor)
   editorConfig = {
     editable: true,

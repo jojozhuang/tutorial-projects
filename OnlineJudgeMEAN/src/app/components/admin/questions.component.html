@@ -1,6 +1,6 @@
 <div class="container">
   <h2>Questions</h2>
-  <button type="button" class="btn btn-info" routerLink="/admin/questionpage">Create Question</button>
+  <button type="button" class="btn btn-info" routerLink="/admin/question">Create Question</button>
   <button type="button" class="btn btn-info" routerLink="../../editor">Code Editor</button>
   <button type="button" class="btn btn-info" routerLink="../../wysiwyg">Rich Text Editor</button>
   <hr/>
@@ -27,7 +27,7 @@
           <app-widget-progress-bar [frequency]="[question.frequency]"></app-widget-progress-bar>
         </td>
         <td>
-          <button type="button" class="btn btn-primary" [routerLink]="['/admin/questionpage', question._id ]">Edit</button>
+          <button type="button" class="btn btn-primary" [routerLink]="['/admin/question', question._id ]">Edit</button>
           <button type="button" class="btn btn-danger" (click)="deleteQuestion({ event:$event, id: question._id })">Delete</button>
         </td>
       </tr>

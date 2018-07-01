@@ -89,8 +89,8 @@ export class ErrorHttpInterceptor implements HttpInterceptor {
           this.alertService.error(response.message || response);
         }
         //console.error(respResult.message);
-        // return _throw(respResult);
-        return next.handle(request);
+        return _throw(this.messages);
+        //return next.handle(request);
       });
   }
 }

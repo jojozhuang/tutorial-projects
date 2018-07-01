@@ -77,6 +77,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log("onSubmit");
     //CookieUtil.deleteAllCookies();
     this.submitted = true;
 

@@ -1,6 +1,6 @@
 <div class="container">
   <h2>Users</h2>
-  <button type="button" class="btn btn-info" routerLink="/admin/userpage">Create User</button>
+  <button type="button" class="btn btn-info" routerLink="/admin/user">Create User</button>
   <hr/>
   <table class="table table-striped">
     <thead>
@@ -19,8 +19,8 @@
         <td>{{user.email}}</td>
         <td>{{user.timecreated | date : "yyyy/MM/dd hh:mm:ss" }}</td>
         <td>
-          <button type="button" class="btn btn-primary" [routerLink]="['/admin/userpage', user._id ]">Edit</button>
-          <button type="button" class="btn btn-warning" [routerLink]="['/userpage', user._id ]">Reset Password</button>
+          <button type="button" class="btn btn-primary" [routerLink]="['/admin/user', user._id ]">Edit</button>
+          <button type="button" class="btn btn-warning" [routerLink]="['/user', user._id ]">Reset Password</button>
           <button type="button" class="btn btn-danger" (click)="deleteUser({ event:$event, id: user._id })">Delete</button>
         </td>
       </tr>

@@ -7,10 +7,10 @@ import { AlertService, AuthenticationService } from "../../services/";
 import { UserService } from "./../../services/user.service";
 
 @Component({
-  selector: "app-userpage",
-  templateUrl: "./userpage.component.html"
+  selector: "app-user",
+  templateUrl: "./user.component.html"
 })
-export class UserpageComponent implements OnInit {
+export class UserComponent implements OnInit {
   _id;
   credentials: TokenPayload = {
     username: "",

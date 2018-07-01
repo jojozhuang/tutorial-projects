@@ -3,7 +3,7 @@ const User = require("../models/user");
 const ValidationError = require("../models/validationerror");
 const Ctypto = require("../utils/").Ctypto;
 const { check, validationResult } = require("express-validator/check");
-//const sleep = require("sleep");
+const sleep = require("sleep");
 
 exports.user_create = function(req, res, next) {
   var user = new User({
@@ -30,6 +30,7 @@ exports.user_readone = function(req, res, next) {
 };
 
 exports.user_update = function(req, res, next) {
+  sleep.sleep(3000);
   User.findByIdAndUpdate(
     req.params.id,
     { $set: req.body },

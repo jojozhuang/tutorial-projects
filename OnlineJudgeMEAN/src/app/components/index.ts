@@ -13,14 +13,15 @@ export * from "./pages/homepage.component";
 export * from "./pages/header.component";
 export * from "./pages/footer.component";
 
-export * from "./admin/questionlist.component";
-export * from "./admin/userlist.component";
-export * from "./admin/userpage.component";
-export * from "./admin/questionpage.component";
+export * from "./admin/questions.component";
+export * from "./admin/question.component";
+export * from "./admin/users.component";
+export * from "./admin/user.component";
 
 // testing editor controls
 export * from "./codeeditor/editor.component";
 export * from "./wysiwyg/wysiwyg.component";
 
-export * from "./questions/questions.component";
-export * from "./question/question.component";
+// algorithm questions
+export * from "./questions/algorithm-questions.component";
+export * from "./questions/algorithm-question.component";

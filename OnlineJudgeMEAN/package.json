@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "client": "ng serve",
-    "server": "nodemon ./server/server",
+    "server": "node ./server/server",
     "dev": "concurrently \"npm run client\" \"npm run server \""
   },
   "private": true,

@@ -1,32 +1,27 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" routerLink="">Online Judge</a>
+      <ul class="nav navbar-nav">
+        <li [ngClass]="{'active': router.url === '/'}"><a class="navbar-brand" routerLink="/">Online Judge</a></li>
+      </ul>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a routerLink="questions">Questions</a></li>
+      <li [ngClass]="{'active': router.url === '/questions' || router.url.startsWith('/question')}"><a routerLink="questions">Questions</a></li>
       <li><a href="#">Contest</a></li>
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Page 1-1</a></li>
-          <li><a href="#">Page 1-2</a></li>
-          <li><a href="#">Page 1-3</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Page 2</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li *ngIf="!auth.isLoggedIn()"><a routerLink="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
       <li *ngIf="!auth.isLoggedIn()"><a routerLink="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      <li *ngIf="auth.isLoggedIn()" class="dropdown">
+      <li *ngIf="auth.isLoggedIn()" [ngClass]="{'active': router.url === '/profile' || router.url === '/resetpwd' || router.url.startsWith('/admin/user') || router.url.startsWith('/admin/question')}"
+        class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> {{ this.auth.getUserDetails().username }}
           <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a routerLink="profile">Profile</a></li>
           <li><a routerLink="resetpwd">Change Password</a></li>
           <li class="nav-divider"></li>
-          <li><a routerLink="admin/userlist">User</a></li>
-          <li><a routerLink="admin/questionlist">Question</a></li>
+          <li><a routerLink="admin/users">User</a></li>
+          <li><a routerLink="admin/questions">Question</a></li>
         </ul>
       </li>
       <li *ngIf="auth.isLoggedIn()">
