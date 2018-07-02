@@ -3,6 +3,17 @@ html {
   font-size: 16px;
 }
 
+.bar {
+  margin-top: 50px;
+}
+.spinner {
+  margin-top: 50px;
+}
+
+div .bar-shadow[_ngcontent-c1] {
+  all: initial;
+}
+
 .control-label.required:after {
   color: #d00;
   content: "*";

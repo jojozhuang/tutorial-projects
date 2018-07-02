@@ -5,9 +5,10 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { AlertModule } from "ngx-bootstrap";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AceEditorModule } from "ng2-ace-editor";
 import { NgxEditorModule } from "ngx-editor";
+import { NgProgressModule, NgProgressInterceptor } from "ngx-progressbar";
 
 // components
 import {
@@ -94,7 +95,8 @@ import { appRoutes } from "./app.route";
     FormsModule,
     HttpClientModule,
     AceEditorModule,
-    NgxEditorModule
+    NgxEditorModule,
+    NgProgressModule
   ],
   providers: [
     QuestionService,
@@ -105,7 +107,8 @@ import { appRoutes } from "./app.route";
     AuthGuardService,
     ErrorInterceptor,
     JwtInterceptor,
-    CookieInterceptor
+    CookieInterceptor,
+    { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

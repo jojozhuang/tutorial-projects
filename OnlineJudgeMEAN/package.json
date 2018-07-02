@@ -45,6 +45,7 @@
     "ng2-ace-editor": "^0.3.8",
     "ngx-bootstrap": "^3.0.0",
     "ngx-editor": "^3.3.0",
+    "ngx-progressbar": "^2.1.1",
     "nodemon": "^1.17.5",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",

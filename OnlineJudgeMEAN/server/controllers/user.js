@@ -21,6 +21,7 @@ exports.user_create = function(req, res, next) {
 };
 
 exports.user_readone = function(req, res, next) {
+  sleep.sleep(3);
   User.findById(req.params.id, function(err, user) {
     if (err) {
       return next(err);

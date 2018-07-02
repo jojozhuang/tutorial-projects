@@ -17,6 +17,7 @@ export class UserComponent extends BaseComponent {
   };
 
   ngOnInit() {
+    //this.ngProgress.start();
     this._id = this.route.snapshot.paramMap.get("_id");
     if (this._id == null || this._id == "") {
       this.initialValidation = true;
@@ -36,7 +37,7 @@ export class UserComponent extends BaseComponent {
       this.userService.getUserById(this._id).subscribe(
         user => {
           this.baseForm = this.formBuilder.group({
-            _id: [user._id, [Validators.required]],
+            _id: [{ value: user._id, disabled: true }, [Validators.required]],
             username: [
               user.username,
               [Validators.required, Validators.minLength(3)]
@@ -49,6 +50,7 @@ export class UserComponent extends BaseComponent {
             username: user.username,
             email: user.email
           });*/
+          //this.ngProgress.done();
         },
         error => {
           this.printError(error);
