@@ -1,112 +1,17 @@
 import { Component, ViewChild, Input, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Router, ActivatedRoute, Params } from "@angular/router";
-
-import { AlertService, QuestionService } from "./../../services";
+import { Validators } from "@angular/forms";
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "app-question",
   templateUrl: "./question.component.html"
 })
-export class QuestionComponent implements OnInit {
-  // configuration of rich text editor(ngx-editor)
-  editorConfig = {
-    editable: true,
-    spellcheck: true,
-    height: "10rem",
-    minHeight: "5rem",
-    width: "auto",
-    minWidth: "0",
-    translate: "no",
-    enableToolbar: true,
-    showToolbar: true,
-    placeholder: "Enter text here...",
-    imageEndPoint: "",
-    toolbar: [
-      [
-        "bold",
-        "italic",
-        "underline",
-        "strikeThrough",
-        "superscript",
-        "subscript"
-      ],
-      ["fontName", "fontSize", "color"],
-      [
-        "justifyLeft",
-        "justifyCenter",
-        "justifyRight",
-        "justifyFull",
-        "indent",
-        "outdent"
-      ],
-      ["cut", "copy", "delete", "removeFormat", "undo", "redo"],
-      [
-        "paragraph",
-        "blockquote",
-        "removeBlockquote",
-        "horizontalLine",
-        "orderedList",
-        "unorderedList"
-      ],
-      ["link", "unlink", "image", "video"]
-    ]
-  };
-
-  @Input()
-  options = [
-    {
-      value: 10,
-      name: "Easy"
-    },
-    {
-      value: 20,
-      name: "Medium"
-    },
-    {
-      value: 30,
-      name: "Hard"
-    }
-  ];
-
-  status: number;
-  message: string;
+export class QuestionComponent extends BaseComponent {
   _id;
-  public selectedValue;
 
-  //Create form
-  questionForm = new FormGroup({
-    _id: new FormControl(""),
-    sequence: new FormControl(
-      "",
-      Validators.compose([
-        Validators.required,
-        Validators.pattern("[0-9]+"),
-        Validators.min(0),
-        Validators.max(2147483647)
-      ])
-    ),
-    title: new FormControl(
-      "",
-      Validators.compose([Validators.required, Validators.minLength(5)])
-    ),
-    uniquename: new FormControl("", Validators.required),
-    description: new FormControl("", Validators.compose([Validators.required])),
-    mainfunction: new FormControl(
-      "",
-      Validators.compose([Validators.required])
-    ),
-    difficulty: new FormControl(10, Validators.compose([Validators.required])),
-    frequency: new FormControl(
-      "",
-      Validators.compose([
-        Validators.required,
-        Validators.pattern("[0-9]+"),
-        Validators.min(0),
-        Validators.max(100)
-      ])
-    )
-  });
+  /*  public selectedValue;
+  public htmlContent;
+  //public text;
 
   @ViewChild("editor") editor;
   text: string = "";
@@ -123,39 +28,7 @@ export class QuestionComponent implements OnInit {
       bindKey: "Ctrl-.",
       exec: function(editor) {}
     });
-  }
-
-  constructor(
-    private alertService: AlertService,
-    private service: QuestionService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
-  ngOnInit() {
-    this._id = this.route.snapshot.paramMap.get("_id");
-    //console.log(this._id);
-    if (this._id != null) {
-      this.service.getQuestionById(this._id).subscribe(
-        question => {
-          //console.log(question);
-          this.questionForm.setValue({
-            _id: question._id,
-            sequence: question.sequence,
-            title: question.title,
-            uniquename: question.uniquename,
-            description: question.description,
-            mainfunction: question.mainfunction,
-            difficulty: question.difficulty,
-            frequency: question.frequency
-          });
-        },
-        error => {
-          this.status = error.status;
-          this.message = error.message;
-        }
-      );
-    }
-  }
+  }*/
 
   onTitleChange(value) {
     if (value) {
@@ -165,56 +38,156 @@ export class QuestionComponent implements OnInit {
         name += words[i].toLowerCase();
         name += "-";
       }
-      this.questionForm
-        .get("uniquename")
-        .setValue(name.slice(0, name.length - 1));
+      this.baseForm.get("uniquename").setValue(name.slice(0, name.length - 1));
+    } else {
+      this.baseForm.get("uniquename").setValue("");
     }
   }
-  //Handle create and update question
-  onSubmit() {
-    if (this.questionForm.invalid) {
-      return; //Validation failed, exit from method.
-    }
-    //Form is valid, now perform create or update
-    let question = this.questionForm.value;
-    console.log(question);
-    if (question._id == null || question._id == "") {
-      //Create question
-      question._id = "";
-      this.service.createQuestion(question).subscribe(
-        status => {
-          this.alertService.success(
-            "Question has been created successfully.",
-            true
-          );
-          this.status = status;
-          this.router.navigate(["/admin/questionlist"]);
-        },
-        error => {
-          this.status = error.status;
-          this.message = error.message;
-        }
-      );
+
+  ngOnInit() {
+    this._id = this.route.snapshot.paramMap.get("_id");
+    if (this._id == null || this._id == "") {
+      this.initialValidation = true;
+      // create
+      this.baseForm = this.formBuilder.group({
+        sequence: [
+          null,
+          [
+            Validators.required,
+            Validators.pattern("[0-9]+"),
+            Validators.min(0),
+            Validators.max(2147483647)
+          ]
+        ],
+        title: [null, [Validators.required, Validators.minLength(5)]],
+        uniquename: [null, [Validators.required]],
+        description: [null, [Validators.required]],
+        mainfunction: [null, [Validators.required]],
+        difficulty: [10, [Validators.required]],
+        frequency: [
+          null,
+          [
+            Validators.required,
+            Validators.pattern("[0-9]+"),
+            Validators.min(0),
+            Validators.max(100)
+          ]
+        ],
+        rating: [
+          0,
+          [
+            Validators.required,
+            Validators.pattern("[0-9]+"),
+            Validators.min(0),
+            Validators.max(5)
+          ]
+        ]
+      });
+      //this.selectedValue = 10;
+      //this.htmlContent = "";
+      //this.codecontent = "";
     } else {
-      //Update question
-      this.service.updateQuestion(question).subscribe(
-        status => {
-          this.alertService.success(
-            "Question has been updated successfully.",
-            true
-          );
-          this.status = status;
-          this.router.navigate(["/admin/questionlist"]);
+      this.baseForm = this.formBuilder.group({
+        _id: [{ value: "", disabled: true }],
+        sequence: [],
+        title: [],
+        uniquename: [],
+        description: [],
+        mainfunction: [],
+        difficulty: [],
+        frequency: [],
+        rating: []
+      });
+
+      this.questionService.getQuestionById(this._id).subscribe(
+        question => {
+          this.baseForm = this.formBuilder.group({
+            _id: [question._id, [Validators.required]],
+            sequence: [
+              question.sequence,
+              [
+                Validators.required,
+                Validators.pattern("[0-9]+"),
+                Validators.min(0),
+                Validators.max(2147483647)
+              ]
+            ],
+            title: [
+              question.title,
+              [Validators.required, Validators.minLength(5)]
+            ],
+            uniquename: [question.uniquename, [Validators.required]],
+            description: [question.description, [Validators.required]],
+            mainfunction: [question.mainfunction, [Validators.required]],
+            difficulty: [question.difficulty, [Validators.required]],
+            frequency: [
+              question.frequency,
+              [
+                Validators.required,
+                Validators.pattern("[0-9]+"),
+                Validators.min(0),
+                Validators.max(100)
+              ]
+            ],
+            rating: [
+              question.rating,
+              [
+                Validators.required,
+                Validators.pattern("[0-9]+"),
+                Validators.min(0),
+                Validators.max(5)
+              ]
+            ]
+          });
+          //this.selectedValue = question.difficulty;
+          //this.htmlContent = question.description;
+          //this.codecontent = question.mainfunction;
         },
         error => {
-          this.status = error.statusCode;
-          this.message = error.message;
+          this.printError(error);
         }
       );
     }
   }
 
-  back(url) {
-    this.router.navigate([url]);
+  //Handle create and update question
+  onSubmit() {
+    if (!this.validate()) {
+      return;
+    }
+
+    let question = this.baseForm.value;
+    this.printLog(question);
+
+    if (question._id == null || question._id == "") {
+      //Create question
+      question._id = "";
+      this.questionService.createQuestion(question).subscribe(
+        () => {
+          this.handleSuccess(
+            "Question has been created successfully.",
+            true,
+            "/admin/questions"
+          );
+        },
+        error => {
+          this.handleError(error);
+        }
+      );
+    } else {
+      //Update question
+      this.questionService.updateQuestion(question).subscribe(
+        () => {
+          this.handleSuccess(
+            "Question has been updated successfully.",
+            true,
+            "/admin/questions"
+          );
+        },
+        error => {
+          this.handleError(error);
+        }
+      );
+    }
   }
 }

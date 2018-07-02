@@ -1,16 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Component } from "@angular/core";
 import { TokenPayload } from "../../models";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AlertService, AuthenticationService } from "../../services/";
-
-import { UserService } from "./../../services/user.service";
+import { Validators } from "@angular/forms";
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "app-user",
   templateUrl: "./user.component.html"
 })
-export class UserComponent implements OnInit {
+export class UserComponent extends BaseComponent {
   _id;
   credentials: TokenPayload = {
     username: "",
@@ -19,79 +16,53 @@ export class UserComponent implements OnInit {
     _id: ""
   };
 
-  userForm: FormGroup;
-  loading = false;
-  submitted = false;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private authService: AuthenticationService,
-    private userService: UserService,
-    private alertService: AlertService,
-    private route: ActivatedRoute
-  ) {}
-
   ngOnInit() {
     this._id = this.route.snapshot.paramMap.get("_id");
     if (this._id == null || this._id == "") {
+      this.initialValidation = true;
       // create
-      this.userForm = this.formBuilder.group({
+      this.baseForm = this.formBuilder.group({
         username: [null, [Validators.required, Validators.minLength(3)]],
         password: [null, [Validators.required, Validators.minLength(6)]],
         email: [null, [Validators.required, Validators.email]]
       });
     } else {
-      // update, no need to check password
-      this.userForm = this.formBuilder.group({
-        _id: [null, [Validators.required]],
-        username: [null, [Validators.required, Validators.minLength(3)]],
-        email: [null, [Validators.required, Validators.email]]
+      this.baseForm = this.formBuilder.group({
+        _id: [{ value: "", disabled: true }],
+        username: [],
+        email: []
       });
-    }
 
-    if (this._id != null) {
       this.userService.getUserById(this._id).subscribe(
         user => {
-          //console.log(user);
-          this.userForm.setValue({
+          this.baseForm = this.formBuilder.group({
+            _id: [user._id, [Validators.required]],
+            username: [
+              user.username,
+              [Validators.required, Validators.minLength(3)]
+            ],
+            email: [user.email, [Validators.required, Validators.email]]
+          });
+          /*
+          this.baseForm.setValue({
             _id: user._id,
             username: user.username,
             email: user.email
-          });
+          });*/
         },
         error => {
-          console.error(error);
+          this.printError(error);
         }
       );
     }
   }
 
-  isFieldValid(field: string) {
-    //console.log(field);
-    return (
-      (!this.userForm.get(field).valid && this.userForm.get(field).touched) ||
-      (this.userForm.get(field).untouched && this.submitted)
-    );
-  }
-
-  displayFieldCss(field: string) {
-    return {
-      "has-error": this.isFieldValid(field),
-      "has-feedback": this.isFieldValid(field)
-    };
-  }
-
   onSubmit() {
-    this.submitted = true;
-
-    if (this.userForm.invalid) {
-      return; //Validation failed, exit from method.
+    if (!this.validate()) {
+      return;
     }
 
-    this.loading = true;
-
-    let user = this.userForm.value;
+    let user = this.baseForm.value;
     //console.log(user);
     if (user._id == null || user._id == "") {
       //Create user
@@ -101,15 +72,14 @@ export class UserComponent implements OnInit {
       this.credentials.email = user.email;
       this.authService.signup(this.credentials, false).subscribe(
         () => {
-          this.alertService.success(
+          this.handleSuccess(
             "User has been created successfully!",
-            true
+            true,
+            "/admin/users"
           );
-          this.router.navigate(["/admin/userlist"]);
         },
         error => {
-          console.error(error);
-          this.loading = false;
+          this.handleError(error);
         }
       );
     } else {
@@ -119,21 +89,16 @@ export class UserComponent implements OnInit {
       this.credentials.email = user.email;
       this.authService.update(this.credentials, false).subscribe(
         () => {
-          this.alertService.success(
+          this.handleSuccess(
             "User has been updated successfully!",
-            true
+            true,
+            "/admin/users"
           );
-          this.router.navigate(["/admin/userlist"]);
         },
         error => {
-          console.error(error);
-          this.loading = false;
+          this.handleError(error);
         }
       );
     }
-  }
-
-  back(url) {
-    this.router.navigate([url]);
   }
 }

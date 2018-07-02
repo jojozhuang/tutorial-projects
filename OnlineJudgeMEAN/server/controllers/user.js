@@ -30,7 +30,7 @@ exports.user_readone = function(req, res, next) {
 };
 
 exports.user_update = function(req, res, next) {
-  sleep.sleep(3000);
+  sleep.sleep(3);
   User.findByIdAndUpdate(
     req.params.id,
     { $set: req.body },

@@ -8,7 +8,8 @@ var QuestionSchema = new Schema({
   description: { type: String, required: true },
   mainfunction: { type: String, required: true },
   difficulty: { type: Number, required: true }, // 10: easy, 20: medium, 30: hard
-  frequency: { type: Number, required: true }
+  frequency: { type: Number, required: true },
+  rating: { type: Number, required: true }
 });
 
 // Export the model

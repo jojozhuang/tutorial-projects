@@ -1,8 +1,6 @@
-import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Component } from "@angular/core";
 import { UserDetails, TokenPayload } from "../../models";
 import { Validators } from "@angular/forms";
-import { AlertService, AuthenticationService } from "../../services/";
 import { BaseComponent } from "../base.component";
 
 @Component({
@@ -30,7 +28,7 @@ export class ProfileComponent extends BaseComponent {
     // get user from token
     this.userDetails = this.authService.getUserDetails();
 
-    this.print(this.userDetails);
+    this.printLog(this.userDetails);
 
     this.baseForm.setValue({
       _id: this.userDetails._id,
@@ -44,8 +42,6 @@ export class ProfileComponent extends BaseComponent {
       return;
     }
 
-    this.loading = true;
-
     let user = this.baseForm.value;
 
     //Update user
@@ -53,11 +49,11 @@ export class ProfileComponent extends BaseComponent {
     this.credentials.username = user.username;
     this.credentials.email = user.email;
 
-    this.print(this.credentials);
+    this.printLog(this.credentials);
 
     this.authService.update(this.credentials, true).subscribe(
       () => {
-        this.handleSuccess("profile");
+        this.handleSuccess("Your profile has been updated successfully!");
       },
       error => {
         this.handleError(error);

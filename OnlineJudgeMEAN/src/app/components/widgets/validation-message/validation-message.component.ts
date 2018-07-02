@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from "@angular/core";
 
 @Component({
-  selector: "app-validationmessage",
-  templateUrl: "./validationmessage.component.html",
-  styleUrls: ["./validationmessage.component.css"]
+  selector: "app-widget-validation-message",
+  templateUrl: "./validation-message.component.html",
+  styleUrls: ["./validation-message.component.css"]
 })
 export class ValidationMessageComponent implements OnInit {
   constructor() {}

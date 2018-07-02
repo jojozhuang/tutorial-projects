@@ -1,25 +1,46 @@
 import { Component, Injectable, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { UserDetails, TokenPayload } from "../models";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AlertService, AuthenticationService } from "../services/";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import {
+  QuestionService,
+  UserService,
+  AlertService,
+  AuthenticationService
+} from "../services/";
 
 @Injectable()
 export abstract class BaseComponent implements OnInit {
-  protected printLog = true;
+  protected logging = true;
   protected baseForm: FormGroup;
   protected loading = false;
+  protected submitted = false;
+
+  protected initialValidation = false;
 
   constructor(
-    public authService: AuthenticationService,
     public formBuilder: FormBuilder,
+    public router: Router,
+    public route: ActivatedRoute,
     public alertService: AlertService,
-    public route: ActivatedRoute
+    public authService: AuthenticationService,
+    public userService: UserService,
+    public questionService: QuestionService
   ) {}
+
+  isLoading() {
+    return this.loading;
+  }
 
   isFieldValid(field: string) {
     //console.log(field);
-    return !this.baseForm.get(field).valid;
+    if (!this.initialValidation) {
+      return !this.baseForm.get(field).valid;
+    } else {
+      return (
+        (!this.baseForm.get(field).valid && this.baseForm.get(field).touched) ||
+        (this.baseForm.get(field).untouched && this.submitted)
+      );
+    }
   }
 
   displayFieldCss(field: string) {
@@ -32,18 +53,26 @@ export abstract class BaseComponent implements OnInit {
   ngOnInit() {}
 
   validate() {
+    this.submitted = true;
     if (this.baseForm.invalid) {
       return false; //Validation failed, exit from method.
     }
 
+    this.loading = true;
+
     return true;
   }
 
-  handleSuccess(objName: string) {
-    this.alertService.success(
-      "Your profile has been updated successfully!",
-      false
-    );
+  back(url) {
+    this.router.navigate([url]);
+  }
+
+  handleSuccess(message: string, keep?: boolean, navURL?: string) {
+    this.alertService.success(message, keep);
+    if (navURL) {
+      this.router.navigate([navURL]);
+    }
+
     this.loading = false;
   }
 
@@ -52,9 +81,15 @@ export abstract class BaseComponent implements OnInit {
     this.loading = false;
   }
 
-  print(message: any) {
-    if (this.printLog) {
+  printLog(message: any) {
+    if (this.logging) {
       console.log(message);
+    }
+  }
+
+  printError(message: any) {
+    if (this.printLog) {
+      console.error(message);
     }
   }
 }

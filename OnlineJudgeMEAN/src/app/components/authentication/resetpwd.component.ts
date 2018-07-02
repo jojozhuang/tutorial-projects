@@ -1,19 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators
-} from "@angular/forms";
+import { Component } from "@angular/core";
+import { AbstractControl, Validators } from "@angular/forms";
 import { ResetPassword } from "../../models";
-import { AlertService, AuthenticationService } from "../../services/";
 import { matchOtherValidator } from "./match-other-validator";
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "app-resetpwd",
   templateUrl: "./resetpwd.component.html"
 })
-export class ResetpwdComponent implements OnInit {
+export class ResetpwdComponent extends BaseComponent {
   credentials: ResetPassword = {
     username: "",
     password: "",
@@ -21,20 +16,10 @@ export class ResetpwdComponent implements OnInit {
     confirmpwd: ""
   };
 
-  resetpwdForm: FormGroup;
-  passwords: FormGroup;
-  loading = false;
-  submitted = false;
-  returnUrl: string;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthenticationService,
-    private alertService: AlertService
-  ) {}
-
   ngOnInit() {
-    this.resetpwdForm = this.formBuilder.group({
+    this.initialValidation = true;
+
+    this.baseForm = this.formBuilder.group({
       password: [null, Validators.required],
       newpwd: [null, [Validators.required, Validators.minLength(6)]],
       confirmpwd: [null, [Validators.required, matchOtherValidator("newpwd")]]
@@ -46,31 +31,13 @@ export class ResetpwdComponent implements OnInit {
       return { invalid: true };
     }
   }
-  isFieldValid(field: string) {
-    return (
-      (!this.resetpwdForm.get(field).valid &&
-        this.resetpwdForm.get(field).touched) ||
-      (this.resetpwdForm.get(field).untouched && this.submitted)
-    );
-  }
-
-  displayFieldCss(field: string) {
-    return {
-      "has-error": this.isFieldValid(field),
-      "has-feedback": this.isFieldValid(field)
-    };
-  }
 
   onSubmit() {
-    console.log("onsubmit");
-    this.submitted = true;
-
-    if (this.resetpwdForm.invalid) {
-      console.log("validation failed");
-      return; //Validation failed, exit from method.
+    if (!this.validate()) {
+      return;
     }
-    this.loading = true;
-    let user = this.resetpwdForm.value;
+
+    let user = this.baseForm.value;
     this.credentials.username = this.authService.getUserDetails().username;
     this.credentials.password = user.password;
     this.credentials.newpwd = user.newpwd;
@@ -78,12 +45,10 @@ export class ResetpwdComponent implements OnInit {
 
     this.authService.resetPassword(this.credentials).subscribe(
       () => {
-        this.alertService.success("Password has been updated successful!");
-        this.loading = false;
+        this.handleSuccess("Password has been updated successful!");
       },
-      err => {
-        console.error(err);
-        this.loading = false;
+      error => {
+        this.handleError(error);
       }
     );
   }

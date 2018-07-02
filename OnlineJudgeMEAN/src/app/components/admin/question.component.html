@@ -2,60 +2,77 @@
   <h2 *ngIf="!_id">Create New Question</h2>
   <h2 *ngIf="_id">Edit Question</h2>
   <hr/>
-  <form class="form-horizontal" [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+  <form class="form-horizontal" [formGroup]="baseForm" (ngSubmit)="onSubmit()">
     <div *ngIf="_id" class="form-group">
       <label class="control-label col-sm-2" for="_id">Question ID:</label>
       <div class="col-sm-3">
-        <input class="form-control" disabled="true" type="text" name="_id" formControlName="_id" />
+        <input class="form-control" type="text" name="_id" formControlName="_id" />
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" [ngClass]="displayFieldCss('sequence')">
       <label class="control-label col-sm-2" for="sequence">Sequence:</label>
       <div class="col-sm-2">
         <input class="form-control" placeholder="Enter sequence" type="text" name="sequence" formControlName="sequence" />
+        <app-widget-validation-message [displayError]="isFieldValid('sequence')" errorMsg="Please enter sequence">
+        </app-widget-validation-message>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" [ngClass]="displayFieldCss('title')">
       <label class="control-label col-sm-2" for="title">Title:</label>
       <div class="col-sm-4">
         <input class="form-control" placeholder="Enter title" type="text" name="title" formControlName="title" (ngModelChange)="onTitleChange($event)"
         />
+        <app-widget-validation-message [displayError]="isFieldValid('title')" errorMsg="Please enter title">
+        </app-widget-validation-message>
       </div>
       <div class="col-sm-4">
         <input class="form-control" readonly=true type="text" name="uniquename" formControlName="uniquename" />
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" [ngClass]="displayFieldCss('description')">
       <label class="control-label col-sm-2" for="description">Description:</label>
       <div class="col-sm-10">
-        <app-ngx-editor [config]="editorConfig" [(ngModel)]="htmlContent" name="description" formControlName="description"></app-ngx-editor>
+        <input class="form-control" type="text" name="description" formControlName="description" />
+        <app-widget-validation-message [displayError]="isFieldValid('description')" errorMsg="Please enter description">
+        </app-widget-validation-message>
       </div>
     </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="code">Code:</label>
+    <div class="form-group" [ngClass]="displayFieldCss('mainfunction')">
+      <label class="control-label col-sm-2" for="mainfunction">Main Function:</label>
       <div class="col-sm-10">
-        <ace-editor [(text)]="text" #editor style="height:250px;border:1px solid lightgray" name="mainfunction" formControlName="mainfunction"></ace-editor>
+        <input class="form-control" type="text" name="mainfunction" formControlName="mainfunction" />
+        <app-widget-validation-message [displayError]="isFieldValid('mainfunction')" errorMsg="Please enter mainfunction">
+        </app-widget-validation-message>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" [ngClass]="displayFieldCss('difficulty')">
       <label class="control-label col-sm-2" for="difficulty">Difficulty:</label>
       <div class="col-sm-2">
-        <select [(ngModel)]="selectedValue" class="form-control" name="difficulty" formControlName="difficulty">
-          <option *ngFor="let option of options" [value]="option.value">{{option.name}}</option>
-        </select>
+        <input class="form-control" placeholder="Enter difficulty" type="text" name="difficulty" formControlName="difficulty" />
+        <app-widget-validation-message [displayError]="isFieldValid('difficulty')" errorMsg="Please specify difficulty">
+        </app-widget-validation-message>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" [ngClass]="displayFieldCss('frequency')">
       <label class="control-label col-sm-2" for="frequency">Frequency:</label>
       <div class="col-sm-2">
         <input class="form-control" placeholder="Enter frequency" type="text" name="frequency" formControlName="frequency" />
+        <app-widget-validation-message [displayError]="isFieldValid('frequency')" errorMsg="Please specify frequency">
+        </app-widget-validation-message>
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="displayFieldCss('rating')">
+      <label class="control-label col-sm-2" for="rating">Rating:</label>
+      <div class="col-sm-2">
+        <input class="form-control" placeholder="Enter rating" type="text" name="rating" formControlName="rating" />
+        <app-widget-validation-message [displayError]="isFieldValid('rating')" errorMsg="Please enter rating">
+        </app-widget-validation-message>
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <input type="submit" class="btn btn-success" value="Save">
-        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-        />
+        <input type="submit" [disabled]="loading" class="btn btn-success" value="Save">
+        <app-widget-loading-image [loading]="isLoading()"></app-widget-loading-image>
         <button type="button" class="btn btn-info" (click)="back('/admin/questions')">Back</button>
       </div>
     </div>

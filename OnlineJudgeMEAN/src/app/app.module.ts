@@ -30,7 +30,12 @@ import {
   AlgorithmQuestionComponent,
   AlgorithmQuestionsComponent,
   ContextualLabelComponent,
-  ProgressBarComponent
+  ProgressBarComponent,
+  LoadingImageComponent,
+  DifficultySelectComponent,
+  WysiwygEditorComponent,
+  CodeEditorComponent,
+  RatingInputComponent
 } from "./components/";
 
 // services
@@ -73,8 +78,13 @@ import { appRoutes } from "./app.route";
     WysiwygComponent,
     ContextualLabelComponent,
     ProgressBarComponent,
+    LoadingImageComponent,
     AlgorithmQuestionComponent,
-    AlgorithmQuestionsComponent
+    AlgorithmQuestionsComponent,
+    DifficultySelectComponent,
+    WysiwygEditorComponent,
+    CodeEditorComponent,
+    RatingInputComponent
   ],
   imports: [
     BrowserModule,

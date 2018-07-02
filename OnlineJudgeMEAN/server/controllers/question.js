@@ -9,7 +9,8 @@ exports.question_create = function(req, res, next) {
     description: req.body.description,
     mainfunction: req.body.mainfunction,
     difficulty: req.body.difficulty,
-    frequency: req.body.frequency
+    frequency: req.body.frequency,
+    rating: req.body.rating
   });
 
   question.save({ new: true }, function(err, question) {
@@ -30,6 +31,7 @@ exports.question_readone = function(req, res, next) {
 };
 
 exports.question_update = function(req, res, next) {
+  console.log(req.body);
   Question.findByIdAndUpdate(
     req.params.id,
     { $set: req.body },

@@ -13,7 +13,7 @@ var sendJSONresponse = function(res, status, content) {
 };
 
 module.exports.signup = function(req, res) {
-  //sleep.sleep(3); //sleep for 3 seconds
+  sleep.sleep(3); //sleep for 3 seconds
   // get the validation result which is defined in router
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -156,7 +156,7 @@ module.exports.logout = function(req, res) {
 };
 
 module.exports.update = function(req, res) {
-  //sleep.sleep(3); //sleep for 3 seconds
+  sleep.sleep(3); //sleep for 3 seconds
   // get the validation result which is defined in router
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -234,6 +234,7 @@ module.exports.update = function(req, res) {
 };
 
 module.exports.resetpwd = function(req, res) {
+  sleep.sleep(3); //sleep for 3 seconds
   // get the validation result which is defined in router
   console.log("resetpwd");
   const errors = validationResult(req);

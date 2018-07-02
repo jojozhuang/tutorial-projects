@@ -7,6 +7,7 @@ export class Question {
     public description: string,
     public mainfunction: string,
     public difficulty: number,
-    public frequency: number
+    public frequency: number,
+    public rating: number
   ) {}
 }
