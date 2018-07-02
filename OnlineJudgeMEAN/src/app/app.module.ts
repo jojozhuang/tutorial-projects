@@ -53,7 +53,8 @@ import {
 import {
   ErrorInterceptor,
   JwtInterceptor,
-  CookieInterceptor
+  CookieInterceptor,
+  TimeoutInterceptor
 } from "./interceptor";
 
 // routes
@@ -108,6 +109,7 @@ import { appRoutes } from "./app.route";
     ErrorInterceptor,
     JwtInterceptor,
     CookieInterceptor,
+    TimeoutInterceptor,
     { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

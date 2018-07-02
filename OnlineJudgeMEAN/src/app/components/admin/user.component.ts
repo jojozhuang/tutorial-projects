@@ -17,7 +17,6 @@ export class UserComponent extends BaseComponent {
   };
 
   ngOnInit() {
-    //this.ngProgress.start();
     this._id = this.route.snapshot.paramMap.get("_id");
     if (this._id == null || this._id == "") {
       this.initialValidation = true;
@@ -29,7 +28,7 @@ export class UserComponent extends BaseComponent {
       });
     } else {
       this.baseForm = this.formBuilder.group({
-        _id: [{ value: "", disabled: true }],
+        _id: [],
         username: [],
         email: []
       });
@@ -37,7 +36,7 @@ export class UserComponent extends BaseComponent {
       this.userService.getUserById(this._id).subscribe(
         user => {
           this.baseForm = this.formBuilder.group({
-            _id: [{ value: user._id, disabled: true }, [Validators.required]],
+            _id: [user._id, [Validators.required]],
             username: [
               user.username,
               [Validators.required, Validators.minLength(3)]
@@ -50,7 +49,6 @@ export class UserComponent extends BaseComponent {
             username: user.username,
             email: user.email
           });*/
-          //this.ngProgress.done();
         },
         error => {
           this.printError(error);
@@ -65,9 +63,10 @@ export class UserComponent extends BaseComponent {
     }
 
     let user = this.baseForm.value;
-    //console.log(user);
+    console.log(user);
     if (user._id == null || user._id == "") {
       //Create user
+      console.log("Create user:" + this._id);
       this.credentials._id = "";
       this.credentials.username = user.username;
       this.credentials.password = user.password;
@@ -86,7 +85,7 @@ export class UserComponent extends BaseComponent {
       );
     } else {
       //Update user
-      this.credentials._id = this._id;
+      this.credentials._id = user._id;
       this.credentials.username = user.username;
       this.credentials.email = user.email;
       this.authService.update(this.credentials, false).subscribe(

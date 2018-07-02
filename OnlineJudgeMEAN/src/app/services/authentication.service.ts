@@ -54,7 +54,7 @@ export class AuthenticationService {
     let base;
 
     base = this.http.post(this.baseUrl + `api/authentication/${type}`, user);
-
+    console.log(base);
     const request = base.pipe(
       map((data: TokenResponse) => {
         if (refresh && data.token) {

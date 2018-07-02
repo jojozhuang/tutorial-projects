@@ -7,12 +7,56 @@ import { BaseComponent } from "../base.component";
   templateUrl: "./question.component.html"
 })
 export class QuestionComponent extends BaseComponent {
+  // configuration of rich text editor(ngx-editor)
+  editorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: "10rem",
+    minHeight: "5rem",
+    width: "auto",
+    minWidth: "0",
+    translate: "no",
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: "Enter text here...",
+    imageEndPoint: "",
+    toolbar: [
+      [
+        "bold",
+        "italic",
+        "underline",
+        "strikeThrough",
+        "superscript",
+        "subscript"
+      ],
+      ["fontName", "fontSize", "color"],
+      [
+        "justifyLeft",
+        "justifyCenter",
+        "justifyRight",
+        "justifyFull",
+        "indent",
+        "outdent"
+      ],
+      ["cut", "copy", "delete", "removeFormat", "undo", "redo"],
+      [
+        "paragraph",
+        "blockquote",
+        "removeBlockquote",
+        "horizontalLine",
+        "orderedList",
+        "unorderedList"
+      ],
+      ["link", "unlink", "image", "video"]
+    ]
+  };
+
   _id;
 
-  /*  public selectedValue;
-  public htmlContent;
+  public selectedValue;
+  /*   public htmlContent;
   //public text;
-
+*/
   @ViewChild("editor") editor;
   text: string = "";
 
@@ -28,7 +72,7 @@ export class QuestionComponent extends BaseComponent {
       bindKey: "Ctrl-.",
       exec: function(editor) {}
     });
-  }*/
+  }
 
   onTitleChange(value) {
     if (value) {
@@ -83,12 +127,12 @@ export class QuestionComponent extends BaseComponent {
           ]
         ]
       });
-      //this.selectedValue = 10;
+      this.selectedValue = 10;
       //this.htmlContent = "";
       //this.codecontent = "";
     } else {
       this.baseForm = this.formBuilder.group({
-        _id: [{ value: "", disabled: true }],
+        _id: [],
         sequence: [],
         title: [],
         uniquename: [],
@@ -99,8 +143,94 @@ export class QuestionComponent extends BaseComponent {
         rating: []
       });
 
+      /*
+      this.baseForm = this.formBuilder.group({
+        _id: [null, [Validators.required]],
+        sequence: [
+          null,
+          [
+            Validators.required,
+            Validators.pattern("[0-9]+"),
+            Validators.min(0),
+            Validators.max(2147483647)
+          ]
+        ],
+        title: [null, [Validators.required, Validators.minLength(5)]],
+        uniquename: [null, [Validators.required]],
+        description: [null, [Validators.required]],
+        mainfunction: [null, [Validators.required]],
+        difficulty: [null, [Validators.required]],
+        frequency: [
+          null,
+          [
+            Validators.required,
+            Validators.pattern("[0-9]+"),
+            Validators.min(0),
+            Validators.max(100)
+          ]
+        ],
+        rating: [
+          null,
+          [
+            Validators.required,
+            Validators.pattern("[0-9]+"),
+            Validators.min(0),
+            Validators.max(5)
+          ]
+        ]
+      });*/
+
       this.questionService.getQuestionById(this._id).subscribe(
         question => {
+          this.baseForm.setValue({
+            _id: question._id,
+            sequence: question.sequence,
+            title: question.title,
+            uniquename: question.uniquename,
+            description: question.description,
+            mainfunction: question.mainfunction,
+            difficulty: question.difficulty,
+            frequency: question.frequency,
+            rating: question.rating
+          });
+
+          // add validation later to avoid flash of red message
+          this.baseForm.controls["_id"].setValidators([Validators.required]);
+          this.baseForm.controls["sequence"].setValidators([
+            Validators.required,
+            Validators.pattern("[0-9]+"),
+            Validators.min(0),
+            Validators.max(2147483647)
+          ]);
+          this.baseForm.controls["title"].setValidators([
+            Validators.required,
+            Validators.minLength(5)
+          ]);
+          this.baseForm.controls["uniquename"].setValidators([
+            Validators.required
+          ]);
+          this.baseForm.controls["description"].setValidators([
+            Validators.required
+          ]);
+          this.baseForm.controls["mainfunction"].setValidators([
+            Validators.required
+          ]);
+          this.baseForm.controls["difficulty"].setValidators([
+            Validators.required
+          ]);
+          this.baseForm.controls["frequency"].setValidators([
+            Validators.required,
+            Validators.pattern("[0-9]+"),
+            Validators.min(0),
+            Validators.max(100)
+          ]);
+          this.baseForm.controls["rating"].setValidators([
+            Validators.required,
+            Validators.pattern("[0-9]+"),
+            Validators.min(0),
+            Validators.max(5)
+          ]);
+          /*
           this.baseForm = this.formBuilder.group({
             _id: [question._id, [Validators.required]],
             sequence: [
@@ -138,8 +268,8 @@ export class QuestionComponent extends BaseComponent {
                 Validators.max(5)
               ]
             ]
-          });
-          //this.selectedValue = question.difficulty;
+          });*/
+          this.selectedValue = question.difficulty;
           //this.htmlContent = question.description;
           //this.codecontent = question.mainfunction;
         },
