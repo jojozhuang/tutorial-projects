@@ -9,7 +9,7 @@
   <div innerHTML={{description}}></div>
   <hr />
   <div>
-    <form class="form-horizontal" [formGroup]="questionForm">
+    <form class="form-horizontal" [formGroup]="baseForm">
       <div class="form-group">
         <div class="col-sm-2">
           <app-widget-language-select [selectedValue]="selectedValue" name="language" formControlName="language" ngDefaultControl></app-widget-language-select>
@@ -18,24 +18,25 @@
       <div class="form-group">
         <div class="col-sm-12">
           <ace-editor [(text)]="text" #editor style="height:250px;border:1px solid lightgray" name="solution" formControlName="solution"></ace-editor>
+          <app-widget-validation-message [displayError]="isFieldValid('solution')" errorMsg="Please enter solution">
+          </app-widget-validation-message>
         </div>
       </div>
       <div class="form-group">
         <div class="col-sm-10">
-          <input type="submit" [disabled]="loading" class="btn btn-success" (click)="onSubmit()" value="Save">
-          <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-          />
-          <button type="button" class="btn btn-info" (click)="back('/questions')">Back</button>
+          <input type="submit" [disabled]="loading || loading2" class="btn btn-success" (click)="onSubmit()" value="Save">
+          <app-widget-loading-image [loading]="isLoading()"></app-widget-loading-image>
+          <button type="button" [disabled]="loading || loading2" class="btn btn-info" (click)="back('/questions')">Back</button>
         </div>
         <div class="col-sm-2">
-          <button type="submit" [disabled]="loading" class="btn btn-primary" (click)="onSubmitSolution()">Submit Solution</button>
-          <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-          />
+          <button type="submit" [disabled]="loading || loading2" class="btn btn-primary" (click)="onSubmitSolution()">Submit Solution</button>
+          <app-widget-loading-image [loading]="isLoading2()"></app-widget-loading-image>
         </div>
       </div>
       <hr />
       <div class="form-group">
         <div class="col-sm-12">
+          <ng-progress [positionUsing]="'translate3d'"></ng-progress>
           <textarea disabled name="output" formControlName="output" rows="15" style="min-width: 100%; resize: none;"></textarea>
         </div>
       </div>

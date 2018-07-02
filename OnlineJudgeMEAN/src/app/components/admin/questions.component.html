@@ -28,9 +28,24 @@
         </td>
         <td>
           <button type="button" class="btn btn-primary" [routerLink]="['/admin/question', question._id ]">Edit</button>
-          <button type="button" class="btn btn-danger" (click)="deleteQuestion({ event:$event, id: question._id })">Delete</button>
+          <button type="button" class="btn btn-danger" (click)="openModal(confirmDlg, question._id)">Delete</button>
         </td>
       </tr>
     </tbody>
   </table>
+  <ng-template #confirmDlg>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Confirm</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure to delete this question?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" (click)="confirm()">Yes</button>
+      <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+    </div>
+  </ng-template>
 </div>

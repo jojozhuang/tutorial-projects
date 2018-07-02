@@ -1,43 +1,55 @@
-import { Component, OnInit } from "@angular/core";
-import { UserService } from "./../../services/user.service";
+import { Component, TemplateRef, OnInit } from "@angular/core";
+import { AlertService, UserService } from "./../../services";
+import { BsModalService } from "ngx-bootstrap/modal";
+import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 
 @Component({
   selector: "app-users",
   templateUrl: "./users.component.html"
 })
 export class UsersComponent implements OnInit {
-  constructor(private service: UserService) {}
+  modalRef: BsModalRef;
   users;
-  status: number;
-  message: string;
+  id_del: string;
+
+  constructor(
+    private alertService: AlertService,
+    private userService: UserService,
+    private modalService: BsModalService
+  ) {}
+
+  openModal(template: TemplateRef<any>, id: string) {
+    this.id_del = id;
+    this.modalRef = this.modalService.show(template, { class: "modal-sm" });
+  }
+
+  confirm(): void {
+    this.userService.deleteUserById(this.id_del).subscribe(
+      successCode => {
+        this.alertService.success("User has been deleted successfully.");
+        this.getUsers();
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    this.modalRef.hide();
+  }
+
+  decline(): void {
+    this.modalRef.hide();
+  }
 
   ngOnInit() {
     this.getUsers();
   }
   //Fetch all users
   getUsers() {
-    this.service.getUsers().subscribe(
+    this.userService.getUsers().subscribe(
       data => (this.users = data),
       error => {
-        this.status = error.status;
-        this.message = error.message;
+        console.log(error);
       }
     );
-  }
-
-  deleteUser(event) {
-    if (window.confirm("Are you sure to delete this user?")) {
-      //console.log(event.id);
-      this.service.deleteUserById(event.id).subscribe(
-        successCode => {
-          this.status = successCode;
-          this.getUsers();
-        },
-        error => {
-          this.status = error.status;
-          this.message = error.message;
-        }
-      );
-    }
   }
 }

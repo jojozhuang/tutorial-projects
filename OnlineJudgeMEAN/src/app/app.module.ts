@@ -4,7 +4,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import { AlertModule } from "ngx-bootstrap";
+import { AlertModule, ModalModule } from "ngx-bootstrap";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AceEditorModule } from "ng2-ace-editor";
 import { NgxEditorModule } from "ngx-editor";
@@ -97,6 +97,7 @@ import { appRoutes } from "./app.route";
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     AlertModule.forRoot(),
+    ModalModule.forRoot(),
     FormsModule,
     HttpClientModule,
     AceEditorModule,

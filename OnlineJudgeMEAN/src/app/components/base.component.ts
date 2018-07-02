@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import {
   QuestionService,
   UserService,
+  OnlineJudgeService,
   AlertService,
   AuthenticationService
 } from "../services/";
@@ -13,6 +14,7 @@ export abstract class BaseComponent implements OnInit {
   protected logging = true;
   protected baseForm: FormGroup;
   protected loading = false;
+  protected loading2 = false;
   protected submitted = false;
 
   protected initialValidation = false;
@@ -24,22 +26,29 @@ export abstract class BaseComponent implements OnInit {
     public alertService: AlertService,
     public authService: AuthenticationService,
     public userService: UserService,
-    public questionService: QuestionService
+    public questionService: QuestionService,
+    public ojService: OnlineJudgeService
   ) {}
 
   isLoading() {
     return this.loading;
   }
+  isLoading2() {
+    return this.loading2;
+  }
 
   isFieldValid(field: string) {
-    //console.log(field);
-    if (!this.initialValidation) {
-      return !this.baseForm.get(field).valid;
-    } else {
-      return (
-        (!this.baseForm.get(field).valid && this.baseForm.get(field).touched) ||
-        (this.baseForm.get(field).untouched && this.submitted)
-      );
+    //this.printLog(field);
+    if (this.baseForm) {
+      if (!this.initialValidation) {
+        return !this.baseForm.get(field).valid;
+      } else {
+        return (
+          (!this.baseForm.get(field).valid &&
+            this.baseForm.get(field).touched) ||
+          (this.baseForm.get(field).untouched && this.submitted)
+        );
+      }
     }
   }
 
@@ -63,6 +72,17 @@ export abstract class BaseComponent implements OnInit {
     return true;
   }
 
+  validate2() {
+    this.submitted = true;
+    if (this.baseForm.invalid) {
+      return false; //Validation failed, exit from method.
+    }
+
+    this.loading2 = true;
+
+    return true;
+  }
+
   back(url) {
     this.router.navigate([url]);
   }
@@ -79,6 +99,20 @@ export abstract class BaseComponent implements OnInit {
   handleError(error: string) {
     console.error(error);
     this.loading = false;
+  }
+
+  handleSuccess2(message: string, keep?: boolean, navURL?: string) {
+    this.alertService.success(message, keep);
+    if (navURL) {
+      this.router.navigate([navURL]);
+    }
+
+    this.loading2 = false;
+  }
+
+  handleError2(error: string) {
+    console.error(error);
+    this.loading2 = false;
   }
 
   printLog(message: any) {

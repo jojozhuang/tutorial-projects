@@ -1,16 +1,44 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, TemplateRef, OnInit } from "@angular/core";
 import { AlertService, QuestionService } from "./../../services";
+import { BsModalService } from "ngx-bootstrap/modal";
+import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 
 @Component({
   selector: "app-questions",
   templateUrl: "./questions.component.html"
 })
 export class QuestionsComponent implements OnInit {
+  modalRef: BsModalRef;
+  questions;
+  id_del: string;
+
   constructor(
     private alertService: AlertService,
-    private questionService: QuestionService
+    private questionService: QuestionService,
+    private modalService: BsModalService
   ) {}
-  questions;
+
+  openModal(template: TemplateRef<any>, id: string) {
+    this.id_del = id;
+    this.modalRef = this.modalService.show(template, { class: "modal-sm" });
+  }
+
+  confirm(): void {
+    this.questionService.deleteQuestionById(this.id_del).subscribe(
+      successCode => {
+        this.alertService.success("Question has been deleted successfully.");
+        this.getQuestions();
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    this.modalRef.hide();
+  }
+
+  decline(): void {
+    this.modalRef.hide();
+  }
 
   ngOnInit() {
     this.getQuestions();
@@ -25,20 +53,5 @@ export class QuestionsComponent implements OnInit {
         console.log(error);
       }
     );
-  }
-
-  deleteQuestion(event) {
-    if (window.confirm("Are you sure to delete this question?")) {
-      //console.log(event.id);
-      this.questionService.deleteQuestionById(event.id).subscribe(
-        successCode => {
-          this.alertService.success("Question has been deleted successfully.");
-          this.getQuestions();
-        },
-        error => {
-          console.log(error);
-        }
-      );
-    }
   }
 }

@@ -7,18 +7,19 @@ import {
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Question, Submission } from "../../models";
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "app-algorithm-question",
   templateUrl: "./algorithm-question.component.html"
 })
-export class AlgorithmQuestionComponent implements OnInit {
+export class AlgorithmQuestionComponent extends BaseComponent {
   _id;
   username;
   uniquename;
   selectedValue;
   //Create form
-  questionForm = new FormGroup({
+  baseForm = new FormGroup({
     language: new FormControl(
       "java",
       Validators.compose([Validators.required])
@@ -48,14 +49,6 @@ export class AlgorithmQuestionComponent implements OnInit {
     });
   }
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private alertService: AlertService,
-    private ojService: OnlineJudgeService,
-    private authService: AuthenticationService
-  ) {}
-
   ngOnInit() {
     this.uniquename = this.route.snapshot.paramMap.get("uniquename");
     this.username = this.authService.getUserName();
@@ -67,7 +60,7 @@ export class AlgorithmQuestionComponent implements OnInit {
           this.sequence = question.sequence;
           this.title = question.title;
           this.description = question.description;
-          this.questionForm.setValue({
+          this.baseForm.setValue({
             language: "java",
             solution: question.mainfunction,
             output: ""
@@ -78,17 +71,18 @@ export class AlgorithmQuestionComponent implements OnInit {
             .getSubmissionByNames(this.username, question.uniquename)
             .subscribe(
               submission => {
+                console.log("submission");
                 console.log(submission);
                 if (submission) {
                   this._id = submission._id;
-                  this.questionForm.setValue({
+                  this.baseForm.setValue({
                     language: submission.language,
                     solution: submission.solution,
                     output: ""
                     //status: submission.status
                   });
+                  this.selectedValue = submission.language;
                 }
-                this.selectedValue = submission.language;
               },
               error => {
                 console.log(error);
@@ -102,17 +96,14 @@ export class AlgorithmQuestionComponent implements OnInit {
     }
   }
 
-  back(url) {
-    this.router.navigate([url]);
-  }
-
   onSubmit() {
-    if (this.questionForm.invalid) {
-      return; //Validation failed, exit from method.
+    if (!this.validate()) {
+      return;
     }
+
     //Form is valid, now perform create or update
-    let question = this.questionForm.value;
-    console.log(question);
+    let question = this.baseForm.value;
+    this.printLog(question);
     let submission = new Submission(
       this._id,
       this.username,
@@ -121,24 +112,22 @@ export class AlgorithmQuestionComponent implements OnInit {
       question.solution,
       -1
     );
-    console.log(this._id);
-    console.log(submission);
+    this.printLog(this._id);
+    this.printLog(submission);
+
     if (this._id == null || this._id == "") {
       //Create question
       this.ojService.createSubmission(submission).subscribe(
         newsubmission => {
-          console.log("created");
-          console.log(newsubmission);
           this._id = newsubmission._id;
-          console.log(this._id);
-          this.alertService.success(
+          this.handleSuccess(
             "Your solution has been saved successfully.",
-            true
+            true,
+            "questions"
           );
-          this.router.navigate(["/questions"]);
         },
         error => {
-          console.log(error);
+          this.handleError(error);
         }
       );
     } else {
@@ -146,27 +135,27 @@ export class AlgorithmQuestionComponent implements OnInit {
       this.ojService.updateSubmission(submission).subscribe(
         updatedsubmission => {
           this._id = updatedsubmission._id;
-          this.alertService.success(
+          this.handleSuccess(
             "Your solution has been updated successfully.",
-            true
+            true,
+            "questions"
           );
-          this.router.navigate(["/questions"]);
         },
         error => {
-          console.log(error);
+          this.handleError(error);
         }
       );
     }
   }
 
   onSubmitSolution() {
-    console.log("onSubmitSolution");
-    if (this.questionForm.invalid) {
-      return; //Validation failed, exit from method.
+    if (!this.validate2()) {
+      return;
     }
+
     //Form is valid, now perform create or update
-    let question = this.questionForm.value;
-    console.log(question);
+    let question = this.baseForm.value;
+    this.printLog(question);
     let submission = new Submission(
       this._id,
       this.username,
@@ -175,26 +164,27 @@ export class AlgorithmQuestionComponent implements OnInit {
       question.solution,
       -1
     );
-    console.log(this._id);
-    console.log(submission);
-    //Create question
+    this.printLog(this._id);
+    this.printLog(submission);
+
+    // Submit solution
     this.ojService.submitSolution(submission).subscribe(
       response => {
-        console.log(response);
-        this.questionForm.setValue({
+        this.printLog(response);
+        this.baseForm.setValue({
           language: submission.language,
           solution: submission.solution,
           output: response.message
           //status: submission.status
         });
         if (response.status === "0") {
-          this.alertService.success(response.message);
+          this.handleSuccess2(response.message);
         } else {
-          this.alertService.error(response.message);
+          this.handleError2(response.message);
         }
       },
       error => {
-        console.log(error);
+        this.handleError2(error);
       }
     );
   }
