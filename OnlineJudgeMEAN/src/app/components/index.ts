@@ -2,11 +2,13 @@ export * from "./widgets/alert/alert.component";
 export * from "./widgets/loading-image/loading-image.component";
 export * from "./widgets/validation-message/validation-message.component";
 export * from "./widgets/contextual-label/contextual-label.component";
-export * from "./widgets/progress-bar/progress-bar.component";
+export * from "./widgets/frequency-bar/frequency-bar.component";
 export * from "./widgets/difficulty-select/difficulty-select.component";
 export * from "./widgets/wysiwyg-editor/wysiwyg-editor.component";
 export * from "./widgets/code-editor/code-editor.component";
 export * from "./widgets/rating-input/rating-input.component";
+export * from "./widgets/progress-bar/progress-bar.component";
+export * from "./widgets/language-select/language-select.component";
 
 export * from "./authentication/signup.component";
 export * from "./authentication/login.component";

@@ -16,6 +16,7 @@ export class AlgorithmQuestionComponent implements OnInit {
   _id;
   username;
   uniquename;
+  selectedValue;
   //Create form
   questionForm = new FormGroup({
     language: new FormControl(
@@ -29,29 +30,6 @@ export class AlgorithmQuestionComponent implements OnInit {
   @Input() sequence: number;
   @Input() title: string;
   @Input() description: string;
-  @Input()
-  options = [
-    {
-      value: "java",
-      name: "Java"
-    },
-    {
-      value: "c",
-      name: "C"
-    },
-    {
-      value: "c++",
-      name: "C++"
-    },
-    {
-      value: "javascript",
-      name: "JavaScript"
-    },
-    {
-      value: "python",
-      name: "Python"
-    }
-  ];
 
   @ViewChild("editor") editor;
   text: string = "";
@@ -94,6 +72,7 @@ export class AlgorithmQuestionComponent implements OnInit {
             solution: question.mainfunction,
             output: ""
           });
+          this.selectedValue = "java";
           // get submission
           this.ojService
             .getSubmissionByNames(this.username, question.uniquename)
@@ -109,6 +88,7 @@ export class AlgorithmQuestionComponent implements OnInit {
                     //status: submission.status
                   });
                 }
+                this.selectedValue = submission.language;
               },
               error => {
                 console.log(error);

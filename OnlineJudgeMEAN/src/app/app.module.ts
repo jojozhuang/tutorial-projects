@@ -31,12 +31,14 @@ import {
   AlgorithmQuestionComponent,
   AlgorithmQuestionsComponent,
   ContextualLabelComponent,
-  ProgressBarComponent,
+  FrequencyBarComponent,
   LoadingImageComponent,
   DifficultySelectComponent,
   WysiwygEditorComponent,
   CodeEditorComponent,
-  RatingInputComponent
+  RatingInputComponent,
+  ProgressBarComponent,
+  LanguageSelectComponent
 } from "./components/";
 
 // services
@@ -79,14 +81,16 @@ import { appRoutes } from "./app.route";
     EditorComponent,
     WysiwygComponent,
     ContextualLabelComponent,
-    ProgressBarComponent,
+    FrequencyBarComponent,
     LoadingImageComponent,
     AlgorithmQuestionComponent,
     AlgorithmQuestionsComponent,
     DifficultySelectComponent,
     WysiwygEditorComponent,
     CodeEditorComponent,
-    RatingInputComponent
+    RatingInputComponent,
+    ProgressBarComponent,
+    LanguageSelectComponent
   ],
   imports: [
     BrowserModule,
