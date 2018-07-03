@@ -9,8 +9,9 @@ import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 })
 export class UsersComponent implements OnInit {
   modalRef: BsModalRef;
+  resetPWdModalRef: BsModalRef;
   users;
-  id_del: string;
+  id: string;
 
   constructor(
     private alertService: AlertService,
@@ -19,12 +20,12 @@ export class UsersComponent implements OnInit {
   ) {}
 
   openModal(template: TemplateRef<any>, id: string) {
-    this.id_del = id;
-    this.modalRef = this.modalService.show(template, { class: "modal-sm" });
+    this.id = id;
+    this.modalRef = this.modalService.show(template, { class: "modal-md" });
   }
 
   confirm(): void {
-    this.userService.deleteUserById(this.id_del).subscribe(
+    this.userService.deleteUserById(this.id).subscribe(
       successCode => {
         this.alertService.success("User has been deleted successfully.");
         this.getUsers();
@@ -38,6 +39,31 @@ export class UsersComponent implements OnInit {
 
   decline(): void {
     this.modalRef.hide();
+  }
+
+  openResetPWdModal(template: TemplateRef<any>, id: string) {
+    this.id = id;
+    this.resetPWdModalRef = this.modalService.show(template, {
+      class: "modal-md"
+    });
+  }
+
+  confirmResetPwd(): void {
+    this.userService.resetPassword(this.id).subscribe(
+      () => {
+        this.alertService.success(
+          "User's password has been reset successfully!"
+        );
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    this.resetPWdModalRef.hide();
+  }
+
+  declineResetPwd(): void {
+    this.resetPWdModalRef.hide();
   }
 
   ngOnInit() {

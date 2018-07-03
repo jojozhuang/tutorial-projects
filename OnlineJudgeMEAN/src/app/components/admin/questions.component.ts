@@ -20,7 +20,7 @@ export class QuestionsComponent implements OnInit {
 
   openModal(template: TemplateRef<any>, id: string) {
     this.id_del = id;
-    this.modalRef = this.modalService.show(template, { class: "modal-sm" });
+    this.modalRef = this.modalService.show(template, { class: "modal-md" });
   }
 
   confirm(): void {

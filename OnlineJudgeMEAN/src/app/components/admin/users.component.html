@@ -20,7 +20,7 @@
         <td>{{user.timecreated | date : "yyyy/MM/dd hh:mm:ss" }}</td>
         <td>
           <button type="button" class="btn btn-primary" [routerLink]="['/admin/user', user._id ]">Edit</button>
-          <button type="button" class="btn btn-warning" [routerLink]="['/user', user._id ]">Reset Password</button>
+          <button type="button" class="btn btn-warning" (click)="openResetPWdModal(resetPwd, user._id)">Reset Password</button>
           <button type="button" class="btn btn-danger" (click)="openModal(confirmDlg, user._id)">Delete</button>
         </td>
       </tr>
@@ -39,6 +39,21 @@
     <div class="modal-footer">
       <button type="button" class="btn btn-default" (click)="confirm()">Yes</button>
       <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+    </div>
+  </ng-template>
+  <ng-template #resetPwd>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Confirm</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure to reset password for this user?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" (click)="confirmResetPwd()">Yes</button>
+      <button type="button" class="btn btn-primary" (click)="declineResetPwd()">No</button>
     </div>
   </ng-template>
 </div>

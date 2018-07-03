@@ -21,7 +21,7 @@ exports.user_create = function(req, res, next) {
 };
 
 exports.user_readone = function(req, res, next) {
-  sleep.sleep(3);
+  //sleep.sleep(3);
   User.findById(req.params.id, function(err, user) {
     if (err) {
       return next(err);
@@ -31,7 +31,7 @@ exports.user_readone = function(req, res, next) {
 };
 
 exports.user_update = function(req, res, next) {
-  sleep.sleep(3);
+  //sleep.sleep(3);
   User.findByIdAndUpdate(
     req.params.id,
     { $set: req.body },
@@ -54,6 +54,28 @@ exports.user_all = function(req, res, next) {
   User.find({}, function(err, users) {
     if (err) return next(err);
     res.status(200).send(users);
+  });
+};
+
+exports.user_resetpwd = function(req, res, next) {
+  const id = req.body.id;
+  User.findById(id, function(err, user) {
+    if (!user) {
+      var error = new ValidationError("body", "userid", id, "User not found!");
+      res.status(422).json({ errors: [error] });
+    } else {
+      // set hash and salt
+      user.setPassword("123456");
+
+      console.log(user);
+      user.save(function(err) {
+        if (err) {
+          var error = new ValidationError("body", "password", password, err);
+          return res.status(422).json({ errors: [error] });
+        }
+        res.status(200).send(user);
+      });
+    }
   });
 };
 

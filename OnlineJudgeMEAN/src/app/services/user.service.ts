@@ -46,4 +46,15 @@ export class UserService {
       .delete(this.apiUrl + "/" + pid, { observe: "response" })
       .map(res => res.status);
   }
+
+  //Reset password
+  resetPassword(pid: string): Observable<any> {
+    return this.http.patch(
+      this.apiUrl + "/reset",
+      { id: pid },
+      {
+        observe: "response"
+      }
+    );
+  }
 }

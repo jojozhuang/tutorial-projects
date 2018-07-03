@@ -13,7 +13,7 @@ var sendJSONresponse = function(res, status, content) {
 };
 
 module.exports.signup = function(req, res) {
-  sleep.sleep(3); //sleep for 3 seconds
+  //sleep.sleep(3); //sleep for 3 seconds
   // get the validation result which is defined in router
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -107,7 +107,7 @@ module.exports.autologin = function(req, res) {
 };
 
 module.exports.login = function(req, res) {
-  sleep.sleep(3); //sleep for 3 seconds
+  //sleep.sleep(3); //sleep for 3 seconds
   // get the validation result which is defined in router
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
