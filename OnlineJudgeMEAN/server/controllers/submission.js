@@ -2,8 +2,10 @@ var Submission = require("../models/submission");
 const ValidationError = require("../models/validationerror");
 const ErrorUtil = require("../utils/").ErrorUtil;
 const RunnerManager = require("../compiler/RunnerManager");
+const sleep = require("sleep");
 
 exports.submission_create = function(req, res, next) {
+  sleep.sleep(3); //sleep for 3 seconds
   var submission = new Submission({
     username: req.body.username,
     questionname: req.body.questionname,
@@ -21,6 +23,7 @@ exports.submission_create = function(req, res, next) {
 };
 
 exports.submission_update = function(req, res, next) {
+  sleep.sleep(3); //sleep for 3 seconds
   Submission.findByIdAndUpdate(
     req.params.id,
     { $set: req.body },
@@ -87,6 +90,7 @@ exports.submission_findbyname = function(req, res, next) {
 };
 
 exports.submission_execute = function(req, res, next) {
+  //sleep.sleep(3); //sleep for 3 seconds
   var submission = new Submission({
     username: req.body.username,
     questionname: req.body.questionname,

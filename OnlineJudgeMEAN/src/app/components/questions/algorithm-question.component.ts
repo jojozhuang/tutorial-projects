@@ -70,27 +70,29 @@ export class AlgorithmQuestionComponent extends BaseComponent {
           });
           this.selectedValue = "java";
           // get submission
-          this.ojService
-            .getSubmissionByNames(this.username, question.uniquename)
-            .subscribe(
-              submission => {
-                console.log("submission");
-                console.log(submission);
-                if (submission) {
-                  this._id = submission._id;
-                  this.baseForm.setValue({
-                    language: submission.language,
-                    solution: submission.solution,
-                    output: ""
-                    //status: submission.status
-                  });
-                  this.selectedValue = submission.language;
+          if (this.uniquename) {
+            this.ojService
+              .getSubmissionByNames(this.username, question.uniquename)
+              .subscribe(
+                submission => {
+                  console.log("submission");
+                  console.log(submission);
+                  if (submission) {
+                    this._id = submission._id;
+                    this.baseForm.setValue({
+                      language: submission.language,
+                      solution: submission.solution,
+                      output: ""
+                      //status: submission.status
+                    });
+                    this.selectedValue = submission.language;
+                  }
+                },
+                error => {
+                  console.log(error);
                 }
-              },
-              error => {
-                console.log(error);
-              }
-            );
+              );
+          }
         },
         error => {
           console.log(error);

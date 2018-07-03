@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
 
 @Component({
   selector: "app-widget-result-panel",
@@ -10,10 +10,12 @@ export class ResultPanelComponent implements OnInit {
   ngOnInit() {}
 
   @Input() testResult: number;
+  @Output() testResultChange = new EventEmitter<number>();
   @Input() resultMessage: string;
 
   close() {
     this.testResult = 0;
+    this.testResultChange.emit(0);
   }
 
   getInput() {

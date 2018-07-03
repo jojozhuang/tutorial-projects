@@ -24,19 +24,19 @@
       </div>
       <div class="form-group">
         <div class="col-sm-10">
-          <input type="submit" [disabled]="loading || loading2" class="btn btn-success" (click)="onSubmit()" value="Save">
+          <input *ngIf="username" type="submit" [disabled]="loading || loading2" class="btn btn-success" (click)="onSubmit()" value="Save">
           <app-widget-loading-image [loading]="isLoading()"></app-widget-loading-image>
           <button type="button" [disabled]="loading || loading2" class="btn btn-info" (click)="back('/questions')">Back</button>
         </div>
         <div class="col-sm-2">
-          <button type="submit" [disabled]="loading || loading2" class="btn btn-primary" (click)="onSubmitSolution()">Submit Solution</button>
+          <button *ngIf="username" type="submit" [disabled]="loading || loading2" class="btn btn-primary" (click)="onSubmitSolution()">Submit Solution</button>
           <app-widget-loading-image [loading]="isLoading2()"></app-widget-loading-image>
           <app-widget-status-image [testResult]="testResult"></app-widget-status-image>
         </div>
       </div>
       <hr />
       <div class="form-group">
-        <app-widget-result-panel [testResult]="testResult" [resultMessage]="resultMessage"></app-widget-result-panel>
+        <app-widget-result-panel [(testResult)]="testResult" [resultMessage]="resultMessage"></app-widget-result-panel>
       </div>
     </form>
   </div>
