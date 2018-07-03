@@ -9,7 +9,8 @@ var QuestionSchema = new Schema({
   mainfunction: { type: String, required: true },
   difficulty: { type: Number, required: true }, // 10: easy, 20: medium, 30: hard
   frequency: { type: Number, required: true },
-  rating: { type: Number, required: true }
+  rating: { type: Number, required: true },
+  hints: { type: String }
 });
 
 // Export the model

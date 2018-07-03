@@ -3,6 +3,7 @@ html {
   font-size: 16px;
 }
 
+/* progress bar at top */
 .bar {
   margin-top: 50px;
 }
@@ -14,6 +15,24 @@ div .bar-shadow[_ngcontent-c1] {
   all: initial;
 }
 
+/* tab */
+.tab {
+  margin-top: 30px;
+}
+.tab-item {
+  font-size: 16px;
+}
+.icon-btn > i {
+  padding-right: 8px;
+}
+.hint-link:hover,
+.hint-link:visited,
+.hint-link:link,
+.hint-link:active {
+  text-decoration: none;
+}
+
+/* label color for validation error*/
 .control-label.required:after {
   color: #d00;
   content: "*";

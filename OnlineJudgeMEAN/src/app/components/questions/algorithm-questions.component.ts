@@ -1,12 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { OnlineJudgeService } from "./../../services";
+import { SubmissionService } from "./../../services";
 
 @Component({
   selector: "app-algorithm-questions",
   templateUrl: "./algorithm-questions.component.html"
 })
 export class AlgorithmQuestionsComponent implements OnInit {
-  constructor(private ojService: OnlineJudgeService) {}
+  constructor(private submissionService: SubmissionService) {}
   questions;
 
   ngOnInit() {
@@ -16,7 +16,7 @@ export class AlgorithmQuestionsComponent implements OnInit {
 
   //Fetch all questions
   getQuestions() {
-    this.ojService.getQuestions().subscribe(
+    this.submissionService.getQuestions().subscribe(
       data => {
         this.questions = data;
       },

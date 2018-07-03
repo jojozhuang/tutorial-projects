@@ -6,7 +6,10 @@ var SubmissionSchema = new Schema({
   questionname: { type: String, required: true, max: 100 },
   solution: { type: String, required: true },
   language: { type: String, required: true }, // java, c, c++, javascript, python
-  status: { type: Number, required: true } // -1: not submitted, 0: pass, 1: fail, 2: partially pass
+  status: { type: Number, required: true }, // -1: not submitted, 10: pass, 20: fail
+  timeupdated: { type: Date, default: Date.now },
+  timesubmitted: { type: Date },
+  runtime: { type: Number, default: 0 }
 });
 
 // Export the model

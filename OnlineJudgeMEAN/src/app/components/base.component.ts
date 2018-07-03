@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import {
   QuestionService,
   UserService,
-  OnlineJudgeService,
+  SubmissionService,
   AlertService,
   AuthenticationService
 } from "../services/";
@@ -27,7 +27,7 @@ export abstract class BaseComponent implements OnInit {
     public authService: AuthenticationService,
     public userService: UserService,
     public questionService: QuestionService,
-    public ojService: OnlineJudgeService
+    public ojService: SubmissionService
   ) {}
 
   isLoading() {

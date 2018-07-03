@@ -125,7 +125,8 @@ export class QuestionComponent extends BaseComponent {
             Validators.min(0),
             Validators.max(5)
           ]
-        ]
+        ],
+        hints: []
       });
       this.selectedValue = 10;
       //this.htmlContent = "";
@@ -140,7 +141,8 @@ export class QuestionComponent extends BaseComponent {
         mainfunction: [],
         difficulty: [],
         frequency: [],
-        rating: []
+        rating: [],
+        hints: []
       });
 
       /*
@@ -191,7 +193,8 @@ export class QuestionComponent extends BaseComponent {
             mainfunction: question.mainfunction,
             difficulty: question.difficulty,
             frequency: question.frequency,
-            rating: question.rating
+            rating: question.rating,
+            hints: question.hints
           });
 
           // add validation later to avoid flash of red message

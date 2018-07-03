@@ -14,8 +14,8 @@ export class ResultPanelComponent implements OnInit {
   @Input() resultMessage: string;
 
   close() {
-    this.testResult = 0;
-    this.testResultChange.emit(0);
+    this.testResult = -1;
+    this.testResultChange.emit(-1);
   }
 
   getInput() {

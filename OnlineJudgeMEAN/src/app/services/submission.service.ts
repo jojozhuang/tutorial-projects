@@ -13,12 +13,13 @@ import "rxjs/add/operator/map";
 import { Question, Submission } from "./../models";
 
 @Injectable()
-export class OnlineJudgeService {
+export class SubmissionService {
   baseUrl = "http://localhost:5000/";
-  apiUrl = this.baseUrl + "api/onlinejudge";
+  apiUrl = this.baseUrl + "api/submission";
 
   //Create constructor to get Http instance
   constructor(private http: HttpClient) {}
+
   //Fetch all questions
   getQuestions(): Observable<Question[]> {
     return this.http.get<Question[]>(this.apiUrl + "/questions");
@@ -37,28 +38,6 @@ export class OnlineJudgeService {
       .map(res => res.body);
   }
 
-  //Fetch submission by names
-  getSubmissionByNames(
-    username: string,
-    questionname: string
-  ): Observable<Submission> {
-    return this.http.get<Submission>(
-      this.apiUrl + "/" + username + "," + questionname
-    );
-  }
-  /*
-  //Update submission
-  updateSubmission(submission: Submission): Observable<any> {
-    return this.http
-      .put(
-        this.apiUrl + "/" + submission.username + "," + submission.questionname,
-        submission,
-        { observe: "response" }
-      )
-      .map(res => res.status);
-  }
-*/
-
   //Update submission
   updateSubmission(submission: Submission): Observable<any> {
     return this.http
@@ -66,6 +45,26 @@ export class OnlineJudgeService {
         observe: "response"
       })
       .map(res => res.body);
+  }
+
+  //Fetch submission by names
+  getSubmissionByNames(
+    username: string,
+    questionname: string
+  ): Observable<Submission> {
+    return this.http.get<Submission>(
+      this.apiUrl + "/one/" + username + "," + questionname
+    );
+  }
+
+  // Fetch all submissions by names
+  getSubmissions(
+    username: string,
+    questionname: string
+  ): Observable<Submission[]> {
+    return this.http.get<Submission[]>(
+      this.apiUrl + "/all/" + username + "," + questionname
+    );
   }
 
   //Submit solution

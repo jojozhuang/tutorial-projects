@@ -70,10 +70,11 @@ module.exports = {
           message
         ) {
           if (status == "0") {
+            // no error
             if (message.startsWith("[Success]")) {
-              callback("0", message.slice(9)); // 10, pass
+              callback("10", message.slice(9)); // 10, pass
             } else {
-              callback("1", message.slice(6)); // 11, fail
+              callback("20", message.slice(6)); // 20, fail
             }
           } else {
             callback(status, message);

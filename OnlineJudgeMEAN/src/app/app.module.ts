@@ -40,6 +40,7 @@ import {
   ProgressBarComponent,
   LanguageSelectComponent,
   StatusImageComponent,
+  StatusLinkComponent,
   ResultPanelComponent,
   RatingBarComponent
 } from "./components/";
@@ -51,7 +52,7 @@ import {
   AlertService,
   AuthenticationService,
   AuthGuardService,
-  OnlineJudgeService
+  SubmissionService
 } from "./services/";
 
 // Interceptor
@@ -95,6 +96,7 @@ import { appRoutes } from "./app.route";
     ProgressBarComponent,
     LanguageSelectComponent,
     StatusImageComponent,
+    StatusLinkComponent,
     ResultPanelComponent,
     RatingBarComponent
   ],
@@ -112,7 +114,7 @@ import { appRoutes } from "./app.route";
   ],
   providers: [
     QuestionService,
-    OnlineJudgeService,
+    SubmissionService,
     UserService,
     AlertService,
     AuthenticationService,

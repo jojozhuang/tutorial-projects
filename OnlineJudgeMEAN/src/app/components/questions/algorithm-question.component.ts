@@ -1,11 +1,5 @@
 import { Component, ViewChild, Input, OnInit } from "@angular/core";
-import {
-  AlertService,
-  OnlineJudgeService,
-  AuthenticationService
-} from "./../../services";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Question, Submission } from "../../models";
 import { BaseComponent } from "../base.component";
 
@@ -14,11 +8,13 @@ import { BaseComponent } from "../base.component";
   templateUrl: "./algorithm-question.component.html"
 })
 export class AlgorithmQuestionComponent extends BaseComponent {
+  tab;
   _id;
   username;
   uniquename;
   selectedValue;
-  testResult; // 0: not submitted, 1: success, 2: fail
+  submissions;
+  testResult: number; // -1: not submitted, 10: pass, 20: fail
   resultMessage;
   //Create form
   baseForm = new FormGroup({
@@ -33,26 +29,43 @@ export class AlgorithmQuestionComponent extends BaseComponent {
   @Input() sequence: number;
   @Input() title: string;
   @Input() description: string;
+  @Input() hints: string;
 
   @ViewChild("editor") editor;
   text: string = "";
 
   ngAfterViewInit() {
-    this.editor.setTheme("eclipse");
+    if (this.tab == "description") {
+      this.editor.setTheme("eclipse");
 
-    this.editor.getEditor().setOptions({
-      enableBasicAutocompletion: true
-    });
+      this.editor.getEditor().setOptions({
+        enableBasicAutocompletion: true
+      });
 
-    this.editor.getEditor().commands.addCommand({
-      name: "showOtherCompletions",
-      bindKey: "Ctrl-.",
-      exec: function(editor) {}
-    });
+      this.editor.getEditor().commands.addCommand({
+        name: "showOtherCompletions",
+        bindKey: "Ctrl-.",
+        exec: function(editor) {}
+      });
+    }
+  }
+  changeTab(tab) {
+    this.tab = tab;
+    if (this.tab === "submissions") {
+      this.ojService.getSubmissions(this.username, this.uniquename).subscribe(
+        data => {
+          this.submissions = data;
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    }
   }
 
   ngOnInit() {
-    this.testResult = 0;
+    this.tab = "description";
+    this.testResult = -1;
     this.uniquename = this.route.snapshot.paramMap.get("uniquename");
     this.username = this.authService.getUserName();
     //console.log(this._id);
@@ -63,6 +76,7 @@ export class AlgorithmQuestionComponent extends BaseComponent {
           this.sequence = question.sequence;
           this.title = question.title;
           this.description = question.description;
+          this.hints = question.hints;
           this.baseForm.setValue({
             language: "java",
             solution: question.mainfunction,
@@ -101,8 +115,8 @@ export class AlgorithmQuestionComponent extends BaseComponent {
     }
   }
 
-  onSubmit() {
-    this.testResult = 0;
+  onSave() {
+    this.testResult = -1;
     if (!this.validate()) {
       return;
     }
@@ -116,7 +130,10 @@ export class AlgorithmQuestionComponent extends BaseComponent {
       this.uniquename,
       question.language,
       question.solution,
-      -1
+      0,
+      new Date(),
+      null,
+      0
     );
     this.printLog(this._id);
     this.printLog(submission);
@@ -155,7 +172,7 @@ export class AlgorithmQuestionComponent extends BaseComponent {
   }
 
   onSubmitSolution() {
-    this.testResult = 0;
+    this.testResult = -1;
     if (!this.validate2()) {
       return;
     }
@@ -169,7 +186,10 @@ export class AlgorithmQuestionComponent extends BaseComponent {
       this.uniquename,
       question.language,
       question.solution,
-      -1
+      0,
+      new Date(),
+      null,
+      0
     );
     this.printLog(this._id);
     this.printLog(submission);
@@ -184,13 +204,13 @@ export class AlgorithmQuestionComponent extends BaseComponent {
           output: response.message
           //status: submission.status
         });
-        if (response.status === "0") {
+        if (response.status === "10") {
           this.handleSuccess2(response.message);
-          this.testResult = 1;
+          this.testResult = 10;
           this.resultMessage = response.message;
         } else {
           this.handleError2(response.message);
-          this.testResult = 2;
+          this.testResult = 20;
           this.resultMessage = response.message;
         }
       },

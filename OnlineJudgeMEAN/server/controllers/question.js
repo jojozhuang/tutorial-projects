@@ -10,7 +10,8 @@ exports.question_create = function(req, res, next) {
     mainfunction: req.body.mainfunction,
     difficulty: req.body.difficulty,
     frequency: req.body.frequency,
-    rating: req.body.rating
+    rating: req.body.rating,
+    hints: req.body.hints
   });
 
   question.save({ new: true }, function(err, question) {
@@ -63,7 +64,7 @@ exports.question_all = function(req, res, next) {
     });
 };
 
-exports.question_findbyuniquename = function(req, res, next) {
+exports.question_findByUniqueName = function(req, res, next) {
   console.log(req.params.uniquename);
   Question.findOne({ uniquename: req.params.uniquename }, function(
     err,

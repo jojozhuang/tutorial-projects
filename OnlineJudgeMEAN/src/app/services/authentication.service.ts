@@ -95,9 +95,10 @@ export class AuthenticationService {
     });
     const request = base.pipe(
       map((data: TokenResponse) => {
+        /*
         if (data && data.token) {
           AuthUtil.saveToken(data.token, true);
-        }
+        }*/
         if (data) {
           return data.token;
         } else {
