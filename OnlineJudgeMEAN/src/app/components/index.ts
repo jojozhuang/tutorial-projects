@@ -11,6 +11,7 @@ export * from "./widgets/progress-bar/progress-bar.component";
 export * from "./widgets/language-select/language-select.component";
 export * from "./widgets/status-image/status-image.component";
 export * from "./widgets/result-panel/result-panel.component";
+export * from "./widgets/rating-bar/rating-bar.component";
 
 export * from "./authentication/signup.component";
 export * from "./authentication/login.component";

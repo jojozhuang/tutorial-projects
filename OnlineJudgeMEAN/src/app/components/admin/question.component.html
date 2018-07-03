@@ -64,7 +64,7 @@
     <div class="form-group" [ngClass]="displayFieldCss('rating')">
       <label class="control-label col-sm-2" for="rating">Rating:</label>
       <div class="col-sm-2">
-        <input class="form-control" placeholder="Enter rating" type="text" name="rating" formControlName="rating" />
+        <app-widget-rating-input name="rating" formControlName="rating"></app-widget-rating-input>
         <app-widget-validation-message [displayError]="isFieldValid('rating')" errorMsg="Rating must be between 0 and 5">
         </app-widget-validation-message>
       </div>

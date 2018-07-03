@@ -40,7 +40,8 @@ import {
   ProgressBarComponent,
   LanguageSelectComponent,
   StatusImageComponent,
-  ResultPanelComponent
+  ResultPanelComponent,
+  RatingBarComponent
 } from "./components/";
 
 // services
@@ -94,7 +95,8 @@ import { appRoutes } from "./app.route";
     ProgressBarComponent,
     LanguageSelectComponent,
     StatusImageComponent,
-    ResultPanelComponent
+    ResultPanelComponent,
+    RatingBarComponent
   ],
   imports: [
     BrowserModule,
