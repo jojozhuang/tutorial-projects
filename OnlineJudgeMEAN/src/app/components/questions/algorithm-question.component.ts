@@ -18,6 +18,8 @@ export class AlgorithmQuestionComponent extends BaseComponent {
   username;
   uniquename;
   selectedValue;
+  testResult; // 0: not submitted, 1: success, 2: fail
+  resultMessage;
   //Create form
   baseForm = new FormGroup({
     language: new FormControl(
@@ -50,6 +52,7 @@ export class AlgorithmQuestionComponent extends BaseComponent {
   }
 
   ngOnInit() {
+    this.testResult = 0;
     this.uniquename = this.route.snapshot.paramMap.get("uniquename");
     this.username = this.authService.getUserName();
     //console.log(this._id);
@@ -97,6 +100,7 @@ export class AlgorithmQuestionComponent extends BaseComponent {
   }
 
   onSubmit() {
+    this.testResult = 0;
     if (!this.validate()) {
       return;
     }
@@ -149,6 +153,7 @@ export class AlgorithmQuestionComponent extends BaseComponent {
   }
 
   onSubmitSolution() {
+    this.testResult = 0;
     if (!this.validate2()) {
       return;
     }
@@ -179,8 +184,12 @@ export class AlgorithmQuestionComponent extends BaseComponent {
         });
         if (response.status === "0") {
           this.handleSuccess2(response.message);
+          this.testResult = 1;
+          this.resultMessage = response.message;
         } else {
           this.handleError2(response.message);
+          this.testResult = 2;
+          this.resultMessage = response.message;
         }
       },
       error => {

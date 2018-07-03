@@ -38,7 +38,9 @@ import {
   CodeEditorComponent,
   RatingInputComponent,
   ProgressBarComponent,
-  LanguageSelectComponent
+  LanguageSelectComponent,
+  StatusImageComponent,
+  ResultPanelComponent
 } from "./components/";
 
 // services
@@ -90,7 +92,9 @@ import { appRoutes } from "./app.route";
     CodeEditorComponent,
     RatingInputComponent,
     ProgressBarComponent,
-    LanguageSelectComponent
+    LanguageSelectComponent,
+    StatusImageComponent,
+    ResultPanelComponent
   ],
   imports: [
     BrowserModule,

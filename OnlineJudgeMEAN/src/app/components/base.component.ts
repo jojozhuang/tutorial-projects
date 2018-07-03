@@ -97,21 +97,17 @@ export abstract class BaseComponent implements OnInit {
   }
 
   handleError(error: string) {
-    console.error(error);
+    this.printError(error);
     this.loading = false;
   }
 
-  handleSuccess2(message: string, keep?: boolean, navURL?: string) {
-    this.alertService.success(message, keep);
-    if (navURL) {
-      this.router.navigate([navURL]);
-    }
-
+  handleSuccess2(message: string) {
+    this.printLog(message);
     this.loading2 = false;
   }
 
   handleError2(error: string) {
-    console.error(error);
+    this.printError(error);
     this.loading2 = false;
   }
 

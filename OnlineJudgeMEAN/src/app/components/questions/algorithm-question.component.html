@@ -31,14 +31,12 @@
         <div class="col-sm-2">
           <button type="submit" [disabled]="loading || loading2" class="btn btn-primary" (click)="onSubmitSolution()">Submit Solution</button>
           <app-widget-loading-image [loading]="isLoading2()"></app-widget-loading-image>
+          <app-widget-status-image [testResult]="testResult"></app-widget-status-image>
         </div>
       </div>
       <hr />
       <div class="form-group">
-        <div class="col-sm-12">
-          <ng-progress [positionUsing]="'translate3d'"></ng-progress>
-          <textarea disabled name="output" formControlName="output" rows="15" style="min-width: 100%; resize: none;"></textarea>
-        </div>
+        <app-widget-result-panel [testResult]="testResult" [resultMessage]="resultMessage"></app-widget-result-panel>
       </div>
     </form>
   </div>

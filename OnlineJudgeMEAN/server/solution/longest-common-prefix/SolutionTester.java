@@ -40,7 +40,7 @@ public class SolutionTester {
                     
                     if (!testResult) {
                         String content = "[Fail]Failed at: Input: " + Arrays.toString(strs) + "; Your answer:" + ret + "; Expected answer: " + expected;
-                        System.out.println(content);
+                        System.out.println("[Fail]" + Arrays.toString(strs) + ";" + ret + ";" + expected);
                         saveTestResult(content);
                         break;
                     }

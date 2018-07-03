@@ -35,7 +35,7 @@ public class SolutionTester {
                     
                     if (!testResult) {
                         String content = "[Fail]Failed at: Input: " + Arrays.toString(nums) + "; Your answer:" + ret + "; Expected answer: " + expected;
-                        System.out.println(content);
+                        System.out.println("[Fail]" + Arrays.toString(nums) + ";" + ret + ";" + expected);
                         saveTestResult(content);
                         break;
                     }
