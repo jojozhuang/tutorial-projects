@@ -13,14 +13,13 @@ class JavaRunner extends Runner {
   constructor() {
     super();
     this.sourcefile = "Solution.java";
-    //this.testfile = "compile.sh";
     this.testfile = "SolutionTester.java";
   }
 
-  run(file, directory, filename, extension, callback) {
-    /*if (extension.toLowerCase() !== ".java") {
+  run(file, directory, filename, extension, testcase, callback) {
+    if (extension.toLowerCase() !== ".java") {
       console.log(`${file} is not a java file.`);
-    }*/
+    }
     this.compile(file, directory, filename, callback);
   }
 

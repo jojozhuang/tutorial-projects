@@ -48,59 +48,59 @@ module.exports = {
       question + "_" + lang + "_" + moment().toISOString() // 2013-02-04T22:44:30.652Z
     );
 
-    FileApi.copyDirectory(sourceDir, targetDir, err => {
+    // copy source code files
+    FileApi.copyDirectory(path.join(sourceDir, lang), targetDir, err => {
       if (err) {
         callback("99", String(err)); // 99, system error
       }
-      //const directory = path.resolve(`${appRoot}`, "server", "compiler", "src");
 
-      // save the solution to Solution.java
-      const sourceFile = path.resolve(targetDir, runner.sourceFile());
-      console.log(`source file: ${sourceFile}`);
-      const filename = path.parse(sourceFile).name; // main
-      const extension = path.parse(sourceFile).ext; // .java
-      console.log(`filename: ${filename}`);
-      console.log(`extension: ${extension}`);
-
-      FileApi.saveFile(sourceFile, solution, () => {
-        const testFile = path.resolve(targetDir, runner.testFile());
-        const testFileName = path.parse(testFile).name; // main
-        runner.run(testFile, targetDir, testFileName, extension, function(
-          status,
-          message
-        ) {
-          if (status == "0") {
-            // no error
-            if (message.startsWith("[Success]")) {
-              callback("10", message.slice(9)); // 10, pass
-            } else {
-              callback("20", message.slice(6)); // 20, fail
-            }
-          } else {
-            callback(status, message);
+      const testcaseFile = path.join(targetDir, "testcase.txt");
+      // copy test case file
+      FileApi.copyFile(
+        path.join(sourceDir, "testcase.txt"),
+        testcaseFile,
+        err => {
+          if (err) {
+            callback("99", String(err)); // 99, system error
           }
-          /*
-          // compiled and executed successfully
-          if (status == "0") {
-            // read the test result
-            const resultFile = path.resolve(targetDir, "testresult.txt");
-            FileApi.readFile(resultFile, data => {
-              console.log("read result file:" + data);
-              if (data) {
-                if (data.startsWith("[Success]")) {
-                  callback("0", data.slice(9)); // 10, pass
+          // save the solution to Solution.java
+          const sourceFile = path.resolve(targetDir, runner.sourceFile());
+          console.log(`source file: ${sourceFile}`);
+          const filename = path.parse(sourceFile).name; // main
+          const extension = path.parse(sourceFile).ext; // .java
+          console.log(`filename: ${filename}`);
+          console.log(`extension: ${extension}`);
+
+          // get method name
+          if (lang == "javascript") {
+            const method = solution.substring(3, solution.indexOf("=")).trim();
+            solution = solution + " " + "module.exports = " + method + ";";
+          }
+          FileApi.saveFile(sourceFile, solution, () => {
+            const testFile = path.resolve(targetDir, runner.testFile());
+            const testFileName = path.parse(testFile).name; // main
+            runner.run(
+              testFile,
+              targetDir,
+              testFileName,
+              extension,
+              testcaseFile,
+              function(status, message) {
+                if (status == "0") {
+                  // no error
+                  if (message.startsWith("[Success]")) {
+                    callback("10", message.slice(9)); // 10, pass
+                  } else {
+                    callback("20", message.slice(6)); // 20, fail
+                  }
                 } else {
-                  callback("1", data.slice(6)); // 11, fail
+                  callback(status, message);
                 }
               }
-              callback("15", "No test result!"); // 15, not test result
-            });
-          } else {
-            callback(status, message);
-          }
-          */
-        });
-      });
+            );
+          });
+        }
+      );
     });
   }
 };

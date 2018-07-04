@@ -10,7 +10,7 @@ class Runner {
     this.callback = callback;
   } */
 
-  run(file, directory, filename, extension, callback) {
+  run(file, directory, filename, extension, testcase, callback) {
     console.log(this.file);
   }
 }
