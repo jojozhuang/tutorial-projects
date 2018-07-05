@@ -3,7 +3,7 @@ const User = require("../models/user");
 const ValidationError = require("../models/validationerror");
 const Ctypto = require("../utils/").Ctypto;
 const { check, validationResult } = require("express-validator/check");
-const sleep = require("sleep");
+const SleepUtil = require("../utils/").SleepUtil;
 
 exports.user_create = function(req, res, next) {
   var user = new User({
@@ -21,7 +21,7 @@ exports.user_create = function(req, res, next) {
 };
 
 exports.user_readone = function(req, res, next) {
-  //sleep.sleep(3);
+  SleepUtil.sleep();
   User.findById(req.params.id, function(err, user) {
     if (err) {
       return next(err);
@@ -31,7 +31,7 @@ exports.user_readone = function(req, res, next) {
 };
 
 exports.user_update = function(req, res, next) {
-  //sleep.sleep(3);
+  SleepUtil.sleep();
   User.findByIdAndUpdate(
     req.params.id,
     { $set: req.body },
@@ -44,6 +44,7 @@ exports.user_update = function(req, res, next) {
 };
 
 exports.user_delete = function(req, res, next) {
+  SleepUtil.sleep();
   User.findByIdAndRemove(req.params.id, function(err, user) {
     if (err) return next(err);
     res.status(200).send(user);
@@ -58,6 +59,7 @@ exports.user_all = function(req, res, next) {
 };
 
 exports.user_resetpwd = function(req, res, next) {
+  SleepUtil.sleep();
   const id = req.body.id;
   User.findById(id, function(err, user) {
     if (!user) {

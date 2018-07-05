@@ -3,9 +3,10 @@ const ValidationError = require("../models/validationerror");
 const ErrorUtil = require("../utils/").ErrorUtil;
 const RunnerManager = require("../compiler/RunnerManager");
 const moment = require("moment");
-const sleep = require("sleep");
+const SleepUtil = require("../utils/").SleepUtil;
 
 exports.submission_create = function(req, res, next) {
+  SleepUtil.sleep();
   //sleep.sleep(3); //sleep for 3 seconds
   var submission = new Submission({
     username: req.body.username,
@@ -27,6 +28,7 @@ exports.submission_create = function(req, res, next) {
 };
 
 exports.submission_readone = function(req, res, next) {
+  SleepUtil.sleep();
   Submission.findById(req.params.id, function(err, submission) {
     if (err) {
       return next(err);
@@ -36,6 +38,7 @@ exports.submission_readone = function(req, res, next) {
 };
 
 exports.submission_update = function(req, res, next) {
+  SleepUtil.sleep();
   //sleep.sleep(3); //sleep for 3 seconds
   var upd = {
     username: req.body.username,
@@ -58,6 +61,7 @@ exports.submission_update = function(req, res, next) {
 };
 
 exports.submission_findByName = function(req, res, next) {
+  SleepUtil.sleep();
   console.log(req.params.names);
   var strname = req.params.names;
   if (!strname) {
@@ -90,6 +94,7 @@ exports.submission_findByName = function(req, res, next) {
 };
 
 exports.submission_all = function(req, res, next) {
+  SleepUtil.sleep();
   console.log(req.params.names);
   var strname = req.params.names;
   if (!strname) {
@@ -115,6 +120,7 @@ exports.submission_all = function(req, res, next) {
 };
 
 exports.submission_run = function(req, res, next) {
+  SleepUtil.sleep();
   //sleep.sleep(3); //sleep for 3 seconds
   var newsubmit = new Submission({
     username: req.body.username,
@@ -131,6 +137,7 @@ exports.submission_run = function(req, res, next) {
 
   // 1. Save the submission first
   newsubmit.save({ new: true }, function(err, submission) {
+    SleepUtil.sleep();
     if (err) {
       return next(err);
     }

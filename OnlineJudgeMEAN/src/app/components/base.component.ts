@@ -27,7 +27,7 @@ export abstract class BaseComponent implements OnInit {
     public authService: AuthenticationService,
     public userService: UserService,
     public questionService: QuestionService,
-    public ojService: SubmissionService
+    public sessionService: SubmissionService
   ) {}
 
   isLoading() {
@@ -35,6 +35,13 @@ export abstract class BaseComponent implements OnInit {
   }
   isLoading2() {
     return this.loading2;
+  }
+
+  asyncBegin() {
+    this.loading = true;
+  }
+  asyncEnd() {
+    this.loading = false;
   }
 
   isFieldValid(field: string) {
@@ -118,7 +125,7 @@ export abstract class BaseComponent implements OnInit {
   }
 
   printError(message: any) {
-    if (this.printLog) {
+    if (this.logging) {
       console.error(message);
     }
   }

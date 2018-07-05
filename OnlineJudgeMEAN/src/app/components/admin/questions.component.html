@@ -39,8 +39,8 @@
   </table>
   <ng-template #confirmDlg>
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Confirm</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <h4 class="modal-title pull-left">Delete Question</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="decline()">
                 <span aria-hidden="true">&times;</span>
               </button>
     </div>
@@ -48,7 +48,8 @@
       <p>Are you sure to delete this question?</p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-default" (click)="confirm()">Yes</button>
+      <button type="button" [disabled]="loading" class="btn btn-default" (click)="confirm()">Yes</button>
+      <app-widget-loading-image [loading]="loading"></app-widget-loading-image>
       <button type="button" class="btn btn-primary" (click)="decline()">No</button>
     </div>
   </ng-template>

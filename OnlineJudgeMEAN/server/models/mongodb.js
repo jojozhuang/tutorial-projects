@@ -1,7 +1,8 @@
 var mongoose = require("mongoose");
+const config = require("../config/server-config");
+
 var gracefulShutdown;
-//var dbURI = "mongodb://testuser:abc123@ds263520.mlab.com:63520/onlinejudge2";
-var dbURI = "mongodb://testuser:abc123@ds127811.mlab.com:27811/onlinejudge3";
+var dbURI = config.mongodb_url; // mongodb url
 if (process.env.NODE_ENV === "production") {
   dbURI = process.env.MONGOLAB_URI;
 }

@@ -6,6 +6,7 @@ var User = mongoose.model("User");
 const { validationResult } = require("express-validator/check");
 const ValidationError = require("../models/validationerror");
 const TokenUtil = require("../utils/").TokenUtil;
+const SleepUtil = require("../utils/").SleepUtil;
 
 var sendJSONresponse = function(res, status, content) {
   res.status(status);
@@ -13,7 +14,7 @@ var sendJSONresponse = function(res, status, content) {
 };
 
 module.exports.signup = function(req, res) {
-  //sleep.sleep(3); //sleep for 3 seconds
+  SleepUtil.sleep();
   // get the validation result which is defined in router
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -67,6 +68,7 @@ module.exports.signup = function(req, res) {
 };
 
 module.exports.autologin = function(req, res) {
+  SleepUtil.sleep();
   // check if the user's credentials are saved in a cookie //
   console.log("autologin");
   console.log(req.cookies);
@@ -107,7 +109,7 @@ module.exports.autologin = function(req, res) {
 };
 
 module.exports.login = function(req, res) {
-  //sleep.sleep(3); //sleep for 3 seconds
+  SleepUtil.sleep();
   // get the validation result which is defined in router
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -148,6 +150,7 @@ module.exports.login = function(req, res) {
 };
 
 module.exports.logout = function(req, res) {
+  SleepUtil.sleep();
   console.log(req.cookies);
   res.clearCookie("cookieToken");
   console.log(req.cookies);
@@ -156,7 +159,7 @@ module.exports.logout = function(req, res) {
 };
 
 module.exports.update = function(req, res) {
-  sleep.sleep(3); //sleep for 3 seconds
+  SleepUtil.sleep();
   // get the validation result which is defined in router
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -234,7 +237,7 @@ module.exports.update = function(req, res) {
 };
 
 module.exports.resetpwd = function(req, res) {
-  sleep.sleep(3); //sleep for 3 seconds
+  SleepUtil.sleep();
   // get the validation result which is defined in router
   console.log("resetpwd");
   const errors = validationResult(req);

@@ -7,8 +7,10 @@ var multer = require("multer");
 var path = require("path");
 var FileApi = require("../api/FileApi");
 var fastcsv = require("fast-csv");
+const SleepUtil = require("../utils/").SleepUtil;
 
 exports.collection_list = function(req, res, next) {
+  SleepUtil.sleep();
   const collections = [
     { name: "users" },
     { name: "questions" },
@@ -23,6 +25,7 @@ exports.collection_list = function(req, res, next) {
 };
 
 exports.collection_getall = function(req, res, next) {
+  SleepUtil.sleep();
   const collectionname = req.params.name;
   if (collectionname == "questions") {
     Question.find({})
@@ -53,6 +56,7 @@ exports.collection_getall = function(req, res, next) {
 };
 
 exports.collection_export = function(req, res, next) {
+  SleepUtil.sleep();
   const name = req.params.name;
   var filename = name + ".csv";
 
@@ -110,6 +114,7 @@ exports.collection_export = function(req, res, next) {
 };
 
 exports.collection_import = function(req, res, next) {
+  SleepUtil.sleep();
   /*if (!req.files) {
     return res.status(400).send("No files were uploaded.");
   }*/

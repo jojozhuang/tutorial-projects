@@ -1,5 +1,6 @@
 export * from "./widgets/alert/alert.component";
 export * from "./widgets/loading-image/loading-image.component";
+export * from "./widgets/loading-link/loading-link.component";
 export * from "./widgets/validation-message/validation-message.component";
 export * from "./widgets/contextual-label/contextual-label.component";
 export * from "./widgets/frequency-bar/frequency-bar.component";

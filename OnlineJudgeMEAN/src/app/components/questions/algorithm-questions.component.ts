@@ -10,7 +10,6 @@ export class AlgorithmQuestionsComponent implements OnInit {
   questions;
 
   ngOnInit() {
-    console.log("questions");
     this.getQuestions();
   }
 

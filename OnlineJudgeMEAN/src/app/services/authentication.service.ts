@@ -112,13 +112,13 @@ export class AuthenticationService {
 
   public logout(redirect?): void {
     AuthUtil.clearToken();
-    this.http
-      .post(this.baseUrl + `api/authentication/logout`, "")
-      .subscribe(res => {
-        if (redirect) {
+    if (redirect) {
+      this.http
+        .post(this.baseUrl + `api/authentication/logout`, "")
+        .subscribe(res => {
           this.router.navigate(["/login"]);
-        }
-      });
+        });
+    }
   }
 
   public getUserName() {

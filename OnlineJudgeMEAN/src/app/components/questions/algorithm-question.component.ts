@@ -49,17 +49,22 @@ export class AlgorithmQuestionComponent extends BaseComponent {
       });
     }
   }
+
   changeTab(tab) {
     this.tab = tab;
     if (this.tab === "submissions") {
-      this.ojService.getSubmissions(this.username, this.uniquename).subscribe(
-        data => {
-          this.submissions = data;
-        },
-        error => {
-          console.log(error);
-        }
-      );
+      this.asyncBegin();
+      this.sessionService
+        .getSubmissions(this.username, this.uniquename)
+        .subscribe(
+          data => {
+            this.submissions = data;
+            this.asyncEnd();
+          },
+          error => {
+            this.handleError(error);
+          }
+        );
     }
   }
 
@@ -70,9 +75,10 @@ export class AlgorithmQuestionComponent extends BaseComponent {
     this.username = this.authService.getUserName();
     //console.log(this._id);
     if (this.uniquename != null) {
-      this.ojService.getQuestionByUniqueName(this.uniquename).subscribe(
+      this.asyncBegin();
+      this.sessionService.getQuestionByUniqueName(this.uniquename).subscribe(
         question => {
-          console.log(question);
+          this.printLog(question);
           this.sequence = question.sequence;
           this.title = question.title;
           this.description = question.description;
@@ -85,12 +91,11 @@ export class AlgorithmQuestionComponent extends BaseComponent {
           this.selectedValue = "java";
           // get submission
           if (this.uniquename) {
-            this.ojService
+            this.sessionService
               .getSubmissionByNames(this.username, question.uniquename)
               .subscribe(
                 submission => {
-                  console.log("submission");
-                  console.log(submission);
+                  this.printLog(submission);
                   if (submission) {
                     this._id = submission._id;
                     this.baseForm.setValue({
@@ -100,16 +105,19 @@ export class AlgorithmQuestionComponent extends BaseComponent {
                       //status: submission.status
                     });
                     this.selectedValue = submission.language;
+                    this.asyncEnd();
                   }
                 },
                 error => {
-                  console.log(error);
+                  this.handleError(error);
                 }
               );
+          } else {
+            this.asyncEnd();
           }
         },
         error => {
-          console.log(error);
+          this.handleError(error);
         }
       );
     }
@@ -140,7 +148,7 @@ export class AlgorithmQuestionComponent extends BaseComponent {
 
     if (this._id == null || this._id == "") {
       //Create question
-      this.ojService.createSubmission(submission).subscribe(
+      this.sessionService.createSubmission(submission).subscribe(
         newsubmission => {
           this._id = newsubmission._id;
           this.handleSuccess(
@@ -155,7 +163,7 @@ export class AlgorithmQuestionComponent extends BaseComponent {
       );
     } else {
       //Update question
-      this.ojService.updateSubmission(submission).subscribe(
+      this.sessionService.updateSubmission(submission).subscribe(
         updatedsubmission => {
           this._id = updatedsubmission._id;
           this.handleSuccess(
@@ -195,7 +203,7 @@ export class AlgorithmQuestionComponent extends BaseComponent {
     this.printLog(submission);
 
     // Submit solution
-    this.ojService.submitSolution(submission).subscribe(
+    this.sessionService.submitSolution(submission).subscribe(
       response => {
         this.printLog(response);
         this.baseForm.setValue({

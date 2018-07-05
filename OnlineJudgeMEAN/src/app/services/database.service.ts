@@ -40,34 +40,23 @@ export class DatabaseService {
   }
   // Export data
   exportData(name: string) {
-    return (
-      this.http
-        .get(this.apiUrl + "/export/" + name, {
-          responseType: "blob",
-          observe: "response" // to display the full response
-        })
-        .map(res => {
-          return {
-            response: res,
-            filename: name + ".csv", //res.headers.get("filename");
-            data: res.body
-          };
-        })
-        /*
+    return this.http
+      .get(this.apiUrl + "/export/" + name, {
+        responseType: "blob",
+        observe: "response" // to display the full response
+      })
+      .map(res => {
+        return {
+          //response: res,
+          filename: name + ".csv", //res.headers.get("filename");
+          data: res.body
+        };
+      });
+    /*
       .subscribe(res => ({
         content: res.body,
         fileName: res.headers.get("content-filename")
       }));*/
-        .subscribe(
-          res => {
-            let options = { type: "text/csv;charset=utf-8;" };
-            this.createAndDownloadBlobFile(res.data, options, res.filename);
-          },
-          err => {
-            console.log(err);
-          }
-        )
-    );
   }
 
   createAndDownloadBlobFile(body, options, filename) {

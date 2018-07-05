@@ -30,8 +30,8 @@
     <div class="form-group">
       <div class="col-md-offset-2 col-md-10">
         <button type="submit" [disabled]="loading" class="btn btn-success">Register</button>
-        <app-widget-loading-image [loading]="isLoading()"></app-widget-loading-image>
-        <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
+        <app-widget-loading-image [loading]="loading"></app-widget-loading-image>
+        <app-widget-loading-link [loading]="loading" link="/login" title="Cancel" [inline]="true"></app-widget-loading-link>
       </div>
     </div>
   </form>

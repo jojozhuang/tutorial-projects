@@ -12,10 +12,10 @@
     <div class="col-sm-4">
     </div>
     <div class="col-sm-2">
-      <button type="button" [disabled]="!hasData()" class="btn btn-info" (click)="openModal(uploadDlg)"><i class="fa fa-file-excel-o"></i> Import with CSV</button>
+      <button type="button" [disabled]="loading || collection=='noselect'" class="btn btn-info" (click)="openModal(uploadDlg)"><i class="fa fa-file-excel-o"></i> Import with CSV</button>
     </div>
     <div class="col-sm-2">
-      <button type="button" [disabled]="!hasData()" class="btn btn-info" (click)="exportCSV()"><i class="fa fa-file-excel-o"></i> Export to CSV</button>
+      <button type="button" [disabled]="loading || collection=='noselect' || !hasData()" class="btn btn-info" (click)="exportCSV()"><i class="fa fa-file-excel-o"></i> Export to CSV</button>
     </div>
   </div>
   <hr/>
@@ -95,7 +95,7 @@
     <form [formGroup]="uploadForm" enctype="multipart/form-data">
       <div class="modal-header">
         <h3 class="modal-title pull-left">Import Data</h3>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="clearFile()">
                   <span aria-hidden="true">&times;</span>
                 </button>
       </div>
@@ -115,7 +115,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="submit" [disabled]="loading" class="btn btn-primary" (click)="confirm()">Upload <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
+        <button type="submit" [disabled]="loading" class="btn btn-primary" (click)="confirm()">Upload</button>
+        <app-widget-loading-image [loading]="loading"></app-widget-loading-image>
         <button type="button" class="btn btn-default" (click)="decline()">Cancel</button>
       </div>
     </form>

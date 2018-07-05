@@ -9,12 +9,13 @@ import { AlertService, DatabaseService } from "./../../services";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
+import { RootComponent } from "../root.component";
 
 @Component({
   selector: "app-database",
   templateUrl: "./database.component.html"
 })
-export class DatabaseComponent implements OnInit {
+export class DatabaseComponent extends RootComponent {
   modalRef: BsModalRef;
   uploadForm: FormGroup;
   selectedValue: string;
@@ -28,7 +29,9 @@ export class DatabaseComponent implements OnInit {
     private databaseSerivce: DatabaseService,
     private alertService: AlertService,
     private modalService: BsModalService
-  ) {}
+  ) {
+    super();
+  }
 
   @Input() options = [];
   @ViewChild("fileupd") fileupd;
@@ -37,55 +40,86 @@ export class DatabaseComponent implements OnInit {
     this.uploadForm = this.formBuilder.group({
       fileupd: []
     });
+    this.asyncBegin();
     this.databaseSerivce.getCollections().subscribe(
       collections => {
-        let list = [{ value: "0", name: "--No Selection--" }];
+        let list = [{ value: "noselect", name: "--No Selection--" }];
         let names = collections.map(val => ({
           value: val.name,
           name: val.name
         }));
         this.options = list.concat(names);
-        this.selectedValue = "0";
+        this.selectedValue = "noselect";
+        this.collection = this.selectedValue;
+        this.asyncEnd();
       },
       error => {
-        console.log(error);
+        this.handleError(error);
       }
     );
   }
 
   onChange(collection) {
-    this.collection = collection;
-    console.log(collection);
-    this.getData();
+    this.printLog(collection);
+    this.getData(collection);
   }
 
-  getData() {
-    if (this.collection == "users") {
-      this.databaseSerivce.getUsers(this.collection).subscribe(
-        data => (this.users = data),
+  getData(collection) {
+    this.asyncBegin();
+    if (collection == "users") {
+      this.databaseSerivce.getUsers(collection).subscribe(
+        data => {
+          this.users = data;
+          this.collection = collection;
+          this.asyncEnd();
+        },
         error => {
-          console.log(error);
+          this.handleError(error);
         }
       );
-    } else if (this.collection == "questions") {
-      this.databaseSerivce.getUsers(this.collection).subscribe(
-        data => (this.questions = data),
+    } else if (collection == "questions") {
+      this.databaseSerivce.getUsers(collection).subscribe(
+        data => {
+          this.questions = data;
+          this.collection = collection;
+          this.asyncEnd();
+        },
         error => {
-          console.log(error);
+          this.handleError(error);
         }
       );
-    } else if (this.collection == "submissions") {
-      this.databaseSerivce.getUsers(this.collection).subscribe(
-        data => (this.submissions = data),
+    } else if (collection == "submissions") {
+      this.databaseSerivce.getUsers(collection).subscribe(
+        data => {
+          this.submissions = data;
+          this.collection = collection;
+          this.asyncEnd();
+        },
         error => {
-          console.log(error);
+          this.handleError(error);
         }
       );
+    } else {
+      this.collection = "noselect";
     }
   }
 
   exportCSV() {
-    this.databaseSerivce.exportData(this.collection);
+    this.asyncBegin();
+    this.databaseSerivce.exportData(this.collection).subscribe(
+      res => {
+        let options = { type: "text/csv;charset=utf-8;" };
+        this.databaseSerivce.createAndDownloadBlobFile(
+          res.data,
+          options,
+          res.filename
+        );
+        this.asyncEnd();
+      },
+      error => {
+        this.handleError(error);
+      }
+    );
   }
 
   hasData() {
@@ -106,37 +140,34 @@ export class DatabaseComponent implements OnInit {
   }
   choose() {
     var filectrl = <HTMLInputElement>document.getElementById("upload");
-    //console.log(filectrl);
     filectrl.value = "";
     filectrl.click();
   }
+
   loading: boolean = false;
   confirm(): void {
-    console.log(this.fileToUpload);
     if (!this.fileToUpload) {
       alert("Please select file to import data.");
       return;
     }
-    this.loading = true;
     const formData = new FormData();
     // 'fileitem' must match with the backen api
     formData.append("fileitem", this.fileToUpload, this.fileToUpload.name); // file
     formData.append("name", this.collection); // collection name: users, questions.
 
-    // In a real-world app you'd have a http request / service call here like
+    this.asyncBegin();
     this.databaseSerivce.importData(formData).subscribe(
       data => {
         this.alertService.success(
           this.collection + " have been successfully uploaded. "
         );
-        this.getData();
-        this.loading = false;
+        this.asyncEnd();
         this.clearFile();
+        this.getData(this.collection);
         this.modalRef.hide();
       },
       error => {
-        console.log(error);
-        this.loading = false;
+        this.handleError(error);
         this.clearFile();
         this.modalRef.hide();
       }
@@ -155,7 +186,7 @@ export class DatabaseComponent implements OnInit {
     if (event.target.files.length > 0) {
       this.fileToUpload = event.target.files[0];
       this.filename = this.fileToUpload.name;
-      console.log(this.fileToUpload);
+      this.printLog(this.fileToUpload);
     }
   }
 
@@ -165,6 +196,4 @@ export class DatabaseComponent implements OnInit {
     this.fileToUpload = null;
     this.filename = "";
   }
-
-  //onSubmit() {}
 }
