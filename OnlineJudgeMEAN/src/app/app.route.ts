@@ -11,6 +11,7 @@ import {
   LoginComponent,
   ResetpwdComponent,
   ProfileComponent,
+  DatabaseComponent,
   QuestionsComponent,
   QuestionComponent,
   EditorComponent,
@@ -29,6 +30,11 @@ export const appRoutes: Routes = [
   { path: "homepage", component: HomepageComponent },
   { path: "questions", component: AlgorithmQuestionsComponent },
   { path: "question/:uniquename", component: AlgorithmQuestionComponent },
+  {
+    path: "admin/database",
+    component: DatabaseComponent,
+    canActivate: [AuthGuardService]
+  },
   {
     path: "admin/users",
     component: UsersComponent,

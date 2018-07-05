@@ -4,3 +4,4 @@ export * from "./alert.service";
 export * from "./user.service";
 export * from "./question.service";
 export * from "./submission.service";
+export * from "./database.service";

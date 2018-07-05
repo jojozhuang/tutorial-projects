@@ -18,6 +18,7 @@ import {
   HeaderComponent,
   FooterComponent,
   HomepageComponent,
+  DatabaseComponent,
   QuestionsComponent,
   QuestionComponent,
   EditorComponent,
@@ -47,6 +48,7 @@ import {
 
 // services
 import {
+  DatabaseService,
   QuestionService,
   UserService,
   AlertService,
@@ -74,6 +76,7 @@ import { appRoutes } from "./app.route";
     HeaderComponent,
     FooterComponent,
     HomepageComponent,
+    DatabaseComponent,
     QuestionsComponent,
     QuestionComponent,
     UsersComponent,
@@ -113,6 +116,7 @@ import { appRoutes } from "./app.route";
     NgProgressModule
   ],
   providers: [
+    DatabaseService,
     QuestionService,
     SubmissionService,
     UserService,

@@ -49,7 +49,7 @@ export class ErrorHttpInterceptor implements HttpInterceptor {
         }
       })
       .catch(response => {
-        //console.error(response);
+        console.error(response);
         if (response instanceof HttpErrorResponse) {
           console.log("HttpErrorResponse:" + response.status);
           if (response.status == 422) {

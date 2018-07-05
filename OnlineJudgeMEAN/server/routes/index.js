@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+var database = require("./database");
 var authentication = require("./authentication");
 var question = require("./question");
 var user = require("./user");
@@ -18,11 +19,12 @@ router.get("/", function(req, res) {
 
 // authentication, url: /api/authentication/login
 router.use("/authentication", authentication);
-// question, url: /api/question
+// question, url: /api/admin/question
 router.use("/admin/question", auth, question);
-// user, url: /api/user
+// user, url: /api/admin/user
 router.use("/admin/user", auth, user);
-
+// database, url: /api/admin/database
+router.use("/admin/database", database);
 // submission, url: /api/submission
 router.use("/submission", submission);
 

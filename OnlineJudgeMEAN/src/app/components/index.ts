@@ -24,6 +24,7 @@ export * from "./pages/homepage.component";
 export * from "./pages/header.component";
 export * from "./pages/footer.component";
 
+export * from "./admin/database.component";
 export * from "./admin/questions.component";
 export * from "./admin/question.component";
 export * from "./admin/users.component";
