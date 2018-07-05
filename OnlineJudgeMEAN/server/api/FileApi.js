@@ -90,12 +90,12 @@ module.exports = {
   readFile(file, callback) {
     console.log("FileApi.readFile(), file:" + file);
     fs.readFile(file, function(err, data) {
-      console.log("FileApi.readFile(), err:" + err);
       if (err) {
+        console.log("FileApi.readFile(), err:" + err);
         throw err;
       }
-      console.log("FileApi.readFile(), data:" + data);
-      callback(data + "");
+      //console.log("FileApi.readFile(), data:" + data);
+      callback(err, data + "");
     });
   }
 };

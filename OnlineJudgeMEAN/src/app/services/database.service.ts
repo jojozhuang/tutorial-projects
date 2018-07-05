@@ -90,4 +90,11 @@ export class DatabaseService {
       }
     }
   }
+
+  importData(formData: any) {
+    console.log(formData);
+    return this.http.post(this.apiUrl + "/import", formData, {
+      observe: "response"
+    });
+  }
 }

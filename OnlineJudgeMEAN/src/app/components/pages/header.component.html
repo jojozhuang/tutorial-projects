@@ -18,7 +18,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li *ngIf="!auth.isLoggedIn()"><a routerLink="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
         <li *ngIf="!auth.isLoggedIn()"><a routerLink="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-        <li *ngIf="auth.isLoggedIn()" [ngClass]="{'active': router.url === '/profile' || router.url === '/resetpwd' || router.url.startsWith('/admin/user') || router.url.startsWith('/admin/question')}"
+        <li *ngIf="auth.isLoggedIn()" [ngClass]="{'active': router.url === '/profile' || router.url === '/resetpwd' || router.url.startsWith('/admin/user') || router.url.startsWith('/admin/question') || router.url.startsWith('/admin/database')}"
           class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> {{ this.auth.getUserDetails().username }}
           <span class="caret"></span></a>
