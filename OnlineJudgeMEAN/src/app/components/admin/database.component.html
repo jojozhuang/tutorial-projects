@@ -9,15 +9,10 @@
           <option *ngFor="let option of options" [value]="option.value">{{option.name}}</option>
       </select>
     </div>
-    <div class="col-sm-6">
-      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="fileupd">fileupd</label>
-          <input type="file" id="fileupd" (change)="onFileChange($event)" name="fileupd" formControlName="fileupd">
-          <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
-        </div>
-        <button type="submit" [disabled]="loading" class="btn btn-success">Submit <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
-      </form>
+    <div class="col-sm-4">
+    </div>
+    <div class="col-sm-2">
+      <button type="button" [disabled]="!hasData()" class="btn btn-info" (click)="openModal(uploadDlg)"><i class="fa fa-file-excel-o"></i> Import with CSV</button>
     </div>
     <div class="col-sm-2">
       <button type="button" [disabled]="!hasData()" class="btn btn-info" (click)="exportCSV()"><i class="fa fa-file-excel-o"></i> Export to CSV</button>
@@ -96,34 +91,33 @@
       </tr>
     </tbody>
   </table>
-  <ng-template #confirmDlg>
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">Confirm</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+  <ng-template #uploadDlg>
+    <form [formGroup]="uploadForm" enctype="multipart/form-data">
+      <div class="modal-header">
+        <h3 class="modal-title pull-left">Import Data</h3>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                   <span aria-hidden="true">&times;</span>
                 </button>
-    </div>
-    <div class="modal-body">
-      <p>Are you sure to delete this user?</p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default" (click)="confirm()">Yes</button>
-      <button type="button" class="btn btn-primary" (click)="decline()">No</button>
-    </div>
-  </ng-template>
-  <ng-template #resetPwd>
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">Confirm</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-    </div>
-    <div class="modal-body">
-      <p>Are you sure to reset password for this user?</p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default" (click)="confirmResetPwd()">Yes</button>
-      <button type="button" class="btn btn-primary" (click)="declineResetPwd()">No</button>
-    </div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <h4>Select CSV File</h4>
+          <div class="input-group">
+            <span class="input-group-btn">
+                  <button class="btn btn-default btn-choose" (click)="choose()" type="button">Choose</button>
+                  <input type='file' id="upload" (change)="onFileChange($event)" style='visibility:hidden; height:0'>                  
+              </span>
+            <input type="text" readonly class="form-control" placeholder='Choose a file...' [value]="filename" />
+            <span class="input-group-btn">
+                  <button type="button" class="btn btn-warning" (click)="clearFile()">Reset</button>
+              </span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" [disabled]="loading" class="btn btn-primary" (click)="confirm()">Upload <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
+        <button type="button" class="btn btn-default" (click)="decline()">Cancel</button>
+      </div>
+    </form>
   </ng-template>
 </div>

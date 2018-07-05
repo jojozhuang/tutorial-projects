@@ -1,12 +1,21 @@
-import { Component, Input, ViewChild, OnInit } from "@angular/core";
+import {
+  Component,
+  TemplateRef,
+  Input,
+  ViewChild,
+  OnInit
+} from "@angular/core";
 import { AlertService, DatabaseService } from "./../../services";
 import { FormGroup, FormBuilder } from "@angular/forms";
+import { BsModalService } from "ngx-bootstrap/modal";
+import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 
 @Component({
   selector: "app-database",
   templateUrl: "./database.component.html"
 })
 export class DatabaseComponent implements OnInit {
+  modalRef: BsModalRef;
   uploadForm: FormGroup;
   selectedValue: string;
   collection: string;
@@ -17,7 +26,8 @@ export class DatabaseComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private databaseSerivce: DatabaseService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private modalService: BsModalService
   ) {}
 
   @Input() options = [];
@@ -46,6 +56,10 @@ export class DatabaseComponent implements OnInit {
   onChange(collection) {
     this.collection = collection;
     console.log(collection);
+    this.getData();
+  }
+
+  getData() {
     if (this.collection == "users") {
       this.databaseSerivce.getUsers(this.collection).subscribe(
         data => (this.users = data),
@@ -86,22 +100,23 @@ export class DatabaseComponent implements OnInit {
     }
   }
 
-  //upload file
-  fileToUpload: File = null;
-
-  onFileChange(event) {
-    if (event.target.files.length > 0) {
-      this.fileToUpload = event.target.files[0];
-    }
+  // upload dialog
+  openModal(template: TemplateRef<any>, id: string) {
+    this.modalRef = this.modalService.show(template, { class: "modal-md" });
   }
-
-  clearFile() {
-    this.fileToUpload = null;
+  choose() {
+    var filectrl = <HTMLInputElement>document.getElementById("upload");
+    //console.log(filectrl);
+    filectrl.value = "";
+    filectrl.click();
   }
-
   loading: boolean = false;
-  onSubmit() {
+  confirm(): void {
     console.log(this.fileToUpload);
+    if (!this.fileToUpload) {
+      alert("Please select file to import data.");
+      return;
+    }
     this.loading = true;
     const formData = new FormData();
     // 'fileitem' must match with the backen api
@@ -114,12 +129,42 @@ export class DatabaseComponent implements OnInit {
         this.alertService.success(
           this.collection + " have been successfully uploaded. "
         );
+        this.getData();
         this.loading = false;
+        this.clearFile();
+        this.modalRef.hide();
       },
       error => {
         console.log(error);
         this.loading = false;
+        this.clearFile();
+        this.modalRef.hide();
       }
     );
   }
+
+  decline(): void {
+    this.modalRef.hide();
+    this.clearFile();
+  }
+
+  //upload file
+  fileToUpload: File = null;
+  filename: String = "";
+  onFileChange(event) {
+    if (event.target.files.length > 0) {
+      this.fileToUpload = event.target.files[0];
+      this.filename = this.fileToUpload.name;
+      console.log(this.fileToUpload);
+    }
+  }
+
+  clearFile() {
+    var filectrl = <HTMLInputElement>document.getElementById("upload");
+    filectrl.value = "";
+    this.fileToUpload = null;
+    this.filename = "";
+  }
+
+  //onSubmit() {}
 }
