@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
 
-import { Question, Submission } from "./../models";
+import { QuestionExt, Submission } from "./../models";
 
 @Injectable()
 export class SubmissionService {
@@ -21,12 +21,14 @@ export class SubmissionService {
   constructor(private http: HttpClient) {}
 
   //Fetch all questions
-  getQuestions(): Observable<Question[]> {
-    return this.http.get<Question[]>(this.apiUrl + "/questions");
+  getQuestions(): Observable<QuestionExt[]> {
+    return this.http.get<QuestionExt[]>(this.apiUrl + "/questions");
   }
   //Fetch question by unique name
-  getQuestionByUniqueName(uniquename: string): Observable<Question> {
-    return this.http.get<Question>(this.apiUrl + "/question/" + uniquename);
+  getQuestionByKeys(qname: string, uname: string): Observable<QuestionExt> {
+    return this.http.get<QuestionExt>(
+      this.apiUrl + "/question/" + qname + "," + uname
+    );
   }
 
   //Create submission
@@ -47,13 +49,21 @@ export class SubmissionService {
       .map(res => res.body);
   }
 
+  //Delete submission
+  deleteSubmissionById(pid: string): Observable<any> {
+    return this.http
+      .delete(this.apiUrl + "/" + pid, { observe: "response" })
+      .map(res => res.status);
+  }
+
   //Fetch submission by names
-  getSubmissionByNames(
+  getSubmissionByKeys(
     username: string,
-    questionname: string
+    questionname: string,
+    language: string
   ): Observable<Submission> {
     return this.http.get<Submission>(
-      this.apiUrl + "/one/" + username + "," + questionname
+      this.apiUrl + "/one/" + username + "," + questionname + "," + language
     );
   }
 

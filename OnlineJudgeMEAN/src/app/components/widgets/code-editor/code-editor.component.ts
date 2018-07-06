@@ -1,27 +1,32 @@
 import { Component, ViewChild, Input, OnInit } from "@angular/core";
+import { ControlContainer, AbstractControl } from "@angular/forms";
 
 @Component({
   selector: "app-widget-code-editor",
   templateUrl: "./code-editor.component.html"
 })
 export class CodeEditorComponent implements OnInit {
-  @ViewChild("editor") editor;
-  text: string = "";
+  @Input() formControlName: string;
+  public control: AbstractControl;
 
-  ngAfterViewInit() {
-    this.editor.setTheme("eclipse");
+  constructor(private controlContainer: ControlContainer) {}
 
-    this.editor.getEditor().setOptions({
-      enableBasicAutocompletion: true
-    });
-
-    this.editor.getEditor().commands.addCommand({
-      name: "showOtherCompletions",
-      bindKey: "Ctrl-.",
-      exec: function(editor) {}
-    });
+  ngOnInit() {
+    if (this.controlContainer) {
+      if (this.formControlName) {
+        this.control = this.controlContainer.control.get(this.formControlName);
+      } else {
+        console.warn(
+          "Missing FormControlName directive from host element of the component"
+        );
+      }
+    } else {
+      console.warn("Can't find parent FormGroup directive");
+    }
   }
-  constructor() {}
 
-  ngOnInit() {}
+  @Input() language: string;
+  @Input() code: string;
+
+  editorOptions = { theme: "vs-dark", language: this.language };
 }

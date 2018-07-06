@@ -6,7 +6,6 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { AlertModule, ModalModule } from "ngx-bootstrap";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { AceEditorModule } from "ng2-ace-editor";
 import { NgxEditorModule } from "ngx-editor";
 import { NgProgressModule, NgProgressInterceptor } from "ngx-progressbar";
 import { MonacoEditorModule } from "ngx-monaco-editor";
@@ -115,7 +114,6 @@ import { appRoutes } from "./app.route";
     MonacoEditorModule.forRoot(),
     FormsModule,
     HttpClientModule,
-    AceEditorModule,
     NgxEditorModule,
     NgProgressModule
   ],

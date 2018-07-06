@@ -27,7 +27,7 @@ export abstract class BaseComponent implements OnInit {
     public authService: AuthenticationService,
     public userService: UserService,
     public questionService: QuestionService,
-    public sessionService: SubmissionService
+    public submissionService: SubmissionService
   ) {}
 
   isLoading() {

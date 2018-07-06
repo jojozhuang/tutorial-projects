@@ -67,21 +67,21 @@
       </div>
       <div *ngIf="selectedLang=='java'" class="form-group">
         <div class="col-sm-12">
-          <ace-editor #editor1 style="height:250px;border:1px solid lightgray" name="solution1" formControlName="solution1"></ace-editor>
+          <ngx-monaco-editor [options]="editorOptions1" [(ngModel)]="code1" formControlName="solution1"></ngx-monaco-editor>
           <app-widget-validation-message [displayError]="isFieldValid('solution1')" errorMsg="Please enter solution">
           </app-widget-validation-message>
         </div>
       </div>
       <div *ngIf="selectedLang=='javascript'" class="form-group">
         <div class="col-sm-12">
-          <ace-editor #editor2 style="height:250px;border:1px solid lightgray" name="solution2" formControlName="solution2"></ace-editor>
+          <ngx-monaco-editor [options]="editorOptions2" [(ngModel)]="code2" formControlName="solution2"></ngx-monaco-editor>
           <app-widget-validation-message [displayError]="isFieldValid('solution2')" errorMsg="Please enter solution">
           </app-widget-validation-message>
         </div>
       </div>
       <div *ngIf="selectedLang=='python'" class="form-group">
         <div class="col-sm-12">
-          <ace-editor #editor3 style="height:250px;border:1px solid lightgray" name="solution3" formControlName="solution3"></ace-editor>
+          <ngx-monaco-editor [options]="editorOptions3" [(ngModel)]="code3" formControlName="solution3"></ngx-monaco-editor>
           <app-widget-validation-message [displayError]="isFieldValid('solution3')" errorMsg="Please enter solution">
           </app-widget-validation-message>
         </div>

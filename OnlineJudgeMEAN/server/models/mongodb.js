@@ -25,6 +25,9 @@ mongoose.connection.on("open", function() {
       };
 
       users.save(defaultUser, function(err) {
+        if (err) {
+          console.log("Error occurs when creating default user:" + err);
+        }
         console.log(
           "[Database Initialization] New admin user 'jojozhuang' was created!"
         );

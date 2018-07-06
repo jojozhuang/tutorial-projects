@@ -28,7 +28,7 @@ export class AlgorithmQuestionComponent extends BaseComponent {
   username;
   uniquename;
   selectedLang;
-  submissions;
+  submissions: any = [];
   testResult: number; // -1: not submitted, 10: pass, 20: fail
   resultMessage;
   //Create form
@@ -64,77 +64,30 @@ export class AlgorithmQuestionComponent extends BaseComponent {
     }
   ];
 
-  @ViewChild("editor1") editor1;
-  @ViewChild("editor2") editor2;
-  @ViewChild("editor3") editor3;
-  text1: string = "";
-  text2: string = "";
-  text3: string = "";
-
-  ngAfterViewInit() {
-    this.setEditors();
-  }
-
-  setEditors() {
-    if (this.tab == "description") {
-      //let editors: any[] = new Array(this.editor1, this.editor2, this.editor3);
-      if (this.selectedLang == "java") {
-        this.editor1.setTheme("eclipse");
-
-        this.editor1.getEditor().setOptions({
-          enableBasicAutocompletion: true
-        });
-
-        this.editor1.getEditor().commands.addCommand({
-          name: "showOtherCompletions",
-          bindKey: "Ctrl-.",
-          exec: function(editor) {}
-        });
-      }
-
-      // editor 2
-      if (this.selectedLang == "javascript") {
-        this.editor2.setTheme("eclipse");
-
-        this.editor2.getEditor().setOptions({
-          enableBasicAutocompletion: true
-        });
-
-        this.editor2.getEditor().commands.addCommand({
-          name: "showOtherCompletions",
-          bindKey: "Ctrl-.",
-          exec: function(editor) {}
-        });
-      }
-
-      // editor 3
-      if (this.selectedLang == "python") {
-        this.editor3.setTheme("eclipse");
-
-        this.editor3.getEditor().setOptions({
-          enableBasicAutocompletion: true
-        });
-
-        this.editor3.getEditor().commands.addCommand({
-          name: "showOtherCompletions",
-          bindKey: "Ctrl-.",
-          exec: function(editor) {}
-        });
-      }
-    }
-  }
+  editorOptions1 = { theme: "vs-dark", language: "java" };
+  editorOptions2 = { theme: "vs-dark", language: "javascript" };
+  editorOptions3 = { theme: "vs-dark", language: "python" };
+  code1: string = "";
+  code2: string = "";
+  code3: string = "";
+  submitId1: string = "";
+  submitId2: string = "";
+  submitId3: string = "";
 
   onChange(language) {
     this.printLog(language);
     this.selectedLang = language;
-    //this.setEditors();
   }
 
   changeTab(tab) {
     this.tab = tab;
+    this.refresh();
+  }
+
+  refresh() {
     if (this.tab === "submissions") {
       this.asyncBegin();
-      this.sessionService
+      this.submissionService
         .getSubmissions(this.username, this.uniquename)
         .subscribe(
           data => {
@@ -153,81 +106,38 @@ export class AlgorithmQuestionComponent extends BaseComponent {
     this.testResult = -1;
     this.uniquename = this.route.snapshot.paramMap.get("uniquename");
     this.username = this.authService.getUserName();
-    //console.log(this._id);
     if (this.uniquename != null) {
       this.asyncBegin();
-      this.sessionService.getQuestionByUniqueName(this.uniquename).subscribe(
-        question => {
-          this.printLog(question);
-          this.sequence = question.sequence;
-          this.title = question.title;
-          this.description = question.description;
-          this.solution = question.solution;
-          this.hints = question.hints;
-          this.baseForm.setValue({
-            language: "java",
-            solution1: question.mainfunction,
-            solution2: question.jsmain,
-            solution3: question.pythonmain,
-            output: ""
-          });
-          this.selectedLang = "java";
-          // get submission
-          if (this.uniquename) {
-            this.sessionService
-              .getSubmissionByNames(this.username, question.uniquename)
-              .subscribe(
-                submission => {
-                  this.printLog(submission);
-                  if (submission) {
-                    this._id = submission._id;
-
-                    if (submission.language == "java") {
-                      this.baseForm.setValue({
-                        language: submission.language,
-                        solution1: submission.solution,
-                        solution2: question.jsmain,
-                        solution3: question.pythonmain,
-                        output: ""
-                        //status: submission.status
-                      });
-                    } else if (submission.language == "javascript") {
-                      this.baseForm.setValue({
-                        language: submission.language,
-                        solution1: question.mainfunction,
-                        solution2: submission.solution,
-                        solution3: question.pythonmain,
-                        output: ""
-                        //status: submission.status
-                      });
-                    } else if (submission.language == "python") {
-                      this.baseForm.setValue({
-                        language: submission.language,
-                        solution1: question.mainfunction,
-                        solution2: question.jsmain,
-                        solution3: submission.solution,
-                        output: ""
-                        //status: submission.status
-                      });
-                    }
-
-                    this.selectedLang = submission.language;
-                  }
-                  this.setEditors();
-                  this.asyncEnd();
-                },
-                error => {
-                  this.handleError(error);
-                }
-              );
-          } else {
+      this.submissionService
+        .getQuestionByKeys(this.uniquename, this.username)
+        .subscribe(
+          question => {
+            this.printLog(question);
+            this.sequence = question.sequence;
+            this.title = question.title;
+            this.description = question.description;
+            this.solution = question.solution;
+            this.hints = question.hints;
+            this.baseForm.setValue({
+              language: "java",
+              solution1: question.mainfunction,
+              solution2: question.jsmain,
+              solution3: question.pythonmain,
+              output: ""
+            });
+            this.code1 = question.mainfunction;
+            this.code2 = question.jsmain;
+            this.code3 = question.pythonmain;
+            this.selectedLang = "java";
+            this.submitId1 = question.id1;
+            this.submitId2 = question.id2;
+            this.submitId3 = question.id3;
             this.asyncEnd();
+          },
+          error => {
+            this.handleError(error);
           }
-        },
-        error => {
-          this.handleError(error);
-        }
-      );
+        );
     }
   }
 
@@ -240,30 +150,44 @@ export class AlgorithmQuestionComponent extends BaseComponent {
     //Form is valid, now perform create or update
     let question = this.baseForm.value;
     this.printLog(question);
+
+    let id = "";
+    let solution = "";
+    if (this.selectedLang == "java") {
+      id = this.submitId1;
+      solution = this.code1;
+    } else if (this.selectedLang == "javascript") {
+      id = this.submitId2;
+      solution = this.code2;
+    } else if (this.selectedLang == "python") {
+      id = this.submitId3;
+      solution = this.code3;
+    }
     let submission = new Submission(
-      this._id,
+      id,
       this.username,
       this.uniquename,
       question.language,
-      question.solution,
+      solution,
       0,
       new Date(),
       null,
       0
     );
-    this.printLog(this._id);
     this.printLog(submission);
 
-    if (this._id == null || this._id == "") {
+    if (id == null || id == "") {
       //Create question
-      this.sessionService.createSubmission(submission).subscribe(
+      this.submissionService.createSubmission(submission).subscribe(
         newsubmission => {
-          this._id = newsubmission._id;
-          this.handleSuccess(
-            "Your solution has been saved successfully.",
-            true,
-            "questions"
-          );
+          if (this.selectedLang == "java") {
+            this.submitId1 = newsubmission._id;
+          } else if (this.selectedLang == "javascript") {
+            this.submitId2 = newsubmission._id;
+          } else if (this.selectedLang == "python") {
+            this.submitId3 = newsubmission._id;
+          }
+          this.handleSuccess("Your solution has been saved successfully.");
         },
         error => {
           this.handleError(error);
@@ -271,14 +195,16 @@ export class AlgorithmQuestionComponent extends BaseComponent {
       );
     } else {
       //Update question
-      this.sessionService.updateSubmission(submission).subscribe(
+      this.submissionService.updateSubmission(submission).subscribe(
         updatedsubmission => {
-          this._id = updatedsubmission._id;
-          this.handleSuccess(
-            "Your solution has been updated successfully.",
-            true,
-            "questions"
-          );
+          if (this.selectedLang == "java") {
+            this.submitId1 = updatedsubmission._id;
+          } else if (this.selectedLang == "javascript") {
+            this.submitId2 = updatedsubmission._id;
+          } else if (this.selectedLang == "python") {
+            this.submitId3 = updatedsubmission._id;
+          }
+          this.handleSuccess("Your solution has been updated successfully.");
         },
         error => {
           this.handleError(error);
@@ -296,30 +222,42 @@ export class AlgorithmQuestionComponent extends BaseComponent {
     //Form is valid, now perform create or update
     let question = this.baseForm.value;
     this.printLog(question);
+    let id = "";
+    let solution = "";
+    if (this.selectedLang == "java") {
+      id = this.submitId1;
+      solution = this.code1;
+    } else if (this.selectedLang == "javascript") {
+      id = this.submitId2;
+      solution = this.code2;
+    } else if (this.selectedLang == "python") {
+      id = this.submitId3;
+      solution = this.code3;
+    }
     let submission = new Submission(
-      this._id,
+      id,
       this.username,
       this.uniquename,
       question.language,
-      question.solution,
+      solution,
       0,
       new Date(),
       null,
       0
     );
-    this.printLog(this._id);
     this.printLog(submission);
 
     // Submit solution
-    this.sessionService.submitSolution(submission).subscribe(
+    this.submissionService.submitSolution(submission).subscribe(
       response => {
         this.printLog(response);
+        /*
         this.baseForm.setValue({
           language: submission.language,
           solution: submission.solution,
           output: response.message
           //status: submission.status
-        });
+        });*/
         if (response.status === "10") {
           this.handleSuccess2(response.message);
           this.testResult = 10;
@@ -329,6 +267,15 @@ export class AlgorithmQuestionComponent extends BaseComponent {
           this.testResult = 20;
           this.resultMessage = response.message;
         }
+        // reset id to null to avoid update
+        if (this.selectedLang == "java") {
+          this.submitId1 = "";
+        } else if (this.selectedLang == "javascript") {
+          this.submitId2 = "";
+        } else if (this.selectedLang == "python") {
+          this.submitId3 = "";
+        }
+        this.refresh();
       },
       error => {
         this.handleError2(error);

@@ -5,7 +5,13 @@ import {
   ViewChild,
   OnInit
 } from "@angular/core";
-import { AlertService, DatabaseService } from "./../../services";
+import {
+  AlertService,
+  DatabaseService,
+  UserService,
+  QuestionService,
+  SubmissionService
+} from "./../../services";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
@@ -27,6 +33,9 @@ export class DatabaseComponent extends RootComponent {
   constructor(
     public formBuilder: FormBuilder,
     private databaseSerivce: DatabaseService,
+    private userService: UserService,
+    private questionService: QuestionService,
+    private submissionService: SubmissionService,
     private alertService: AlertService,
     private modalService: BsModalService
   ) {
@@ -64,6 +73,10 @@ export class DatabaseComponent extends RootComponent {
     this.getData(collection);
   }
 
+  refresh() {
+    this.getData(this.collection);
+  }
+
   getData(collection) {
     this.asyncBegin();
     if (collection == "users") {
@@ -78,7 +91,7 @@ export class DatabaseComponent extends RootComponent {
         }
       );
     } else if (collection == "questions") {
-      this.databaseSerivce.getUsers(collection).subscribe(
+      this.databaseSerivce.getQuestions(collection).subscribe(
         data => {
           this.questions = data;
           this.collection = collection;
@@ -89,7 +102,7 @@ export class DatabaseComponent extends RootComponent {
         }
       );
     } else if (collection == "submissions") {
-      this.databaseSerivce.getUsers(collection).subscribe(
+      this.databaseSerivce.getSubmissions(collection).subscribe(
         data => {
           this.submissions = data;
           this.collection = collection;
@@ -195,5 +208,45 @@ export class DatabaseComponent extends RootComponent {
     filectrl.value = "";
     this.fileToUpload = null;
     this.filename = "";
+  }
+
+  delete(name, id) {
+    this.asyncBegin();
+    if (name == "users") {
+      this.userService.deleteUserById(id).subscribe(
+        successCode => {
+          this.asyncEnd();
+          this.alertService.success("User has been deleted successfully.");
+          this.getData(name);
+        },
+        error => {
+          this.handleError(error);
+        }
+      );
+    } else if (name == "questions") {
+      this.questionService.deleteQuestionById(id).subscribe(
+        successCode => {
+          this.asyncEnd();
+          this.alertService.success("Question has been deleted successfully.");
+          this.getData(name);
+        },
+        error => {
+          this.handleError(error);
+        }
+      );
+    } else if (name == "submissions") {
+      this.submissionService.deleteSubmissionById(id).subscribe(
+        successCode => {
+          this.asyncEnd();
+          this.alertService.success(
+            "Submission has been deleted successfully."
+          );
+          this.getData(name);
+        },
+        error => {
+          this.handleError(error);
+        }
+      );
+    }
   }
 }

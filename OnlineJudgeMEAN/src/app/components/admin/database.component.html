@@ -9,7 +9,10 @@
           <option *ngFor="let option of options" [value]="option.value">{{option.name}}</option>
       </select>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-1">
+      <button type="button" [disabled]="loading || collection=='noselect'" class="btn btn-info" (click)="refresh()"><i class="fa fa-refresh"></i> Refresh</button>
+    </div>
+    <div class="col-sm-3">
     </div>
     <div class="col-sm-2">
       <button type="button" [disabled]="loading || collection=='noselect'" class="btn btn-info" (click)="openModal(uploadDlg)"><i class="fa fa-file-excel-o"></i> Import with CSV</button>
@@ -28,6 +31,7 @@
         <th>Salt</th>
         <th>Hash</th>
         <th>Time Created</th>
+        <th>Operations</th>
       </tr>
     </thead>
     <tbody>
@@ -38,6 +42,9 @@
         <td>{{user.salt}}</td>
         <td>{{user.hash.substring(0, 10)}} ...</td>
         <td>{{user.timecreated}}</td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="delete('users', user._id)">Delete</button>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -50,6 +57,7 @@
         <th>Difficulty</th>
         <th>Frequency</th>
         <th>Rating</th>
+        <th>Operations</th>
       </tr>
     </thead>
     <tbody>
@@ -60,6 +68,9 @@
         <td>{{question.difficulty}}</td>
         <td>{{question.frequency}}</td>
         <td>{{question.rating}}</td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="delete('questions', question._id)">Delete</button>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -75,6 +86,7 @@
         <th>Time Updated</th>
         <th>Time Submitted</th>
         <th>Runtime</th>
+        <th>Operations</th>
       </tr>
     </thead>
     <tbody>
@@ -83,11 +95,14 @@
         <td>{{submission.username}}</td>
         <td>{{submission.questionname}}</td>
         <td>{{submission.language}}</td>
-        <td>{{submission.solution.substring(0,20)}} ...</td>
+        <td>{{submission.solution}}</td>
         <td>{{submission.status}}</td>
         <td>{{submission.timeupdated}}</td>
         <td>{{submission.timesubmitted}}</td>
         <td>{{submission.runtime}}</td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="delete('submissions', submission._id)">Delete</button>
+        </td>
       </tr>
     </tbody>
   </table>

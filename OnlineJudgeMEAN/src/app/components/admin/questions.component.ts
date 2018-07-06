@@ -52,7 +52,7 @@ export class QuestionsComponent extends RootComponent {
         this.modalRef.hide();
       },
       error => {
-        console.log(error);
+        this.handleError(error);
         this.modalRef.hide();
       }
     );

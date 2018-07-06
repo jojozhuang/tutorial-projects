@@ -1,6 +1,7 @@
 import { Component, ViewChild, Input, OnInit } from "@angular/core";
 import { Validators } from "@angular/forms";
 import { BaseComponent } from "../base.component";
+import { DiffEditorModel } from "ngx-monaco-editor";
 
 @Component({
   selector: "app-question",
@@ -57,51 +58,13 @@ export class QuestionComponent extends BaseComponent {
   /*   public htmlContent;
   //public text;
 */
-  @ViewChild("editor1") editor1;
-  @ViewChild("editor2") editor2;
-  @ViewChild("editor3") editor3;
-  text1: string = "";
 
-  ngAfterViewInit() {
-    //let editors: any[] = new Array(this.editor1, this.editor2, this.editor3);
-    this.editor1.setTheme("eclipse");
-
-    this.editor1.getEditor().setOptions({
-      enableBasicAutocompletion: true
-    });
-
-    this.editor1.getEditor().commands.addCommand({
-      name: "showOtherCompletions",
-      bindKey: "Ctrl-.",
-      exec: function(editor) {}
-    });
-
-    // editor 2
-    this.editor2.setTheme("eclipse");
-
-    this.editor2.getEditor().setOptions({
-      enableBasicAutocompletion: true
-    });
-
-    this.editor2.getEditor().commands.addCommand({
-      name: "showOtherCompletions",
-      bindKey: "Ctrl-.",
-      exec: function(editor) {}
-    });
-
-    // editor 3
-    this.editor3.setTheme("eclipse");
-
-    this.editor3.getEditor().setOptions({
-      enableBasicAutocompletion: true
-    });
-
-    this.editor3.getEditor().commands.addCommand({
-      name: "showOtherCompletions",
-      bindKey: "Ctrl-.",
-      exec: function(editor) {}
-    });
-  }
+  editorOptions1 = { theme: "vs-dark", language: "java" };
+  editorOptions2 = { theme: "vs-dark", language: "javascript" };
+  editorOptions3 = { theme: "vs-dark", language: "python" };
+  code1: string = 'function x() {\nconsole.log("Hello world!");\n}';
+  code2: string = 'function x() {\nconsole.log("Hello world!");\n}';
+  code3: string = 'function x() {\nconsole.log("Hello world!");\n}';
 
   onTitleChange(value) {
     if (value) {
@@ -314,6 +277,9 @@ export class QuestionComponent extends BaseComponent {
               ]
             ]
           });*/
+          this.code1 = question.mainfunction;
+          this.code2 = question.jsmain;
+          this.code3 = question.pythonmain;
           this.selectedValue = question.difficulty;
           //this.htmlContent = question.description;
           //this.codecontent = question.mainfunction;

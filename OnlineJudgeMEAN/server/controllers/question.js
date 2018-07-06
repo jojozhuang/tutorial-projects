@@ -61,37 +61,10 @@ exports.question_delete = function(req, res, next) {
 
 exports.question_all = function(req, res, next) {
   SleepUtil.sleep();
-  /*Question.find({}, function(err, questions) {
-    if (err) return next(err);
-    res.status(200).send(questions);
-  });*/
   Question.find({})
     .sort({ sequence: "asc" })
     .exec(function(err, questions) {
       if (err) return next(err);
       res.status(200).send(questions);
     });
-};
-
-exports.question_findByUniqueName = function(req, res, next) {
-  SleepUtil.sleep();
-  console.log(req.params.uniquename);
-  Question.findOne({ uniquename: req.params.uniquename }, function(
-    err,
-    question
-  ) {
-    if (err) {
-      return next(err);
-    }
-    if (!question) {
-      var error = new ValidationError(
-        "body",
-        "uniquename",
-        req.params.uniquename,
-        "No question is found!"
-      );
-      res.status(422).json({ errors: [error] });
-    }
-    res.status(200).send(question);
-  });
 };

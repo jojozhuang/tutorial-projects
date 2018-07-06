@@ -40,10 +40,12 @@ exports.collection_getall = function(req, res, next) {
       res.status(200).send(users);
     });
   } else if (collectionname == "submissions") {
-    Submission.find({}, function(err, submissions) {
-      if (err) return next(err);
-      res.status(200).send(submissions);
-    });
+    Submission.find({})
+      .sort({ timeupdated: "-1" })
+      .exec(function(err, submissions) {
+        if (err) return next(err);
+        res.status(200).send(submissions);
+      });
   } else {
     var error = new ValidationError(
       "body",

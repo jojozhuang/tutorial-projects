@@ -17,7 +17,7 @@ public class SolutionTester {
 
         //System.out.println("testTwoSum");
         
-        boolean testResult = false;
+        boolean testResult = true;
         try {
             BufferedReader br = new BufferedReader(new FileReader(TESTCASE_FILE));
             try {
@@ -54,7 +54,7 @@ public class SolutionTester {
                 }
             }
             catch (Exception io) {
-                //System.out.println(io.getMessage());
+                System.out.println(io.getMessage());
                 printToFile(io);
             }
             finally {
@@ -62,6 +62,7 @@ public class SolutionTester {
             }
         }
         catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
             printToFile(ioe);
         } finally {
         }

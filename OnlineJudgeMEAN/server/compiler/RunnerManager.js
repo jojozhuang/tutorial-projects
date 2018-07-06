@@ -88,6 +88,8 @@ module.exports = {
               function(status, message) {
                 if (status == "0") {
                   // no error
+                  console.log("message");
+                  console.log(message);
                   if (message.startsWith("[Success]")) {
                     callback("10", message.slice(9)); // 10, pass
                   } else {

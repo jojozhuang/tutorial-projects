@@ -6,7 +6,7 @@ var QuestionSchema = new Schema({
   sequence: { type: Number, required: true },
   title: { type: String, required: true, max: 50 },
   description: { type: String, required: true },
-  mainfunction: { type: String, required: true },
+  mainfunction: { type: String },
   jsmain: { type: String },
   pythonmain: { type: String },
   solution: { type: String },
