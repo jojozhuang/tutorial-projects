@@ -147,7 +147,7 @@ export class DatabaseComponent extends RootComponent {
   loading: boolean = false;
   confirm(): void {
     if (!this.fileToUpload) {
-      alert("Please select file to import data.");
+      alert("No file has been selected!");
       return;
     }
     const formData = new FormData();

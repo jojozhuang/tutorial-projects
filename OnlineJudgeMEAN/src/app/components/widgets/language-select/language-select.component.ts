@@ -18,14 +18,6 @@ export class LanguageSelectComponent implements OnInit {
       name: "Java"
     },
     {
-      value: "c",
-      name: "C"
-    },
-    {
-      value: "c++",
-      name: "C++"
-    },
-    {
       value: "javascript",
       name: "JavaScript"
     },

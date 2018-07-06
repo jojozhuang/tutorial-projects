@@ -9,6 +9,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AceEditorModule } from "ng2-ace-editor";
 import { NgxEditorModule } from "ngx-editor";
 import { NgProgressModule, NgProgressInterceptor } from "ngx-progressbar";
+import { MonacoEditorModule } from "ngx-monaco-editor";
 
 // components
 import {
@@ -111,6 +112,7 @@ import { appRoutes } from "./app.route";
     RouterModule.forRoot(appRoutes),
     AlertModule.forRoot(),
     ModalModule.forRoot(),
+    MonacoEditorModule.forRoot(),
     FormsModule,
     HttpClientModule,
     AceEditorModule,

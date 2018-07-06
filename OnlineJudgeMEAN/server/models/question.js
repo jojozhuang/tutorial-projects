@@ -7,6 +7,9 @@ var QuestionSchema = new Schema({
   title: { type: String, required: true, max: 50 },
   description: { type: String, required: true },
   mainfunction: { type: String, required: true },
+  jsmain: { type: String },
+  pythonmain: { type: String },
+  solution: { type: String },
   difficulty: { type: Number, required: true }, // 10: easy, 20: medium, 30: hard
   frequency: { type: Number, required: true },
   rating: { type: Number, required: true },

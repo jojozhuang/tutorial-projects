@@ -4,6 +4,7 @@
     <li [ngClass]="{'active': tab==='description'}"><a (click)="changeTab('description')" class="tab-item icon-btn"><i class="fa fa-list-alt"></i>Descripton</a></li>
     <li [ngClass]="{'active': tab==='hints'}"><a (click)="changeTab('hints')" class="tab-item icon-btn"><i class="fa fa-lightbulb-o"></i>Hints</a></li>
     <li [ngClass]="{'active': tab==='submissions'}"><a (click)="changeTab('submissions')" class="tab-item icon-btn"><i class="fa fa-file-code-o"></i>Submissions</a></li>
+    <li [ngClass]="{'active': tab==='solution'}"><a (click)="changeTab('solution')" class="tab-item icon-btn"><i class="fa fa-flask"></i>Solution</a></li>
   </ul>
   <br>
   <div *ngIf="tab==='description'" innerHTML={{description}}></div>
@@ -50,18 +51,38 @@
       You have no submission yet.
     </div>
   </div>
+  <div *ngIf="tab==='solution'">
+    <app-ngx-editor [config]="editorConfig" [(ngModel)]="solution"></app-ngx-editor>
+  </div>
   <hr />
   <div>
     <form class="form-horizontal" [formGroup]="baseForm">
       <div class="form-group">
         <div class="col-sm-2">
-          <app-widget-language-select [selectedValue]="selectedValue" name="language" formControlName="language" ngDefaultControl></app-widget-language-select>
+          <!--<app-widget-language-select [selectedValue]="selectedValue" name="language" formControlName="language" ngDefaultControl></app-widget-language-select>-->
+          <select [(ngModel)]="selectedLang" (change)="onChange($event.target.value)" class="form-control" formControlName="language">
+              <option *ngFor="let option of options" [value]="option.value">{{option.name}}</option>
+          </select>
         </div>
       </div>
-      <div class="form-group">
+      <div *ngIf="selectedLang=='java'" class="form-group">
         <div class="col-sm-12">
-          <ace-editor [(text)]="text" #editor style="height:250px;border:1px solid lightgray" name="solution" formControlName="solution"></ace-editor>
-          <app-widget-validation-message [displayError]="isFieldValid('solution')" errorMsg="Please enter solution">
+          <ace-editor #editor1 style="height:250px;border:1px solid lightgray" name="solution1" formControlName="solution1"></ace-editor>
+          <app-widget-validation-message [displayError]="isFieldValid('solution1')" errorMsg="Please enter solution">
+          </app-widget-validation-message>
+        </div>
+      </div>
+      <div *ngIf="selectedLang=='javascript'" class="form-group">
+        <div class="col-sm-12">
+          <ace-editor #editor2 style="height:250px;border:1px solid lightgray" name="solution2" formControlName="solution2"></ace-editor>
+          <app-widget-validation-message [displayError]="isFieldValid('solution2')" errorMsg="Please enter solution">
+          </app-widget-validation-message>
+        </div>
+      </div>
+      <div *ngIf="selectedLang=='python'" class="form-group">
+        <div class="col-sm-12">
+          <ace-editor #editor3 style="height:250px;border:1px solid lightgray" name="solution3" formControlName="solution3"></ace-editor>
+          <app-widget-validation-message [displayError]="isFieldValid('solution3')" errorMsg="Please enter solution">
           </app-widget-validation-message>
         </div>
       </div>

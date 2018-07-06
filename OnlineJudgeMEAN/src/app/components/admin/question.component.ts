@@ -57,17 +57,46 @@ export class QuestionComponent extends BaseComponent {
   /*   public htmlContent;
   //public text;
 */
-  @ViewChild("editor") editor;
-  text: string = "";
+  @ViewChild("editor1") editor1;
+  @ViewChild("editor2") editor2;
+  @ViewChild("editor3") editor3;
+  text1: string = "";
 
   ngAfterViewInit() {
-    this.editor.setTheme("eclipse");
+    //let editors: any[] = new Array(this.editor1, this.editor2, this.editor3);
+    this.editor1.setTheme("eclipse");
 
-    this.editor.getEditor().setOptions({
+    this.editor1.getEditor().setOptions({
       enableBasicAutocompletion: true
     });
 
-    this.editor.getEditor().commands.addCommand({
+    this.editor1.getEditor().commands.addCommand({
+      name: "showOtherCompletions",
+      bindKey: "Ctrl-.",
+      exec: function(editor) {}
+    });
+
+    // editor 2
+    this.editor2.setTheme("eclipse");
+
+    this.editor2.getEditor().setOptions({
+      enableBasicAutocompletion: true
+    });
+
+    this.editor2.getEditor().commands.addCommand({
+      name: "showOtherCompletions",
+      bindKey: "Ctrl-.",
+      exec: function(editor) {}
+    });
+
+    // editor 3
+    this.editor3.setTheme("eclipse");
+
+    this.editor3.getEditor().setOptions({
+      enableBasicAutocompletion: true
+    });
+
+    this.editor3.getEditor().commands.addCommand({
       name: "showOtherCompletions",
       bindKey: "Ctrl-.",
       exec: function(editor) {}
@@ -107,6 +136,8 @@ export class QuestionComponent extends BaseComponent {
         uniquename: [null, [Validators.required]],
         description: [null, [Validators.required]],
         mainfunction: [null, [Validators.required]],
+        jsmain: [null, [Validators.required]],
+        pythonmain: [null, [Validators.required]],
         difficulty: [10, [Validators.required]],
         frequency: [
           null,
@@ -126,7 +157,8 @@ export class QuestionComponent extends BaseComponent {
             Validators.max(5)
           ]
         ],
-        hints: []
+        hints: [],
+        solution: []
       });
       this.selectedValue = 10;
       //this.htmlContent = "";
@@ -139,10 +171,13 @@ export class QuestionComponent extends BaseComponent {
         uniquename: [],
         description: [],
         mainfunction: [],
+        jsmain: [],
+        pythonmain: [],
         difficulty: [],
         frequency: [],
         rating: [],
-        hints: []
+        hints: [],
+        solution: []
       });
 
       /*
@@ -191,10 +226,13 @@ export class QuestionComponent extends BaseComponent {
             uniquename: question.uniquename,
             description: question.description,
             mainfunction: question.mainfunction,
+            jsmain: question.jsmain || "",
+            pythonmain: question.pythonmain || "",
             difficulty: question.difficulty,
             frequency: question.frequency,
             rating: question.rating,
-            hints: question.hints
+            hints: question.hints,
+            solution: question.solution || ""
           });
 
           // add validation later to avoid flash of red message
@@ -216,6 +254,10 @@ export class QuestionComponent extends BaseComponent {
             Validators.required
           ]);
           this.baseForm.controls["mainfunction"].setValidators([
+            Validators.required
+          ]);
+          this.baseForm.controls["jsmain"].setValidators([Validators.required]);
+          this.baseForm.controls["pythonmain"].setValidators([
             Validators.required
           ]);
           this.baseForm.controls["difficulty"].setValidators([

@@ -8,11 +8,26 @@ import { BaseComponent } from "../base.component";
   templateUrl: "./algorithm-question.component.html"
 })
 export class AlgorithmQuestionComponent extends BaseComponent {
+  editorConfig = {
+    editable: false,
+    spellcheck: false,
+    height: "auto",
+    minHeight: "5rem",
+    width: "auto",
+    minWidth: "0",
+    translate: "no",
+    enableToolbar: false,
+    showToolbar: false,
+    placeholder: "Enter text here...",
+    imageEndPoint: "",
+    toolbar: []
+  };
+
   tab;
   _id;
   username;
   uniquename;
-  selectedValue;
+  selectedLang;
   submissions;
   testResult: number; // -1: not submitted, 10: pass, 20: fail
   resultMessage;
@@ -22,32 +37,97 @@ export class AlgorithmQuestionComponent extends BaseComponent {
       "java",
       Validators.compose([Validators.required])
     ),
-    solution: new FormControl("", Validators.compose([Validators.required])),
+    solution1: new FormControl("", Validators.compose([Validators.required])),
+    solution2: new FormControl("", Validators.compose([Validators.required])),
+    solution3: new FormControl("", Validators.compose([Validators.required])),
     output: new FormControl("", null)
   });
 
   @Input() sequence: number;
   @Input() title: string;
   @Input() description: string;
+  @Input() solution: string;
   @Input() hints: string;
+  @Input()
+  options = [
+    {
+      value: "java",
+      name: "Java"
+    },
+    {
+      value: "javascript",
+      name: "JavaScript"
+    },
+    {
+      value: "python",
+      name: "Python"
+    }
+  ];
 
-  @ViewChild("editor") editor;
-  text: string = "";
+  @ViewChild("editor1") editor1;
+  @ViewChild("editor2") editor2;
+  @ViewChild("editor3") editor3;
+  text1: string = "";
+  text2: string = "";
+  text3: string = "";
 
   ngAfterViewInit() {
+    this.setEditors();
+  }
+
+  setEditors() {
     if (this.tab == "description") {
-      this.editor.setTheme("eclipse");
+      //let editors: any[] = new Array(this.editor1, this.editor2, this.editor3);
+      if (this.selectedLang == "java") {
+        this.editor1.setTheme("eclipse");
 
-      this.editor.getEditor().setOptions({
-        enableBasicAutocompletion: true
-      });
+        this.editor1.getEditor().setOptions({
+          enableBasicAutocompletion: true
+        });
 
-      this.editor.getEditor().commands.addCommand({
-        name: "showOtherCompletions",
-        bindKey: "Ctrl-.",
-        exec: function(editor) {}
-      });
+        this.editor1.getEditor().commands.addCommand({
+          name: "showOtherCompletions",
+          bindKey: "Ctrl-.",
+          exec: function(editor) {}
+        });
+      }
+
+      // editor 2
+      if (this.selectedLang == "javascript") {
+        this.editor2.setTheme("eclipse");
+
+        this.editor2.getEditor().setOptions({
+          enableBasicAutocompletion: true
+        });
+
+        this.editor2.getEditor().commands.addCommand({
+          name: "showOtherCompletions",
+          bindKey: "Ctrl-.",
+          exec: function(editor) {}
+        });
+      }
+
+      // editor 3
+      if (this.selectedLang == "python") {
+        this.editor3.setTheme("eclipse");
+
+        this.editor3.getEditor().setOptions({
+          enableBasicAutocompletion: true
+        });
+
+        this.editor3.getEditor().commands.addCommand({
+          name: "showOtherCompletions",
+          bindKey: "Ctrl-.",
+          exec: function(editor) {}
+        });
+      }
     }
+  }
+
+  onChange(language) {
+    this.printLog(language);
+    this.selectedLang = language;
+    //this.setEditors();
   }
 
   changeTab(tab) {
@@ -82,13 +162,16 @@ export class AlgorithmQuestionComponent extends BaseComponent {
           this.sequence = question.sequence;
           this.title = question.title;
           this.description = question.description;
+          this.solution = question.solution;
           this.hints = question.hints;
           this.baseForm.setValue({
             language: "java",
-            solution: question.mainfunction,
+            solution1: question.mainfunction,
+            solution2: question.jsmain,
+            solution3: question.pythonmain,
             output: ""
           });
-          this.selectedValue = "java";
+          this.selectedLang = "java";
           // get submission
           if (this.uniquename) {
             this.sessionService
@@ -98,15 +181,40 @@ export class AlgorithmQuestionComponent extends BaseComponent {
                   this.printLog(submission);
                   if (submission) {
                     this._id = submission._id;
-                    this.baseForm.setValue({
-                      language: submission.language,
-                      solution: submission.solution,
-                      output: ""
-                      //status: submission.status
-                    });
-                    this.selectedValue = submission.language;
-                    this.asyncEnd();
+
+                    if (submission.language == "java") {
+                      this.baseForm.setValue({
+                        language: submission.language,
+                        solution1: submission.solution,
+                        solution2: question.jsmain,
+                        solution3: question.pythonmain,
+                        output: ""
+                        //status: submission.status
+                      });
+                    } else if (submission.language == "javascript") {
+                      this.baseForm.setValue({
+                        language: submission.language,
+                        solution1: question.mainfunction,
+                        solution2: submission.solution,
+                        solution3: question.pythonmain,
+                        output: ""
+                        //status: submission.status
+                      });
+                    } else if (submission.language == "python") {
+                      this.baseForm.setValue({
+                        language: submission.language,
+                        solution1: question.mainfunction,
+                        solution2: question.jsmain,
+                        solution3: submission.solution,
+                        output: ""
+                        //status: submission.status
+                      });
+                    }
+
+                    this.selectedLang = submission.language;
                   }
+                  this.setEditors();
+                  this.asyncEnd();
                 },
                 error => {
                   this.handleError(error);

@@ -6,7 +6,7 @@ import { Component, ViewChild, Input, OnInit } from "@angular/core";
 })
 export class CodeEditorComponent implements OnInit {
   @ViewChild("editor") editor;
-  //text: string = "";
+  text: string = "";
 
   ngAfterViewInit() {
     this.editor.setTheme("eclipse");
@@ -24,6 +24,4 @@ export class CodeEditorComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
-
-  @Input() text: string;
 }
