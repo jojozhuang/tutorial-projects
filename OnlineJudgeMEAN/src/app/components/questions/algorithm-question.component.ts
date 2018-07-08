@@ -64,7 +64,12 @@ export class AlgorithmQuestionComponent extends BaseComponent {
     }
   ];
 
-  editorOptions1 = { theme: "vs-dark", language: "java" };
+  editorOptions1 = {
+    theme: "vs-dark",
+    language: "java",
+    height: "600px",
+    minHeight: "600px"
+  };
   editorOptions2 = { theme: "vs-dark", language: "javascript" };
   editorOptions3 = { theme: "vs-dark", language: "python" };
   code1: string = "";

@@ -12,7 +12,7 @@ export class QuestionComponent extends BaseComponent {
   editorConfig = {
     editable: true,
     spellcheck: true,
-    height: "10rem",
+    height: "20rem",
     minHeight: "5rem",
     width: "auto",
     minWidth: "0",
@@ -59,9 +59,24 @@ export class QuestionComponent extends BaseComponent {
   //public text;
 */
 
-  editorOptions1 = { theme: "vs-dark", language: "java" };
-  editorOptions2 = { theme: "vs-dark", language: "javascript" };
-  editorOptions3 = { theme: "vs-dark", language: "python" };
+  editorOptions1 = {
+    theme: "vs",
+    language: "java",
+    height: "600px",
+    minHeight: "600px"
+  };
+  editorOptions2 = {
+    theme: "vs",
+    language: "javascript",
+    height: "600px",
+    minHeight: "600px"
+  };
+  editorOptions3 = {
+    theme: "vs",
+    language: "python",
+    height: "600px",
+    minHeight: "600px"
+  };
   code1: string = 'function x() {\nconsole.log("Hello world!");\n}';
   code2: string = 'function x() {\nconsole.log("Hello world!");\n}';
   code3: string = 'function x() {\nconsole.log("Hello world!");\n}';

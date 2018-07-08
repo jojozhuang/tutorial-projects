@@ -8,9 +8,9 @@ a
 ""
 [a,a,a]
 a
-[abc, ab, ab]
+[abc,ab,ab]
 ab
-[abcdef, abc, abb]
+[abcdef,abc,abb]
 ab
-[abcdef, abce, abc123]
+[abcdef,abce,abc123]
 abc

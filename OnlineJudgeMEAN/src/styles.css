@@ -40,3 +40,11 @@ div .bar-shadow[_ngcontent-c1] {
   margin-left: 5px;
   top: 7px;
 }
+
+/* code editor*/
+.editor-container {
+  height: calc(100% - 35px);
+}
+._nghost-c4 {
+  height: 600px;
+}

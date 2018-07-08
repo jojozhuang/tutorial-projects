@@ -72,11 +72,13 @@ module.exports = {
           console.log(`filename: ${filename}`);
           console.log(`extension: ${extension}`);
 
-          // get method name
           if (lang == "javascript") {
-            //const method = solution.substring(3, solution.indexOf("=")).trim();
-            //solution = solution + " " + "module.exports = " + method + ";";
-            solution = solution + os.EOL + " module.exports = twoSum;";
+            // get method name and export it
+            const method = solution
+              .substring(solution.indexOf("var") + 4, solution.indexOf("="))
+              .trim();
+            solution = solution + " " + "module.exports = " + method + ";";
+            //solution = solution + os.EOL + " module.exports = reverseString;";
           }
           FileApi.saveFile(sourceFile, solution, () => {
             const testFile = path.resolve(targetDir, runner.testFile());

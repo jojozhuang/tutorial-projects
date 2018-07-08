@@ -71,7 +71,7 @@
       </div>
       <div *ngIf="selectedLang=='java'" class="form-group">
         <div class="col-sm-12">
-          <ngx-monaco-editor [options]="editorOptions1" [(ngModel)]="code1" formControlName="solution1"></ngx-monaco-editor>
+          <ngx-monaco-editor class="solution-code-editor" [options]="editorOptions1" [(ngModel)]="code1" formControlName="solution1"></ngx-monaco-editor>
           <app-widget-validation-message [displayError]="isFieldValid('solution1')" errorMsg="Please enter solution">
           </app-widget-validation-message>
         </div>
