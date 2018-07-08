@@ -28,16 +28,16 @@ def main():
         target = stringToInt(line)
         line = lines[i+2]
         #print line
-        expected = stringToIntegerList(line)
+        expected = int(line)
         
-        ret = Solution.Solution().twoSum(nums, target)
+        ret = Solution.Solution().searchInsert(nums, target)
 
         if (expected != ret) :
             if (nums is None) :
                 strnums = 'null'
             else:
                 strnums = integerListToString(nums)
-            print "[Fail]" + strnums + ", " + str(target) + ";" + integerListToString(ret) + ";" + integerListToString(expected)
+            print "[Fail]" + strnums + ", " + str(target) + ";" + str(ret) + ";" + str(expected)
             passall = False
             break
 

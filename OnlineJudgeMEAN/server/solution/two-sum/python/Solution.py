@@ -1,7 +1,9 @@
 class Solution(object):
     def twoSum(self, nums, target):
+        if nums is None :
+            return [0,0]
         if len(nums) <= 1:
-            return False
+            return [0,0]
         buff_dict = {}
         for i in range(len(nums)):
             if nums[i] in buff_dict:

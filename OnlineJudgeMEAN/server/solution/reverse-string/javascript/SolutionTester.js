@@ -23,7 +23,7 @@ for (let i = 0; i < lines.length; i = i + 2) {
 let testresult = true;
 for (let i = 0; i < testcases.length; i++) {
   const testcase = testcases[i];
-  console.log(testcase);
+  //console.log(testcase);
   let result = String(reverseString(testcase.s));
   //console.log("result:", result);
   //console.log("testcase.expected:", testcase.expected);

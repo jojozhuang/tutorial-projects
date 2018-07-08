@@ -15,7 +15,7 @@ class JavaScriptRunner extends Runner {
     this.testfile = "SolutionTester.js";
   }
 
-  run(file, directory, filename, extension, casefile, callback) {
+  run(file, directory, filename, extension, callback) {
     if (extension.toLowerCase() !== ".js") {
       console.log(`${file} is not a javascript file.`);
     }

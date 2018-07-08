@@ -16,7 +16,7 @@ class JavaRunner extends Runner {
     this.testfile = "SolutionTester.java";
   }
 
-  run(file, directory, filename, extension, testcase, callback) {
+  run(file, directory, filename, extension, callback) {
     if (extension.toLowerCase() !== ".java") {
       console.log(`${file} is not a java file.`);
     }

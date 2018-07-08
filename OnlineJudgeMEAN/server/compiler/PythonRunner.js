@@ -1,18 +1,22 @@
-const { spawn } = require('child_process');
-const Runner = require('./Runner');
+const { spawn } = require("child_process");
+const Runner = require("./Runner");
 
 class PythonRunner extends Runner {
-  defaultFile() {
-    return this.defaultfile;
+  sourceFile() {
+    return this.sourcefile;
+  }
+  testFile() {
+    return this.testfile;
   }
 
   constructor() {
     super();
-    this.defaultfile = 'Hello.py';
+    this.sourcefile = "Solution.py";
+    this.testfile = "SolutionTester.py";
   }
 
   run(file, directory, filename, extension, callback) {
-    if (extension.toLowerCase() !== '.py') {
+    if (extension.toLowerCase() !== ".py") {
       console.log(`${file} is not a python file.`);
     }
     this.execute(file, directory, callback);
@@ -25,22 +29,22 @@ class PythonRunner extends Runner {
     argsRun[0] = file;
     console.log(`options: ${options}`);
     console.log(`argsRun: ${argsRun}`);
-    const executor = spawn('python', argsRun, options);
-    executor.stdout.on('data', (output) => {
-      console.log(String(output));
-      callback('0', String(output)); // 0, no error
+    const executor = spawn("python", argsRun, options);
+    executor.stdout.on("data", output => {
+      const out = String(output);
+      console.log(`pythonRunner->execute(): stdout:`);
+      console.log(output);
+      if (out.startsWith("[Success]") || out.startsWith("[Fail]")) {
+        callback("ok", String(output)); // ok, no error
+      }
     });
-    executor.stderr.on('data', (output) => {
+    executor.stderr.on("data", output => {
       console.log(`stderr: ${String(output)}`);
-      callback('2', String(output)); // 2, execution failure
+      callback("err_exe", String(output)); // err, execution failure
     });
-    executor.on('close', (output) => {
-      this.log(`stdout: ${output}`);
+    executor.on("close", output => {
+      console.log(`stdout: ${output}`);
     });
-  }
-
-  log(message) {
-    console.log(message);
   }
 }
 

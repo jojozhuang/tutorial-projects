@@ -19,33 +19,35 @@ def main():
     passall = True
     while i < len(lines) :
         line = lines[i]
-        nums = stringToIntegerList(line)
-        if (nums == "null") :
-            nums = None
-        #print nums
+        s = line.replace("\n","")
+        if (s == "null") :
+            s = None
+        #print s
         line = lines[i+1]
         #print line
-        target = stringToInt(line)
-        line = lines[i+2]
-        #print line
-        expected = stringToIntegerList(line)
+        expected = line.replace("\n","")
         
-        ret = Solution.Solution().twoSum(nums, target)
+        ret = Solution.Solution().reverseString(s)
+
+        #print "expected:" + expected
+        #print "ret:" + ret
+        if (expected == '""' and ret == "") :
+            i += 2
+            continue
 
         if (expected != ret) :
-            if (nums is None) :
+            if (s is None) :
                 strnums = 'null'
             else:
-                strnums = integerListToString(nums)
-            print "[Fail]" + strnums + ", " + str(target) + ";" + integerListToString(ret) + ";" + integerListToString(expected)
+                strnums = s
+            print "[Fail]" + strnums + ";" + ret + ";" + expected
             passall = False
             break
 
-        i = i + 3
-        #print out
+        i = i + 2
 
     if passall == True :
-        print "[Success]Your solution passed all " + str(len(lines)/3) + " test cases!"
+        print "[Success]Your solution passed all " + str(len(lines)/2) + " test cases!"
 
 if __name__ == '__main__':
     main()

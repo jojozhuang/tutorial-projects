@@ -6,6 +6,7 @@
 /tmp
 /server/compiler/temp
 /out-tsc
+*.pyc
 
 # dependencies
 /node_modules

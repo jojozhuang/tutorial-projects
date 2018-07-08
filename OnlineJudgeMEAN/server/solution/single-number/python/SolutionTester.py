@@ -25,27 +25,25 @@ def main():
         #print nums
         line = lines[i+1]
         #print line
-        target = stringToInt(line)
-        line = lines[i+2]
-        #print line
-        expected = stringToIntegerList(line)
+        expected = int(line.replace("\n",""))
         
-        ret = Solution.Solution().twoSum(nums, target)
-
+        ret = Solution.Solution().singleNumber(nums)
+        #print expected
+        #print ret
         if (expected != ret) :
             if (nums is None) :
                 strnums = 'null'
             else:
                 strnums = integerListToString(nums)
-            print "[Fail]" + strnums + ", " + str(target) + ";" + integerListToString(ret) + ";" + integerListToString(expected)
+            print "[Fail]" + strnums + ";" + str(ret) + ";" + str(expected)
             passall = False
             break
 
-        i = i + 3
+        i = i + 2
         #print out
 
     if passall == True :
-        print "[Success]Your solution passed all " + str(len(lines)/3) + " test cases!"
+        print "[Success]Your solution passed all " + str(len(lines)/2) + " test cases!"
 
 if __name__ == '__main__':
     main()

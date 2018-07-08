@@ -83,27 +83,23 @@ module.exports = {
           FileApi.saveFile(sourceFile, solution, () => {
             const testFile = path.resolve(targetDir, runner.testFile());
             const testFileName = path.parse(testFile).name; // main
-            runner.run(
-              testFile,
-              targetDir,
-              testFileName,
-              extension,
-              testcaseFile,
-              function(status, message) {
-                if (status == "ok") {
-                  // no error
-                  console.log("message");
-                  console.log(message);
-                  if (message.startsWith("[Success]")) {
-                    callback("pass", message.slice(9)); // ok, pass
-                  } else {
-                    callback("fail", message.slice(6)); // ok, fail
-                  }
+            runner.run(testFile, targetDir, testFileName, extension, function(
+              status,
+              message
+            ) {
+              if (status == "ok") {
+                // no error
+                console.log("message");
+                console.log(message);
+                if (message.startsWith("[Success]")) {
+                  callback("pass", message.slice(9)); // ok, pass
                 } else {
-                  callback(status, message);
+                  callback("fail", message.slice(6)); // ok, fail
                 }
+              } else {
+                callback(status, message);
               }
-            );
+            });
           });
         }
       );
