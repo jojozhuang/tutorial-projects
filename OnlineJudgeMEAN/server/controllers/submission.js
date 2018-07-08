@@ -105,17 +105,17 @@ exports.question_findByKeys = function(req, res, next) {
               const submission = submissions[i];
               if (submission.language == "java") {
                 retq.mainfunction = submission.solution;
-                if (submission.status == -1) {
+                if (submission.status == "initial") {
                   retq.id1 = submission._id;
                 }
               } else if (submission.language == "javascript") {
                 retq.jsmain = submission.solution;
-                if (submission.status == -1) {
+                if (submission.status == "initial") {
                   retq.id2 = submission._id;
                 }
               } else if (submission.language == "python") {
                 retq.pythonmain = submission.solution;
-                if (submission.status == -1) {
+                if (submission.status == "initial") {
                   retq.id3 = submission._id;
                 }
               }
@@ -138,7 +138,7 @@ exports.submission_create = function(req, res, next) {
     questionname: req.body.questionname,
     language: req.body.language,
     solution: req.body.solution,
-    status: -1, // not submitted -> just created
+    status: "initial", // not submitted -> just created
     timeupdated: moment(new Date(Date.now())),
     timesubmitted: null,
     runtime: 0
@@ -169,7 +169,7 @@ exports.submission_update = function(req, res, next) {
     questionname: req.body.questionname,
     language: req.body.language,
     solution: req.body.solution,
-    status: -1,
+    status: "initial",
     timeupdated: moment(new Date(Date.now()))
   };
 
@@ -177,7 +177,7 @@ exports.submission_update = function(req, res, next) {
     if (err) {
       return next(err);
     }
-    if (submission && submission.status != -1) {
+    if (submission && submission.status != "initial") {
       var error = ErrorUtil.buildError(
         "Can't update solution which has already been submitted!"
       );
@@ -254,7 +254,7 @@ exports.submission_all = function(req, res, next) {
   Submission.find({
     username: names[0],
     questionname: names[1],
-    status: { $ne: -1 }
+    status: { $ne: "initial" }
   })
     .sort({ timesubmitted: "desc" })
     .exec(function(err, submissions) {
@@ -271,7 +271,7 @@ exports.submission_run = function(req, res, next) {
     questionname: req.body.questionname,
     language: req.body.language,
     solution: req.body.solution,
-    status: -1, // not submitted -> just created
+    status: "initial", // not submitted -> just created
     timeupdated: moment(new Date(Date.now())),
     timesubmitted: moment(new Date(Date.now())),
     runtime: 0
@@ -284,7 +284,7 @@ exports.submission_run = function(req, res, next) {
       username: newsubmit.username,
       questionname: newsubmit.questionname,
       language: newsubmit.language,
-      status: -1
+      status: "initial"
     },
     function(err, submission) {
       if (err) {
@@ -332,7 +332,7 @@ function run(req, res, next, submission) {
         message
       };
       console.log(status);
-      if (status == "10" || status == "20") {
+      if (status == "pass" || status == "fail") {
         var end = moment(new Date(Date.now()));
 
         var ms = moment(end, "DD/MM/YYYY HH:mm:ss").diff(

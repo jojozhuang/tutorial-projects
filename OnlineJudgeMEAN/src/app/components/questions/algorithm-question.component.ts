@@ -169,7 +169,7 @@ export class AlgorithmQuestionComponent extends BaseComponent {
       this.uniquename,
       question.language,
       solution,
-      0,
+      "initial",
       new Date(),
       null,
       0
@@ -240,7 +240,7 @@ export class AlgorithmQuestionComponent extends BaseComponent {
       this.uniquename,
       question.language,
       solution,
-      0,
+      "initial",
       new Date(),
       null,
       0
@@ -258,7 +258,7 @@ export class AlgorithmQuestionComponent extends BaseComponent {
           output: response.message
           //status: submission.status
         });*/
-        if (response.status === "10") {
+        if (response.status === "pass") {
           this.handleSuccess2(response.message);
           this.testResult = 10;
           this.resultMessage = response.message;

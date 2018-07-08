@@ -10,5 +10,5 @@ export class StatusLinkComponent implements OnInit {
 
   ngOnInit() {}
 
-  @Input() testResult: number;
+  @Input() testResult: string;
 }

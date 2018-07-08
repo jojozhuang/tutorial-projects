@@ -8,7 +8,18 @@ var morgan = require("morgan");
 var winston = require("./config/winston-config-rotate");
 var cors = require("cors");
 var passport = require("passport");
+var config = require("./config/server-config");
+var FileApi = require("./api/FileApi");
 
+// Create working directory
+const tempDir = path.resolve(__dirname, config.temp_directory);
+FileApi.creatDirectory(tempDir, (err, message) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(message);
+  }
+});
 // Bring in the data model
 require("./models/mongodb");
 // Bring in the Passport config after model is defined

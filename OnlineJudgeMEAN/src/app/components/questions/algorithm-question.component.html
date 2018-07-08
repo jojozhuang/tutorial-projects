@@ -41,14 +41,18 @@
             <td>
               <app-widget-status-link [testResult]="[submission.status]"></app-widget-status-link>
             </td>
-            <td><span *ngIf="submission.status==10">{{submission.runtime}} ms</span><span *ngIf="submission.status==20">N/A</span></td>
+            <td><span *ngIf="submission.status=='pass'">{{submission.runtime}} ms</span><span *ngIf="submission.status=='fail'">N/A</span></td>
             <td>{{submission.language}}</td>
           </tr>
         </tbody>
       </table>
     </div>
     <div *ngIf="!submissions.length">
-      You have no submission yet.
+      <div style="padding: 50px; text-align: center;">
+        <p>
+          <font size="5" color="#8f9193">You have no submission yet.</font>
+        </p>
+      </div>
     </div>
   </div>
   <div *ngIf="tab==='solution'">

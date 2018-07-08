@@ -7,6 +7,7 @@ const JavaScriptRunner = require("./JavaScriptRunner");
 const PythonRunner = require("./PythonRunner");
 const appRoot = require("app-root-path");
 const moment = require("moment");
+const os = require("os");
 
 function Factory() {
   this.createRunner = function createRunner(lang) {
@@ -73,8 +74,9 @@ module.exports = {
 
           // get method name
           if (lang == "javascript") {
-            const method = solution.substring(3, solution.indexOf("=")).trim();
-            solution = solution + " " + "module.exports = " + method + ";";
+            //const method = solution.substring(3, solution.indexOf("=")).trim();
+            //solution = solution + " " + "module.exports = " + method + ";";
+            solution = solution + os.EOL + " module.exports = twoSum;";
           }
           FileApi.saveFile(sourceFile, solution, () => {
             const testFile = path.resolve(targetDir, runner.testFile());
@@ -86,14 +88,14 @@ module.exports = {
               extension,
               testcaseFile,
               function(status, message) {
-                if (status == "0") {
+                if (status == "ok") {
                   // no error
                   console.log("message");
                   console.log(message);
                   if (message.startsWith("[Success]")) {
-                    callback("10", message.slice(9)); // 10, pass
+                    callback("pass", message.slice(9)); // ok, pass
                   } else {
-                    callback("20", message.slice(6)); // 20, fail
+                    callback("fail", message.slice(6)); // ok, fail
                   }
                 } else {
                   callback(status, message);

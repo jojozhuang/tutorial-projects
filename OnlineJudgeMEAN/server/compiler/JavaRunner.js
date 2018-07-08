@@ -46,11 +46,11 @@ class JavaRunner extends Runner {
     const runner = spawn("sh", argsCompile, { shell: true });
     runner.stdout.on("data", data => {
       console.log(`stdout: ${data}`);
-      callback("0", String(data)); // 0, no error
+      callback("ok", String(data)); // 0, no error
     });
     runner.stderr.on("data", data => {
       console.log(`compile-stderr: ${String(data)}`);
-      callback("1", String(data)); // 1, error
+      callback("err", String(data)); // 1, error
     });
     runner.on("close", data => {
       this.log(`close: ${data}`);
@@ -77,7 +77,7 @@ class JavaRunner extends Runner {
     });
     compiler.stderr.on("data", data => {
       console.log(`compile-stderr: ${String(data)}`);
-      callback("1", String(data)); // 1, compile error
+      callback("err_cmp", String(data)); // 1, compile error
     });
     compiler.on("close", data => {
       if (data === 0) {
@@ -96,12 +96,12 @@ class JavaRunner extends Runner {
       console.log(`javaRunner->execute(): stdout:`);
       console.log(output);
       if (out.startsWith("[Success]") || out.startsWith("[Fail]")) {
-        callback("0", String(output)); // 0, no error
+        callback("ok", String(output)); // 0, no error
       }
     });
     executor.stderr.on("data", output => {
       console.log(`javaRunner->execute(): stderr: ${String(output)}`);
-      callback("2", String(output)); // 2, execution failure
+      callback("err_exe", String(output)); // 2, execution failure
     });
     executor.on("close", output => {
       this.log(`javaRunner->execute(): close: ${output}`);

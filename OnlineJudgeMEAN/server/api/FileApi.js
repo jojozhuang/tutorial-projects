@@ -34,6 +34,21 @@ module.exports = {
     });
   },
 
+  creatDirectory(path, callback) {
+    if (!fs.existsSync(path)) {
+      // create parent directories if they doesn't exist.
+      mkdirp(path, err => {
+        if (err) return callback(err);
+        callback(
+          null,
+          "[Initialization]: Working direcotry is created in " + path
+        );
+      });
+    } else {
+      callback(null, "[Initialization]: Working direcotry exists in " + path);
+    }
+  },
+
   saveFile(file, content, callback) {
     // create parent directories if they doesn't exist.
     mkdirp(getDirName(file), err => {
