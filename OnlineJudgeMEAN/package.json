@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "client": "ng serve",
+    "client": "ng serve", 
+    "client-aot": "ng serve -aot",
     "server": "node ./server/server",
     "dev": "concurrently \"npm run client\" \"npm run server \""
   },

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ViewChildren, OnInit } from "@angular/core";
 import { TokenPayload } from "../../models";
 import { Validators } from "@angular/forms";
 import { BaseComponent } from "../base.component";
@@ -22,6 +22,11 @@ export class SignupComponent extends BaseComponent {
       password: [null, [Validators.required, Validators.minLength(6)]],
       email: [null, [Validators.required, Validators.email]]
     });
+  }
+
+  @ViewChildren("username") inputUserName;
+  ngAfterViewInit() {
+    this.inputUserName.first.nativeElement.focus();
   }
 
   onSubmit() {

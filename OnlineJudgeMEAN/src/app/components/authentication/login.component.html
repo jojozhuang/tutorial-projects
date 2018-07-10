@@ -6,7 +6,7 @@
     <div class="form-group" [ngClass]="displayFieldCss('username')">
       <label class="control-label col-sm-2 required" for="username">User Name:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" name="username" placeholder="Enter user name" formControlName="username">
+        <input #username type="text" class="form-control" name="username" placeholder="Enter user name" formControlName="username">
         <app-widget-validation-message [displayError]="isFieldValid('username')" errorMsg="Please enter user name">
         </app-widget-validation-message>
       </div>

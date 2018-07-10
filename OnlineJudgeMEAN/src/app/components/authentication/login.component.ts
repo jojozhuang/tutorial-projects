@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewChildren } from "@angular/core";
 import { Router } from "@angular/router";
 import { Validators } from "@angular/forms";
 import { TokenPayload } from "../../models";
@@ -51,6 +51,11 @@ export class LoginComponent extends BaseComponent {
       // reset login status
       this.authService.logout(false);
     }
+  }
+
+  @ViewChildren("username") inputUserName;
+  ngAfterViewInit() {
+    this.inputUserName.first.nativeElement.focus();
   }
 
   onSubmit() {
