@@ -1,4 +1,0 @@
-{
-  "ignore": ["src/server/compiler/temp/"],
-  "watch": ["src/server/"]
-}
