@@ -5,6 +5,7 @@ import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "app-algorithm-question",
+  styleUrls: ["algorithm-question.component.css"],
   templateUrl: "./algorithm-question.component.html"
 })
 export class AlgorithmQuestionComponent extends BaseComponent {
@@ -66,9 +67,7 @@ export class AlgorithmQuestionComponent extends BaseComponent {
 
   editorOptions1 = {
     theme: "vs-dark",
-    language: "java",
-    height: "600px",
-    minHeight: "600px"
+    language: "java"
   };
   editorOptions2 = { theme: "vs-dark", language: "javascript" };
   editorOptions3 = { theme: "vs-dark", language: "python" };
